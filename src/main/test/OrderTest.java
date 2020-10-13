@@ -22,7 +22,7 @@ public class OrderTest {
     @BeforeEach
     public void setUp() {
         order = new Order();
-        i1 = new Beverage("Ginger Beer", 3);
+        i1 = new Beverage("Ginger Beer", 3, Beverage.NOT_CUSTOMIZABLE, Beverage.NOT_CUSTOMIZABLE);
         i2 = new Dish("Croissant Sandwich", 7);
         i3 = new Dish("Fruit Tart", 5);
     }
@@ -34,8 +34,6 @@ public class OrderTest {
         assertEquals(0, order.getTotal());
     }
 
-    //MODIFIES: this
-    //EFFECTS: adds item to the itemList and adds the price of the item to total
     @Test
     public void testAddItems() {
         order.addItem(i1);
@@ -56,9 +54,6 @@ public class OrderTest {
         assertEquals(15, order.getTotal());
     }
 
-    //MODIFIES: this
-    //EFFECTS: if item is in the itemList, then removes item from the itemList
-    //         and subtracts its price from the total, does nothing otherwise
     @Test
     public void testRemoveItemEmptyList() {
         order.removeItem(i1);

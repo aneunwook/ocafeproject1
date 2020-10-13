@@ -20,6 +20,7 @@ public class Dish extends MenuItem {
         options.add(side);
     }
 
+    //MODIFIES: this
     //EFFECTS: if an add-on is already selected, unselects add-on.
     //         if side is in options, then sets selected to side,
     //         adds the price of side to the price of this entree and returns true,
@@ -34,6 +35,7 @@ public class Dish extends MenuItem {
         return false;
     }
 
+    //MODIFIES: this
     //EFFECTS: if an add-on has been selected, subtract the add-on price from the entree price,
     //         reset to null and return true,
     //         otherwise do nothing and return false

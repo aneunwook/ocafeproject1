@@ -3,7 +3,7 @@ package model;
 public abstract class MenuItem {
 
     protected String name;
-    protected int price;        // price in dollars
+    protected Integer price;        // price in dollars
 
     // constructs a MenuItem with a name and price
     public MenuItem(String name, Integer price) {
