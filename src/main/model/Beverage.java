@@ -1,6 +1,6 @@
 package model;
 
-public class Drink extends MenuItem {
+public class Beverage extends MenuItem {
 
     private int size;               // regular or large
     private int temperature;        // hot or cold
@@ -14,7 +14,7 @@ public class Drink extends MenuItem {
     public static final int HOT = 1;
 
     // constructs a drink with name, price
-    public Drink(String name, Integer price) {
+    public Beverage(String name, Integer price) {
         super(name, price);
         size = REGULAR;
         temperature = COLD;
