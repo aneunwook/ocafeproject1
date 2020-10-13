@@ -1,8 +1,13 @@
 package model;
 
-public class AdditionalOptions extends MenuItem {
+import java.util.ArrayList;
+import java.util.List;
 
-    public AdditionalOptions(String name, Integer price) {
-        super(name, price);
+public class AdditionalOptions {
+
+    protected List<MenuItem> options;
+
+    public AdditionalOptions() {
+        options = new ArrayList<>();
     }
 }

@@ -1,6 +1,6 @@
 package model;
 
-public abstract class MenuItem {
+public class MenuItem {
 
     protected String name;
     protected Integer price;        // price in dollars

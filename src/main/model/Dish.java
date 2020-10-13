@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Dish extends MenuItem {
 
-    private List<AdditionalOptions> options;          // add-ons available for this dish //vegetarian????
-    private AdditionalOptions selected;               // add-on selected
+    private AdditionalOptions options;          // add-ons available for this dish //vegetarian????
+    private MenuItem selected;               // add-on selected
 
     // constructs an dish with empty options
     public Dish(String name, Integer price) {
