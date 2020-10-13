@@ -33,11 +33,9 @@ public class Order {
     //EFFECTS: returns the item in itemList if already there,
     //         if not, returns null
     public MenuItem getItemByName(String name) {
-        if (getItemNames().contains(name)) {
-            for (MenuItem i : itemList) {
-                if (name == i.getName()) {
-                    return i;
-                }
+        for (MenuItem i : itemList) {
+            if (name == i.name) {
+                return i;
             }
         }
         return null;

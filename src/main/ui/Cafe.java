@@ -1,9 +1,6 @@
 package ui;
 
-import model.AdditionalOptions;
-import model.Beverage;
-import model.Dish;
-import model.Order;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,17 +22,20 @@ public class Cafe {
     public Cafe() {
         loadCoffee();
         loadTea();
+        loadNonCaffeinated();
         loadBrunch();
         loadDessert();
         loadAdditionalOptions();
+
         order = new Order();
+
         Kiosk kiosk = new Kiosk(this);
     }
 
     //initializes and adds beverages to coffee category
     public void loadCoffee() {
         coffee.add(new Beverage("Espresso", 3, Beverage.NOT_CUSTOMIZABLE, Beverage.NOT_CUSTOMIZABLE));
-        coffee.add(new Beverage("Americano", 3, Beverage.REGULAR, Beverage.REGULAR));
+        coffee.add(new Beverage("Americano", 3, Beverage.NOT_CUSTOMIZABLE, Beverage.REGULAR));
         coffee.add(new Beverage("Macchiato", 3, Beverage.NOT_CUSTOMIZABLE, Beverage.REGULAR));
         coffee.add(new Beverage("Latte", 5, Beverage.REGULAR, Beverage.NOT_CUSTOMIZABLE));
         coffee.add(new Beverage("Iced Coffee", 5, Beverage.REGULAR, Beverage.NOT_CUSTOMIZABLE));
@@ -62,7 +62,11 @@ public class Cafe {
                 5,
                 Beverage.NOT_CUSTOMIZABLE,
                 Beverage.REGULAR));
-        nonCaffeinated.add(new Beverage("Fruit Tea", 6, Beverage.NOT_CUSTOMIZABLE, Beverage.REGULAR));
+        nonCaffeinated.add(new Beverage(
+                "Fruit Tea",
+                6,
+                Beverage.NOT_CUSTOMIZABLE,
+                Beverage.REGULAR));
         nonCaffeinated.add(new Beverage(
                 "Kumquat Chrysanthemum Tea",
                 6,
@@ -81,48 +85,31 @@ public class Cafe {
 
     //initializes and adds dishes to brunch category
     public void loadBrunch() {
-
-        AdditionalOptions salmon = new AdditionalOptions("Smoked Salmon", 4);
-        AdditionalOptions potatoes = new AdditionalOptions("Crispy Potatoes", 0);
-        AdditionalOptions greens = new AdditionalOptions("Mixed Greens", 0);
-        AdditionalOptions vegetarian = new AdditionalOptions("Vegetarian Option", 0);
-        AdditionalOptions pork = new AdditionalOptions("Fried Pork Cutlet", 4);
-        AdditionalOptions prawns = new AdditionalOptions("Fried Prawns", 3);
-        AdditionalOptions chicken = new AdditionalOptions("Chicken Breast 4oz", 5);
-        AdditionalOptions tuna = new AdditionalOptions("Albacore Tuna 3oz", 5);
-        AdditionalOptions shrimp = new AdditionalOptions("Grilled Shrimp 4 pieces", 5);
-        AdditionalOptions almond = new AdditionalOptions("Almond Croissant", 1);
-
         brunch.add(new Dish("Thai Green Curry Seafood Linguine", 16));
-
         Dish eb = new Dish("Eggs Benny", 12);
-        brunch.add(eb);
         eb.addSideToAddOns(additionalOptions.get(0));
-        eb.addSideToAddOns(salmon);
-        eb.addSideToAddOns(potatoes);
-        eb.addSideToAddOns(greens);
-
+        eb.addSideToAddOns(additionalOptions.get(1));
+//        eb.addSideToAddOns(additionalOptions.get(2));
+//        eb.addSideToAddOns(additionalOptions.get(3));
+        brunch.add(eb);
         Dish bo = new Dish("Beef Omurice", 14);
-        bo.addSideToAddOns(vegetarian);
+        bo.addSideToAddOns(additionalOptions.get(4));
         brunch.add(bo);
-
         brunch.add(new Dish("Butternut Squash Risotto", 14));
-
         Dish jcr = new Dish("Japanese Curry Rice", 12);
-        jcr.addSideToAddOns(pork);
-        jcr.addSideToAddOns(prawns);
+        jcr.addSideToAddOns(additionalOptions.get(5));
+        jcr.addSideToAddOns(additionalOptions.get(6));
         brunch.add(jcr);
-
         Dish dcs = new Dish("Dutch Cheese Sandwich", 11);
-        dcs.addSideToAddOns(greens);
         brunch.add(dcs);
-
-        Dish bc = new Dish("Butter Croissant", 3);
-        bc.addSideToAddOns(almond);
-        brunch.add(bc);
-
         Dish ss = new Dish("Spring Salad", 11);
+        ss.addSideToAddOns(additionalOptions.get(7));
+        ss.addSideToAddOns(additionalOptions.get(8));
+        ss.addSideToAddOns(additionalOptions.get(9));
         brunch.add(ss);
+        Dish bc = new Dish("Butter Croissant", 3);
+        bc.addSideToAddOns(additionalOptions.get(10));
+        brunch.add(bc);
     }
 
     //initializes and adds dishes to dessert category
@@ -136,8 +123,30 @@ public class Cafe {
         dessert.add(new Dish("Tofu Ice Cream", 4));
     }
 
+    //
     public void loadAdditionalOptions() {
         AdditionalOptions bacon = new AdditionalOptions("Canadian Bacon", 3);
+        AdditionalOptions salmon = new AdditionalOptions("Smoked Salmon", 4);
+        AdditionalOptions potatoes = new AdditionalOptions("Crispy Potatoes", 0);
+        AdditionalOptions greens = new AdditionalOptions("Mixed Greens", 0);
+        AdditionalOptions vegetarian = new AdditionalOptions("Vegetarian Option", 0);
+        AdditionalOptions pork = new AdditionalOptions("Fried Pork Cutlet", 4);
+        AdditionalOptions prawns = new AdditionalOptions("Fried Prawns", 3);
+        AdditionalOptions chicken = new AdditionalOptions("Chicken Breast 4oz", 5);
+        AdditionalOptions tuna = new AdditionalOptions("Albacore Tuna 3oz", 5);
+        AdditionalOptions shrimp = new AdditionalOptions("Grilled Shrimp 4 pieces", 5);
+        AdditionalOptions almond = new AdditionalOptions("Almond Croissant", 1);
+
         additionalOptions.add(bacon);
+        additionalOptions.add(salmon);
+        additionalOptions.add(potatoes);
+        additionalOptions.add(greens);
+        additionalOptions.add(vegetarian);
+        additionalOptions.add(pork);
+        additionalOptions.add(prawns);
+        additionalOptions.add(chicken);
+        additionalOptions.add(tuna);
+        additionalOptions.add(shrimp);
+        additionalOptions.add(almond);
     }
 }

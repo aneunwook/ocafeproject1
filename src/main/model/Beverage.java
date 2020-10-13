@@ -14,9 +14,11 @@ public class Beverage extends MenuItem {
     // constructs a drink with name, price
     public Beverage(String name, Integer price, Integer size, Integer temperature) {
         super(name, price);
+        this.size = size;
+        this.temperature = temperature;
     }
 
-    //REQUIRES: s is one of REGULAR, LARGE, or SIZE_NOT_CUSTOMIZABLE
+    //REQUIRES: s is one of REGULAR, LARGE, or NOT_CUSTOMIZABLE
     //MODIFIES: this
     //EFFECTS: if size is set to SIZE_NOT_CUSTOMIZABLE or size and s have the same value,
     //         does nothing and returns false.
@@ -25,20 +27,13 @@ public class Beverage extends MenuItem {
     public boolean setSize(Integer s) {
         if (isSizeCustomizable() && (size != s)) {
             size = s;
-            if (s == NOT_CUSTOMIZABLE) {
-                return true;
-            }
-            if (s == EXTRA) {
-                price += UPGRADE_PRICE;
-            } else {
-                price -= UPGRADE_PRICE;
-            }
+            updatePrice(s);
             return true;
         }
         return false;
     }
 
-    //REQUIRES: t is one of HOT, COLD, or TEMPERATURE_NOT_CUSTOMIZABLE
+    //REQUIRES: t is one of HOT, COLD, or NOT_CUSTOMIZABLE
     //MODIFIES: this
     //EFFECTS: if temperature is set to TEMPERATURE_NOT_CUSTOMIZABLE or temperature and t have the same value,
     //         does nothing and returns false
@@ -47,14 +42,7 @@ public class Beverage extends MenuItem {
     public boolean setTemperature(Integer t) {
         if (isTemperatureCustomizable() && (temperature != t)) {
             temperature = t;
-            if (t == NOT_CUSTOMIZABLE) {
-                return true;
-            }
-            if (t == EXTRA) {
-                price += UPGRADE_PRICE;
-            } else {
-                price -= UPGRADE_PRICE;
-            }
+            updatePrice(t);
             return true;
         }
         return false;
@@ -84,5 +72,15 @@ public class Beverage extends MenuItem {
             return true;
         }
         return false;
+    }
+
+    //EFFECTS: if i is REGULAR, adds UPGRADE_PRICE to price, if i is EXTRA subtracts UPGRADE_PRICE from price
+    private void updatePrice(Integer i) {
+        if (i == EXTRA) {
+            price += UPGRADE_PRICE;
+        } else
+            if (i == REGULAR) {
+                price -= UPGRADE_PRICE;
+            }
     }
 }
