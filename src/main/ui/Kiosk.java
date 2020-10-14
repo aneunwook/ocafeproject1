@@ -84,22 +84,30 @@ public class Kiosk {
                 case TEA_COMMAND:
                     displayMenu(tea);
                     break;
-                case NONCAFFEINATED_COMMAND:
-                    displayMenu(noncaffeinated);
-                    break;
-                case BRUNCH_COMMAND:
-                    displayMenu(brunch);
-                    break;
-                case DESSERT_COMMAND:
-                    displayMenu(dessert);
-                    break;
-                case QUIT_COMMAND:
-                    runProgram = false;
-                    break;
                 default:
-                    parseInputItemDetails1(str);
+                    parseInputMenus2(str);
                     break;
             }
+        }
+    }
+
+    private void parseInputMenus2(String str) {
+        switch (str) {
+            case NONCAFFEINATED_COMMAND:
+                displayMenu(noncaffeinated);
+                break;
+            case BRUNCH_COMMAND:
+                displayMenu(brunch);
+                break;
+            case DESSERT_COMMAND:
+                displayMenu(dessert);
+                break;
+            case QUIT_COMMAND:
+                runProgram = false;
+                break;
+            default:
+                parseInputItemDetails1(str);
+                break;
         }
     }
 
@@ -176,11 +184,6 @@ public class Kiosk {
                 case "Chai Latte":
                     displayBeverageDetails(str, cafe.tea);
                     break;
-                case "Honey Ginger Tea":
-                case "Fruit Tea":
-                case "Hibiscus Kombucha":
-                    displayBeverageDetails(str, cafe.nonCaffeinated);
-                    break;
                 default:
                     parseInputItemDetails2(str);
                     break;
@@ -192,6 +195,11 @@ public class Kiosk {
     private void parseInputItemDetails2(String str) {
         if (str.length() > 0) {
             switch (str) {
+                case "Honey Ginger Tea":
+                case "Fruit Tea":
+                case "Hibiscus Kombucha":
+                    displayBeverageDetails(str, cafe.nonCaffeinated);
+                    break;
                 case "Eggs Benny":
                 case "Omurice":
                 case "Butternut Squash Risotto":
@@ -212,18 +220,17 @@ public class Kiosk {
     //EFFECTS: displays dish item details
     private void displayDishDetails(String itemName, List<Dish> type) {
         Dish dish = getDishByName(itemName, type);
-        List<AdditionalOptions> addOns = dish.getOptions();
-        if (addOns.size() == 0) {
+        if (dish.getOptions().size() == 0) {
             displayItemNotCustomizableDetails(dish);
         } else {
             System.out.println("\n" + dish.getName() + "\t\t$" + dish.getPrice() + "");
-            for (AdditionalOptions addOn : addOns) {
+            for (AdditionalOptions addOn : dish.getOptions()) {
                 System.out.println("" + addOn.getName() + "\t\t+$" + addOn.getPrice() + "");
             }
             System.out.println("\nadd to your order:");
             System.out.println("'0' -> naked " + dish.getName() + "");
-            for (int i = 0; i < addOns.size(); i++) {
-                System.out.println("'" + (i + 1) + "' -> " + addOns.get(i).getName() + " " + dish.getName() + "");
+            for (int i = 0; i < dish.getOptions().size(); i++) {
+                System.out.println("'" + (i + 1) + "' -> " + dish.getOptions().get(i).getName() + " " + dish.getName());
             }
         }
         printGeneralInstructions();
@@ -248,7 +255,8 @@ public class Kiosk {
         if ((num <= d.getOptions().size()) && (num >= 0)) {
             if (num != 0) {
                 d.selectAddOn(dish.getOptions().get(num - 1));
-                System.out.println("\n" + d.getSelected().getName() + " " + d.getName() + " has been added to your order!");
+                System.out.println(
+                        "\n" + d.getSelected().getName() + " " + d.getName() + " has been added to your order!");
             } else {
                 System.out.println("\nnaked " + d.getName() + " has been added to your order!");
             }
@@ -270,7 +278,8 @@ public class Kiosk {
                 System.out.println("regular\t\t$" + beverage.getPrice() + "");
                 System.out.println("large  \t\t$" + (beverage.getPrice() + Beverage.UPGRADE_PRICE) + "");
 
-                System.out.println("\n'" + REGULAR_SIZE_COMMAND + "' -> add regular " + beverage.getName() + " to order");
+                System.out.println(
+                        "\n'" + REGULAR_SIZE_COMMAND + "' -> add regular " + beverage.getName() + " to order");
                 System.out.println("'" + LARGE_SIZE_COMMAND + "'   -> add large " + beverage.getName() + " to order");
             } else {
                 System.out.println("hot \t\t$" + beverage.getPrice() + "");
@@ -294,39 +303,52 @@ public class Kiosk {
     //EFFECTS: adds beverage with customization (if any) to order
     private void parseInputAddBeverageToOrder(Beverage beverage) {
         String str = input.next();
-        Beverage b = new Beverage(beverage.getName(), beverage.getPrice(), beverage.getSize(), beverage.getTemperature());
+        Beverage b = new Beverage(
+                beverage.getName(), beverage.getPrice(), beverage.getSize(), beverage.getTemperature());
         switch (str) {
             case REGULAR_SIZE_COMMAND:
                 b.setSize(Beverage.REGULAR);
+                addItemAndPrintConfirmation(str, b);
                 break;
             case LARGE_SIZE_COMMAND:
                 b.setSize(Beverage.EXTRA);
+                addItemAndPrintConfirmation(str, b);
                 break;
             case HOT_TEMP_COMMAND:
                 b.setTemperature(Beverage.REGULAR);
-                break;
-            case COLD_TEMP_COMMAND:
-                b.setTemperature(Beverage.EXTRA);
-                break;
-            case ADD_TO_ORDER_COMMAND:
+                addItemAndPrintConfirmation(str, b);
                 break;
             default:
-                b = beverage;               //!!! unnecessary initialization of b
-                parseInputMenus(str);       //!!! might add item even if not selected
+                parseInputAddBeverageToOrder2(b, str);
                 break;
         }
-        order.addItem(b);
-        printConfirmation(str, beverage);
-        printGeneralInstructions();
+    }
+
+    //EFFECTS: extends parseInputAddBeverageToOrder
+    private void parseInputAddBeverageToOrder2(Beverage b, String str) {
+        switch (str) {
+            case COLD_TEMP_COMMAND:
+                b.setTemperature(Beverage.EXTRA);
+                addItemAndPrintConfirmation(str, b);
+                break;
+            case ADD_TO_ORDER_COMMAND:
+                addItemAndPrintConfirmation(str, b);
+                break;
+            default:
+                parseInputMenus(str);
+                break;
+        }
     }
 
     //EFFECTS: prints line to confirm item has been added to order
-    private void printConfirmation(String command, MenuItem item) {
+    private void addItemAndPrintConfirmation(String command, MenuItem item) {
+        order.addItem(item);
         if (command.equals(ADD_TO_ORDER_COMMAND)) {
             System.out.println("\n" + item.getName() + " has been added to your order!");
         } else {
             System.out.println("\n" + command + " " + item.getName() + " has been added to your order!");
         }
+        printGeneralInstructions();
     }
 
     //EFFECTS: displays instructions for home page and view order
