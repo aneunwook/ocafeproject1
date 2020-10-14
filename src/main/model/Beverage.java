@@ -48,18 +48,18 @@ public class Beverage extends MenuItem {
         return false;
     }
 
-    //EFFECTS: returns drink size or SIZE_NOT_CUSTOMIZABLE
+    //EFFECTS: returns drink size or NOT_CUSTOMIZABLE
     public int getSize() {
         return size;
     }
 
-    //EFFECTS: returns drink temperature or TEMPERATURE_NOT_CUSTOMIZABLE
+    //EFFECTS: returns drink temperature or NOT_CUSTOMIZABLE
     public int getTemperature() {
         return temperature;
     }
 
     //EFFECTS: returns true if size is customizable, false otherwise
-    private boolean isSizeCustomizable() {
+    public boolean isSizeCustomizable() {
         if (size != NOT_CUSTOMIZABLE) {
             return true;
         }
@@ -67,20 +67,20 @@ public class Beverage extends MenuItem {
     }
 
     //EFFECTS: returns true if temperature is customizable, false otherwise
-    private boolean isTemperatureCustomizable() {
+    public boolean isTemperatureCustomizable() {
         if (temperature != NOT_CUSTOMIZABLE) {
             return true;
         }
         return false;
     }
 
+    //MODIFIES: this
     //EFFECTS: if i is REGULAR, adds UPGRADE_PRICE to price, if i is EXTRA subtracts UPGRADE_PRICE from price
     private void updatePrice(Integer i) {
         if (i == EXTRA) {
             price += UPGRADE_PRICE;
-        } else
-            if (i == REGULAR) {
-                price -= UPGRADE_PRICE;
-            }
+        } else if (i == REGULAR) {
+            price -= UPGRADE_PRICE;
+        }
     }
 }

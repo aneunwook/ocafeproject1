@@ -33,15 +33,15 @@ public class DishTest {
     @Test
     public void testAddSideToAddOnOptions() {
         // add s1 to addOnOptions
-        dish.addSideToAddOns(s1);
+        dish.addSideToOptions(s1);
 
         //check s1 was added
         assertEquals(1, dish.getOptions().size());
         assertTrue(dish.getOptions().contains(s1));
 
         //add multiple sides to addOnOptions
-        dish.addSideToAddOns(s2);
-        dish.addSideToAddOns(s3);
+        dish.addSideToOptions(s2);
+        dish.addSideToOptions(s3);
 
         //check contains s2 and s3
         assertEquals(3, dish.getOptions().size());
@@ -62,8 +62,8 @@ public class DishTest {
     @Test
     public void testSelectAddOnsDoesNotContain() {
         //add s1 and s2 to addOnOptions
-        dish.addSideToAddOns(s1);
-        dish.addSideToAddOns(s2);
+        dish.addSideToOptions(s1);
+        dish.addSideToOptions(s2);
 
         //select s3
         assertFalse(dish.selectAddOn(s3));
@@ -76,9 +76,9 @@ public class DishTest {
     @Test
     public void testSelectAddOnsContains() {
         //add all to addOnOptions
-        dish.addSideToAddOns(s1);
-        dish.addSideToAddOns(s2);
-        dish.addSideToAddOns(s3);
+        dish.addSideToOptions(s1);
+        dish.addSideToOptions(s2);
+        dish.addSideToOptions(s3);
 
         //select s1
         assertTrue(dish.selectAddOn(s1));
@@ -103,9 +103,9 @@ public class DishTest {
     @Test
     public void testUnselectAddOnNotNull() {
         //add all to addOnOptions
-        dish.addSideToAddOns(s1);
-        dish.addSideToAddOns(s2);
-        dish.addSideToAddOns(s3);
+        dish.addSideToOptions(s1);
+        dish.addSideToOptions(s2);
+        dish.addSideToOptions(s3);
         //select s1
         assertTrue(dish.selectAddOn(s1));
 

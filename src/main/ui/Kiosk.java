@@ -1,10 +1,7 @@
 package ui;
 
-import model.Beverage;
-import model.MenuItem;
-import model.Order;
+import model.*;
 
-import java.awt.*;
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,14 +22,14 @@ public class Kiosk {
     private static final String NONCAFFEINATED_COMMAND = "noncaffeinated";
     private static final String[] noncaffeinated = {"Honey Ginger Tea", "Fruit Tea", "Hibiscus Kombucha"};
     private static final String BRUNCH_COMMAND = "brunch";
-    private static final String[] brunch = {"Eggs Benny", "Beef Omurice", "Butternut Squash Risotto"};
+    private static final String[] brunch = {"Eggs Benny", "Omurice", "Butternut Squash Risotto"};
     private static final String DESSERT_COMMAND = "dessert";
-    private static final String[] dessert = {"Kinako mochi", "Raspberry Pistachio Cream Tart", "Banana Cream Pie"};
+    private static final String[] dessert = {"Kinako Mochi", "Raspberry Pistachio Cream Tart", "Banana Cream Pie"};
     private static final String REGULAR_SIZE_COMMAND = "regular";
     private static final String LARGE_SIZE_COMMAND = "large";
     private static final String HOT_TEMP_COMMAND = "hot";
     private static final String COLD_TEMP_COMMAND = "cold";
-    private static final String ADD_TO_ORDER_COMMAND = "add";
+    private static final String ADD_TO_ORDER_COMMAND = "0";
     private static final String QUIT_COMMAND = "quit";
 
 
@@ -41,7 +38,10 @@ public class Kiosk {
     private Cafe cafe;
     private Order order;
 
-    // constructor, handleUserInput, parseInput, and makePrettyString taken from FitLifeGymKiosk.ui.Kiosk
+    // constructor, handleUserInput, parseInputMenus, makePrettyString,
+    // and endProgram taken from FitLifeGymKiosk.ui.Kiosk
+
+    // takes in a cafe and constructs new kiosk with new scanner, cafe, and new order
     public Kiosk(Cafe cafe) {
         input = new Scanner(System.in);
         runProgram = true;
@@ -53,18 +53,18 @@ public class Kiosk {
     public void handleUserInput() {
         System.out.println("Home Page");
         homePage();
-        String s1;
+        String str;
 
         while (runProgram) {
             if (input.hasNext()) {
-                s1 = input.nextLine();
-                s1 = makePrettyString(s1);
-                parseInputMenus(s1);
+                str = input.nextLine();
+                str = makePrettyString(str);
+                parseInputMenus(str);
             }
         }
     }
 
-    //EFFECTS: prints menu options and info depending on input str
+    //EFFECTS: prints menu options depending on input str
     private void parseInputMenus(String str) {
         if (str.length() > 0) {
             switch (str) {
@@ -79,24 +79,32 @@ public class Kiosk {
                     displayOrder();
                     break;
                 case COFFEE_COMMAND:
+                    displayMenu(coffee);
+                    break;
                 case TEA_COMMAND:
+                    displayMenu(tea);
+                    break;
                 case NONCAFFEINATED_COMMAND:
+                    displayMenu(noncaffeinated);
+                    break;
                 case BRUNCH_COMMAND:
+                    displayMenu(brunch);
+                    break;
                 case DESSERT_COMMAND:
-                    displayMenu(str);
+                    displayMenu(dessert);
                     break;
                 case QUIT_COMMAND:
                     runProgram = false;
                     break;
                 default:
-                    parseInputItemDetails(str);
+                    parseInputItemDetails1(str);
                     break;
             }
         }
     }
 
     // taken from AccountNotRobust.ui.TellerApp
-    // displays home page
+    //EFFECTS: displays home page
     private void homePage() {
         System.out.println("\nselect from:");
         System.out.println("\t'" + PLACE_ORDER_COMMAND + "' -> place order");
@@ -105,7 +113,7 @@ public class Kiosk {
         System.out.println("\n enter '" + QUIT_COMMAND + "' to quit any time.");
     }
 
-    // displays cafe menu
+    //EFFECTS: displays cafe menu
     private void displayCafeMenu() {
         System.out.println("\nCafe Menu");
         System.out.println("enter one of:");
@@ -118,10 +126,19 @@ public class Kiosk {
         System.out.println("'" + VIEW_ORDER_COMMAND + "' -> view order");
     }
 
-    // displays order !!!
-    private void displayOrder() {}
+    //EFFECTS: displays order
+    private void displayOrder() {
+        System.out.println("\nYour Order Summary:");
+        for (MenuItem item : order.getItemList()) {
+            System.out.println("" + item.getName() + "\t\t$" + item.getPrice() + "");
+        }
+        System.out.println("\nTotal: $" + order.getTotal());
+        System.out.println("\n'" + HOME_COMMAND + "'  -> home page");
+        System.out.println("'" + CAFE_MENU_COMMAND + "'  -> cafe menu");
 
-    // displays menu items by category
+    }
+
+    //EFFECTS: displays menu items by category
     private void displayMenu(String[] category) {
         System.out.println("\nselect from:");
         Integer size = category.length;
@@ -137,14 +154,14 @@ public class Kiosk {
         try {
             num = Integer.parseInt(s);
             String str = category[num];
-            parseInputItemDetails(str);
+            parseInputItemDetails1(str);
         } catch (NumberFormatException e) {
             parseInputMenus(s);
         }
     }
 
-    // prints menu item details depending on input i
-    private void parseInputItemDetails(String str) {
+    //EFFECTS: prints menu item details depending on input str
+    private void parseInputItemDetails1(String str) {
         if (str.length() > 0) {
             switch (str) {
                 case "Espresso":
@@ -165,67 +182,137 @@ public class Kiosk {
                     displayBeverageDetails(str, cafe.nonCaffeinated);
                     break;
                 default:
-                    System.out.println("Sorry, I didn't understand that command. Please try again.");
+                    parseInputItemDetails2(str);
                     break;
             }
         }
     }
 
-
-    // displays menu item details !!! (List<Beverage>) refactor with helper functions
-    private void displayBeverageDetails(String itemName, List<Beverage> type) {
-        Beverage beverage = getBeverageByName(itemName, type);
-        System.out.println("\n" + beverage.getName() + "");
-        if (beverage.getSize() != Beverage.NOT_CUSTOMIZABLE) {
-            System.out.println("regular\t\t$" + beverage.getPrice() + "");
-            System.out.println("large  \t\t$" + (beverage.getPrice() + Beverage.UPGRADE_PRICE) + "");
-
-            System.out.println("\n'" + REGULAR_SIZE_COMMAND + "' -> add regular " + beverage.getName() + " to order");
-            System.out.println("'" + LARGE_SIZE_COMMAND + "'   -> add large " + beverage.getName() + " to order");
-            printGeneralInstructions();
-
-            parseInputAddBeverageToOrder(itemName, beverage);
-        } else if (beverage.getTemperature() != Beverage.NOT_CUSTOMIZABLE) {
-            System.out.println("hot \t\t$" + beverage.getPrice() + "");
-            System.out.println("cold\t\t$" + (beverage.getPrice() + Beverage.UPGRADE_PRICE) + "");
-            // maybe change hot to HOT_TEMP_COMMAND
-            System.out.println("\n'" + HOT_TEMP_COMMAND + "'  -> add hot " + beverage.getName() + " to order");
-            System.out.println("'" + COLD_TEMP_COMMAND + "' -> add cold " + beverage.getName() + " to order");
-            printGeneralInstructions();
-
-            parseInputAddBeverageToOrder(itemName, beverage);
-        } else {
-            System.out.println("this item is not customizable :(");
-            System.out.println("'" + ADD_TO_ORDER_COMMAND + "' -> add " + beverage.getName() + " to order");
-            printGeneralInstructions();
-
-            parseInputAddBeverageToOrder(itemName, beverage);
+    //EFFECTS: extension of parseInputItemDetails1
+    private void parseInputItemDetails2(String str) {
+        if (str.length() > 0) {
+            switch (str) {
+                case "Eggs Benny":
+                case "Omurice":
+                case "Butternut Squash Risotto":
+                    displayDishDetails(str, cafe.brunch);
+                    break;
+                case "Kinako Mochi":
+                case "Raspberry Pistachio Cream Tart":
+                case "Banana Cream Pie":
+                    displayDishDetails(str, cafe.dessert);
+                    break;
+                default:
+                    System.out.println("Invalid selection, please try again.");
+                    break;
+            }
         }
     }
 
-    // adds beverage with customization (if any) to order
-    private void parseInputAddBeverageToOrder(String itemName, Beverage beverage) {
+    //EFFECTS: displays dish item details
+    private void displayDishDetails(String itemName, List<Dish> type) {
+        Dish dish = getDishByName(itemName, type);
+        List<AdditionalOptions> addOns = dish.getOptions();
+        if (addOns.size() == 0) {
+            displayItemNotCustomizableDetails(dish);
+        } else {
+            System.out.println("\n" + dish.getName() + "\t\t$" + dish.getPrice() + "");
+            for (AdditionalOptions addOn : addOns) {
+                System.out.println("" + addOn.getName() + "\t\t+$" + addOn.getPrice() + "");
+            }
+            System.out.println("\nadd to your order:");
+            System.out.println("'0' -> naked " + dish.getName() + "");
+            for (int i = 0; i < addOns.size(); i++) {
+                System.out.println("'" + (i + 1) + "' -> " + addOns.get(i).getName() + " " + dish.getName() + "");
+            }
+        }
+        printGeneralInstructions();
+        //handle input
+        int num;
+        String s = input.nextLine();
+
+        try {
+            num = Integer.parseInt(s);
+            parseInputAddDishToOrder(num, dish);
+        } catch (NumberFormatException e) {
+            parseInputMenus(s);
+        }
+    }
+
+    //EFFECTS: adds dish with customization (if any) to order
+    private void parseInputAddDishToOrder(Integer num, Dish dish) {
+        Dish d = new Dish(dish.getName(), dish.getPrice());
+        for (AdditionalOptions addOn : dish.getOptions()) {
+            d.addSideToOptions(addOn);
+        }
+        if ((num <= d.getOptions().size()) && (num >= 0)) {
+            if (num != 0) {
+                d.selectAddOn(dish.getOptions().get(num - 1));
+                System.out.println("\n" + d.getSelected().getName() + " " + d.getName() + " has been added to your order!");
+            } else {
+                System.out.println("\nnaked " + d.getName() + " has been added to your order!");
+            }
+            order.addItem(d);
+            printGeneralInstructions();
+        } else {
+            System.out.println("Invalid selection, please try again.");
+        }
+    }
+
+    //EFFECTS: displays beverage item details
+    private void displayBeverageDetails(String itemName, List<Beverage> type) {
+        Beverage beverage = getBeverageByName(itemName, type);
+        if (!beverage.isSizeCustomizable() && !beverage.isTemperatureCustomizable()) {
+            displayItemNotCustomizableDetails(beverage);
+        } else {
+            System.out.println("\n" + beverage.getName() + "");
+            if (beverage.isSizeCustomizable()) {
+                System.out.println("regular\t\t$" + beverage.getPrice() + "");
+                System.out.println("large  \t\t$" + (beverage.getPrice() + Beverage.UPGRADE_PRICE) + "");
+
+                System.out.println("\n'" + REGULAR_SIZE_COMMAND + "' -> add regular " + beverage.getName() + " to order");
+                System.out.println("'" + LARGE_SIZE_COMMAND + "'   -> add large " + beverage.getName() + " to order");
+            } else {
+                System.out.println("hot \t\t$" + beverage.getPrice() + "");
+                System.out.println("cold\t\t$" + (beverage.getPrice() + Beverage.UPGRADE_PRICE) + "");
+                // maybe change hot to HOT_TEMP_COMMAND
+                System.out.println("\n'" + HOT_TEMP_COMMAND + "'  -> add hot " + beverage.getName() + " to order");
+                System.out.println("'" + COLD_TEMP_COMMAND + "' -> add cold " + beverage.getName() + " to order");
+            }
+        }
+        printGeneralInstructions();
+        parseInputAddBeverageToOrder(beverage);
+    }
+
+    //EFFECTS: displays details for non customizable menu items
+    private void displayItemNotCustomizableDetails(MenuItem item) {
+        System.out.println("\n" + item.getName() + "\t\t$" + item.getPrice() + "");
+        System.out.println("\nthis item is not customizable :(");
+        System.out.println("'" + ADD_TO_ORDER_COMMAND + "' -> add " + item.getName() + " to order");
+    }
+
+    //EFFECTS: adds beverage with customization (if any) to order
+    private void parseInputAddBeverageToOrder(Beverage beverage) {
         String str = input.next();
-        Beverage b;
+        Beverage b = new Beverage(beverage.getName(), beverage.getPrice(), beverage.getSize(), beverage.getTemperature());
         switch (str) {
             case REGULAR_SIZE_COMMAND:
-                b = new Beverage(itemName, beverage.getPrice(), Beverage.REGULAR, beverage.getTemperature());
+                b.setSize(Beverage.REGULAR);
                 break;
             case LARGE_SIZE_COMMAND:
-                b = new Beverage(itemName, beverage.getPrice(), Beverage.EXTRA, beverage.getTemperature());
+                b.setSize(Beverage.EXTRA);
                 break;
             case HOT_TEMP_COMMAND:
-                b = new Beverage(itemName, beverage.getPrice(), beverage.getSize(), Beverage.REGULAR);
+                b.setTemperature(Beverage.REGULAR);
                 break;
             case COLD_TEMP_COMMAND:
-                b = new Beverage(itemName, beverage.getPrice(), beverage.getSize(), Beverage.EXTRA);
+                b.setTemperature(Beverage.EXTRA);
                 break;
             case ADD_TO_ORDER_COMMAND:
-                b = new Beverage(itemName, beverage.getPrice(), beverage.getSize(), beverage.getTemperature());
                 break;
             default:
                 b = beverage;               //!!! unnecessary initialization of b
-                parseInputMenus(str);       //!!! should parseInputMenus call this method instead?
+                parseInputMenus(str);       //!!! might add item even if not selected
                 break;
         }
         order.addItem(b);
@@ -233,16 +320,16 @@ public class Kiosk {
         printGeneralInstructions();
     }
 
-    //prints line to confirm item has been added to order
+    //EFFECTS: prints line to confirm item has been added to order
     private void printConfirmation(String command, MenuItem item) {
-        if (command != ADD_TO_ORDER_COMMAND) {
-            System.out.println("\n" + command + " " + item.getName() + " has been added to your order!");
-        } else {
+        if (command.equals(ADD_TO_ORDER_COMMAND)) {
             System.out.println("\n" + item.getName() + " has been added to your order!");
+        } else {
+            System.out.println("\n" + command + " " + item.getName() + " has been added to your order!");
         }
     }
 
-    // displays instructions for home page and view order
+    //EFFECTS: displays instructions for home page and view order
     private void printGeneralInstructions() {
         System.out.println("\n'" + CAFE_MENU_COMMAND + "'  -> cafe menu");
         System.out.println("'" + HOME_COMMAND + "'  -> home page");
@@ -252,9 +339,19 @@ public class Kiosk {
     //EFFECTS: returns the item in itemList if already there,
     //         if not, returns null !!! List<Beverage>
     private Beverage getBeverageByName(String name, List<Beverage> category) {
-        for (Beverage i : category) {
-            if (name == i.getName()) {
-                return i;
+        for (Beverage b : category) {
+            if (name == b.getName()) {
+                return b;
+            }
+        }
+        return null;
+    }
+
+    //EFFECTS:
+    private Dish getDishByName(String name, List<Dish> category) {
+        for (Dish d : category) {
+            if (name == d.getName()) {
+                return d;
             }
         }
         return null;

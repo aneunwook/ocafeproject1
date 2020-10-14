@@ -16,7 +16,7 @@ public class Dish extends MenuItem {
 
     //MODIFIES: this
     //EFFECTS: adds side to options
-    public void addSideToAddOns(AdditionalOptions side) {
+    public void addSideToOptions(AdditionalOptions side) {
         options.add(side);
     }
 
