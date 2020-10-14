@@ -23,13 +23,16 @@ public class Cafe {
         loadCoffee();
         loadTea();
         loadNonCaffeinated();
+        loadAdditionalOptions();
         loadBrunch();
         loadDessert();
-        loadAdditionalOptions();
 
         order = new Order();
 
         Kiosk kiosk = new Kiosk(this);
+
+        kiosk.handleUserInput();
+        kiosk.endProgram();
     }
 
     //initializes and adds beverages to coffee category
@@ -40,7 +43,7 @@ public class Cafe {
         coffee.add(new Beverage("Latte", 5, Beverage.REGULAR, Beverage.NOT_CUSTOMIZABLE));
         coffee.add(new Beverage("Iced Coffee", 5, Beverage.REGULAR, Beverage.NOT_CUSTOMIZABLE));
         coffee.add(new Beverage("Cold Brew", 4, Beverage.REGULAR, Beverage.NOT_CUSTOMIZABLE));
-        coffee.add(new Beverage("Hot Cocoa", 5, Beverage.REGULAR, Beverage.NOT_CUSTOMIZABLE));
+//        coffee.add(new Beverage("Hot Cocoa", 5, Beverage.REGULAR, Beverage.NOT_CUSTOMIZABLE));
     }
 
     //initializes and adds beverages to tea category
@@ -51,7 +54,7 @@ public class Cafe {
         tea.add(new Beverage("Chai Latte", 5, Beverage.REGULAR, Beverage.NOT_CUSTOMIZABLE));
         tea.add(new Beverage("Oolong Milk Tea", 5, Beverage.NOT_CUSTOMIZABLE, Beverage.REGULAR));
         tea.add(new Beverage("Genmaicha", 4, Beverage.NOT_CUSTOMIZABLE, Beverage.NOT_CUSTOMIZABLE));
-        tea.add(new Beverage("Sencha", 5, Beverage.NOT_CUSTOMIZABLE, Beverage.NOT_CUSTOMIZABLE));
+//        tea.add(new Beverage("Sencha", 5, Beverage.NOT_CUSTOMIZABLE, Beverage.NOT_CUSTOMIZABLE));
         tea.add(new Beverage("Black Tea", 5, Beverage.NOT_CUSTOMIZABLE, Beverage.NOT_CUSTOMIZABLE));
     }
 
