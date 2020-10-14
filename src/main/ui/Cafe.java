@@ -15,9 +15,6 @@ public class Cafe {
     protected List<Dish> dessert = new ArrayList<>();
     protected List<AdditionalOptions> additionalOptions = new ArrayList<>();
 
-    //order
-    protected Order order;
-
     //constructs the cafe menu, initializes new Order object, calls Kiosk with this cafe
     public Cafe() {
         loadCoffee();
@@ -26,8 +23,6 @@ public class Cafe {
         loadAdditionalOptions();
         loadBrunch();
         loadDessert();
-
-        order = new Order();
 
         Kiosk kiosk = new Kiosk(this);
 
@@ -70,11 +65,11 @@ public class Cafe {
                 6,
                 Beverage.NOT_CUSTOMIZABLE,
                 Beverage.REGULAR));
-        nonCaffeinated.add(new Beverage(
-                "Kumquat Chrysanthemum Tea",
-                6,
-                Beverage.NOT_CUSTOMIZABLE,
-                Beverage.NOT_CUSTOMIZABLE));
+//        nonCaffeinated.add(new Beverage(
+//                "Kumquat Chrysanthemum Tea",
+//                6,
+//                Beverage.NOT_CUSTOMIZABLE,
+//                Beverage.NOT_CUSTOMIZABLE));
         nonCaffeinated.add(new Beverage(
                 "Hibiscus Kombucha",
                 6, Beverage.NOT_CUSTOMIZABLE,
@@ -88,7 +83,7 @@ public class Cafe {
 
     //initializes and adds dishes to brunch category
     public void loadBrunch() {
-        brunch.add(new Dish("Thai Green Curry Seafood Linguine", 16));
+//        brunch.add(new Dish("Thai Green Curry Seafood Linguine", 16));
         Dish eb = new Dish("Eggs Benny", 12);
         eb.addSideToAddOns(additionalOptions.get(0));
         eb.addSideToAddOns(additionalOptions.get(1));
