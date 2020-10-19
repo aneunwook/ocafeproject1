@@ -16,7 +16,7 @@ public class Kiosk {
     private static final String CAFE_MENU_COMMAND = "menu";
     private static final String VIEW_ORDER_COMMAND = "order";
     private static final String COFFEE_COMMAND = "coffee";
-    private static final String[] coffee = {"Espresso", "Americano", "Macchiato", "Latte"};
+    private static final String[] coffee = {"Espresso", "Americano", "Macchiato", "Latte", };
     private static final String TEA_COMMAND = "tea";
     private static final String[] tea = {"Matcha Latte", "Hojicha Latte", "London Fog", "Chai Latte"};
     private static final String NONCAFFEINATED_COMMAND = "noncaffeinated";
@@ -121,7 +121,7 @@ public class Kiosk {
         System.out.println("\nenter '" + QUIT_COMMAND + "' to quit any time.");
     }
 
-    //EFFECTS: displays cafe menu
+    //EFFECTS: displays cafe menu by category
     private void displayCafeMenu() {
         System.out.println("\nCafe Menu");
         System.out.println("enter one of:");
@@ -134,7 +134,7 @@ public class Kiosk {
         System.out.println("'" + VIEW_ORDER_COMMAND + "' -> view order");
     }
 
-    //EFFECTS: displays order
+    //EFFECTS: displays order summary
     private void displayOrder() {
         System.out.println("\nYour Order Summary:");
         for (MenuItem item : order.getItemList()) {
@@ -146,7 +146,7 @@ public class Kiosk {
 
     }
 
-    //EFFECTS: displays menu items by category
+    //EFFECTS: displays menu items in a category
     private void displayMenu(String[] category) {
         System.out.println("\nselect from:");
         Integer size = category.length;

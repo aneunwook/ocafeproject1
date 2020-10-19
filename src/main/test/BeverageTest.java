@@ -1,4 +1,4 @@
-package model;
+package test;
 
 import model.Beverage;
 import org.junit.jupiter.api.BeforeEach;
