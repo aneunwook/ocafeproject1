@@ -1,6 +1,9 @@
 package model;
 
-public abstract class MenuItem {
+import org.json.JSONObject;
+import persistence.Writable;
+
+public abstract class MenuItem implements Writable {
 
     protected String name;
     protected Integer price;        // price in dollars
@@ -19,5 +22,14 @@ public abstract class MenuItem {
     //EFFECTS: returns item price
     public int getPrice() {
         return price;
+    }
+
+    // JsonSerializationDemo.model.Thingy
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("price", price);
+        return json;
     }
 }

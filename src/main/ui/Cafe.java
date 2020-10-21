@@ -45,13 +45,13 @@ public class Cafe {
     //MODIFIES: this
     //EFFECTS: initializes and adds beverages to tea category
     public void loadTea() {
-        tea.add(new Beverage("Matcha Latte", 6, Beverage.REGULAR, Beverage.NOT_CUSTOMIZABLE));
-        tea.add(new Beverage("Hojicha Latte", 6, Beverage.REGULAR, Beverage.NOT_CUSTOMIZABLE));
+        tea.add(new Beverage("Matcha Latte", 6, Beverage.NOT_CUSTOMIZABLE, Beverage.REGULAR));
+        tea.add(new Beverage("Hojicha Latte", 6, Beverage.NOT_CUSTOMIZABLE, Beverage.REGULAR));
         tea.add(new Beverage("London Fog", 5, Beverage.REGULAR, Beverage.NOT_CUSTOMIZABLE));
         tea.add(new Beverage("Chai Latte", 5, Beverage.REGULAR, Beverage.NOT_CUSTOMIZABLE));
-        tea.add(new Beverage("Oolong Milk Tea", 5, Beverage.NOT_CUSTOMIZABLE, Beverage.REGULAR));
-        tea.add(new Beverage("Genmaicha", 4, Beverage.NOT_CUSTOMIZABLE, Beverage.NOT_CUSTOMIZABLE));
-//        tea.add(new Beverage("Sencha", 5, Beverage.NOT_CUSTOMIZABLE, Beverage.NOT_CUSTOMIZABLE));
+//        tea.add(new Beverage("Oolong Milk Tea", 5, Beverage.NOT_CUSTOMIZABLE, Beverage.REGULAR));
+//        tea.add(new Beverage("Genmaicha", 4, Beverage.NOT_CUSTOMIZABLE, Beverage.NOT_CUSTOMIZABLE));
+        tea.add(new Beverage("Sencha", 5, Beverage.NOT_CUSTOMIZABLE, Beverage.NOT_CUSTOMIZABLE));
         tea.add(new Beverage("Black Tea", 5, Beverage.NOT_CUSTOMIZABLE, Beverage.NOT_CUSTOMIZABLE));
     }
 
@@ -61,34 +61,29 @@ public class Cafe {
         nonCaffeinated.add(new Beverage(
                 "Honey Ginger Tea",
                 5,
-                Beverage.NOT_CUSTOMIZABLE,
-                Beverage.REGULAR));
+                Beverage.NOT_CUSTOMIZABLE, Beverage.REGULAR));
         nonCaffeinated.add(new Beverage(
                 "Fruit Tea",
                 6,
-                Beverage.NOT_CUSTOMIZABLE,
-                Beverage.REGULAR));
-//        nonCaffeinated.add(new Beverage(
-//                "Kumquat Chrysanthemum Tea",
-//                6,
-//                Beverage.NOT_CUSTOMIZABLE,
-//                Beverage.NOT_CUSTOMIZABLE));
+                Beverage.NOT_CUSTOMIZABLE, Beverage.REGULAR));
+        nonCaffeinated.add(new Beverage(
+                "Kumquat Chrysanthemum Tea",
+                6,
+                Beverage.NOT_CUSTOMIZABLE, Beverage.NOT_CUSTOMIZABLE));
         nonCaffeinated.add(new Beverage(
                 "Hibiscus Kombucha",
-                6, Beverage.NOT_CUSTOMIZABLE,
-                Beverage.NOT_CUSTOMIZABLE));
+                6, Beverage.NOT_CUSTOMIZABLE, Beverage.NOT_CUSTOMIZABLE));
         nonCaffeinated.add(new Beverage(
                 "Mango Kale Smoothie",
                 6,
-                Beverage.REGULAR,
-                Beverage.NOT_CUSTOMIZABLE));
+                Beverage.REGULAR, Beverage.NOT_CUSTOMIZABLE));
     }
 
     //MODIFIES: this
     //EFFECTS: initializes and adds dishes to brunch category
     public void loadBrunch() {
-//        brunch.add(new Dish("Thai Green Curry Seafood Linguine", 16));
-        Dish eb = new Dish("Eggs Benny", 13);
+        brunch.add(new Dish("Thai Green Curry Seafood Linguine", 16));
+        Dish eb = new Dish("Eggs Benedict", 13);
         eb.addSideToOptions(additionalOptions.get(0));
         eb.addSideToOptions(additionalOptions.get(1));
 //        eb.addSideToAddOns(additionalOptions.get(2));
@@ -109,7 +104,7 @@ public class Cafe {
         ss.addSideToOptions(additionalOptions.get(8));
         ss.addSideToOptions(additionalOptions.get(9));
         brunch.add(ss);
-        Dish bc = new Dish("Butter Croissant", 3);
+        Dish bc = new Dish("Butter Croissant ", 3);
         bc.addSideToOptions(additionalOptions.get(10));
         brunch.add(bc);
     }
@@ -135,10 +130,10 @@ public class Cafe {
         AdditionalOptions greens = new AdditionalOptions("Mixed Greens", 0);
         AdditionalOptions vegetarian = new AdditionalOptions("Beef", 4);
         AdditionalOptions pork = new AdditionalOptions("Fried Pork Cutlet", 4);
-        AdditionalOptions prawns = new AdditionalOptions("Fried Prawns", 3);
-        AdditionalOptions chicken = new AdditionalOptions("Chicken Breast 4oz", 4);
-        AdditionalOptions tuna = new AdditionalOptions("Albacore Tuna 3oz", 5);
-        AdditionalOptions shrimp = new AdditionalOptions("Grilled Shrimp 4 pieces", 5);
+        AdditionalOptions prawns = new AdditionalOptions("Assorted Tempura", 3);
+        AdditionalOptions chicken = new AdditionalOptions("Chicken Breast", 4);
+        AdditionalOptions tuna = new AdditionalOptions("Albacore Tuna", 5);
+        AdditionalOptions shrimp = new AdditionalOptions("Grilled Shrimp", 5);
         AdditionalOptions almond = new AdditionalOptions("Almond Croissant", 1);
 
         additionalOptions.add(bacon);

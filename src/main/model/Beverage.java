@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 public class Beverage extends MenuItem {
 
     private int size;               // regular or large
@@ -82,5 +84,14 @@ public class Beverage extends MenuItem {
         } else if (i == REGULAR) {
             price -= UPGRADE_PRICE;
         }
+    }
+
+    // JsonSerializationDemo.model.Thingy
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = super.toJson();
+        json.put("size", size);
+        json.put("temperature", temperature);
+        return json;
     }
 }

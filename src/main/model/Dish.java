@@ -1,5 +1,8 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,5 +64,25 @@ public class Dish extends MenuItem {
     //EFFECTS: returns true if selected is not null, false otherwise
     private boolean hasSelected() {
         return !(selected == null);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = super.toJson();
+        json.put("options", optionsToJson());
+        json.put("selected", selected);
+        return json;
+    }
+
+    // JsonSerializationDemo.model.WorkRoom
+    // EFFECTS: returns options in this Dish as a JSON array
+    private JSONArray optionsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (AdditionalOptions addOn : options) {
+            jsonArray.put(addOn.toJson());
+        }
+
+        return jsonArray;
     }
 }

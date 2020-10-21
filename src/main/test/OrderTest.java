@@ -27,9 +27,9 @@ public class OrderTest {
         i3 = new Dish("Fruit Tart", 5);
     }
 
-    // constructs an order with an empty itemList and zero total
     @Test
     public void testConstructor() {
+        assertEquals(order.getPreviousOrderId() + 1, order.getId());
         assertEquals(0, order.size());
         assertEquals(0, order.getTotal());
     }
