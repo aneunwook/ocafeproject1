@@ -46,8 +46,7 @@ public class Kiosk {
     private Cafe cafe;
     private Order order;
 
-    // constructor, handleUserInput, parseInputMenus, makePrettyString,
-    // and endProgram taken from FitLifeGymKiosk.ui.Kiosk
+    // constructor, handleUserInput, makePrettyString, and endProgram methods taken from FitLifeGymKiosk.ui.Kiosk
 
     // takes in a cafe and constructs new kiosk with new scanner, cafe, and new order
     public Kiosk(Cafe cafe) {
@@ -465,7 +464,7 @@ public class Kiosk {
 
     //EFFECTS: stops receiving user input
     public void endProgram() {
-        System.out.println("Quitting...");
+        System.out.println("Thanks for visiting OCafe! See you next time!");
         input.close();
     }
 }
