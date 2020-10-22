@@ -1,4 +1,4 @@
-package test;
+package model;
 
 import model.Account;
 import model.Order;

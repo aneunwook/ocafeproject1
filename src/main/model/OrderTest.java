@@ -1,4 +1,4 @@
-package test;
+package model;
 
 import model.Beverage;
 import model.Dish;
