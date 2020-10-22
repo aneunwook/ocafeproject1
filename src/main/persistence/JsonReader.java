@@ -33,8 +33,11 @@ public class JsonReader {
     private String readFile(String source) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
 
-        try (Stream<String> stream = Files.lines(Paths.get(source), StandardCharsets.UTF_8)) {
+        Stream<String> stream = Files.lines(Paths.get(source), StandardCharsets.UTF_8);
+        try {
             stream.forEach(s -> contentBuilder.append(s));
+        } finally {
+            stream.close();
         }
 
         return contentBuilder.toString();
