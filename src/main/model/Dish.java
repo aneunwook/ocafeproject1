@@ -1,6 +1,7 @@
 package model;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -69,8 +70,13 @@ public class Dish extends MenuItem {
     @Override
     public JSONObject toJson() {
         JSONObject json = super.toJson();
+        json.put("type", "dish");
         json.put("options", optionsToJson());
-        json.put("selected", selected);
+        try {
+            json.put("selected", selected.toJson());
+        } catch (NullPointerException e) {
+            json.put("selected", selected);
+        }
         return json;
     }
 

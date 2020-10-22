@@ -86,10 +86,10 @@ public class Beverage extends MenuItem {
         }
     }
 
-    // JsonSerializationDemo.model.Thingy
     @Override
     public JSONObject toJson() {
         JSONObject json = super.toJson();
+        json.put("type", "beverage");
         json.put("size", size);
         json.put("temperature", temperature);
         return json;

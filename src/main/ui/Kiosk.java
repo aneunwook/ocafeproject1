@@ -15,6 +15,7 @@ public class Kiosk {
     private static final String VIEW_ORDER_COMMAND = "order";
     private static final String CHECKOUT_COMMAND = "checkout";
     private static final String REMOVE_COMMAND = "remove";
+    private static final String QUIT_COMMAND = "quit";
 
     private static final String COFFEE_COMMAND = "coffee";
     private static final String TEA_COMMAND = "tea";
@@ -39,7 +40,6 @@ public class Kiosk {
     private static final String HOT_TEMP_COMMAND = "h";
     private static final String COLD_TEMP_COMMAND = "c";
     private static final String ADD_TO_ORDER_COMMAND = "0";
-    private static final String QUIT_COMMAND = "quit";
 
     private Scanner input;
     private boolean runProgram;
@@ -386,7 +386,7 @@ public class Kiosk {
 
 
     //EFFECTS: adds dish with customization (if any) to order
-    private void parseInputAddDishToOrder(Integer num, Dish dish) throws NullPointerException {
+    private void parseInputAddDishToOrder(Integer num, Dish dish) {
         Dish d = new Dish(dish.getName(), dish.getPrice());
         for (AdditionalOptions addOn : dish.getOptions()) {
             d.addSideToOptions(addOn);
