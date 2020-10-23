@@ -3,7 +3,7 @@ package model;
 import org.json.JSONObject;
 import persistence.Writable;
 
-public class MenuItem implements Writable {
+public abstract class MenuItem implements Writable {
 
     protected String name;
     protected Integer price;        // price in dollars
@@ -23,6 +23,9 @@ public class MenuItem implements Writable {
     public int getPrice() {
         return price;
     }
+
+    //EFFECTS: returns menu item in string format
+    public abstract String toString();
 
     // JsonSerializationDemo.model.Thingy
     @Override

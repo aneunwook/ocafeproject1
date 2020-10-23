@@ -11,11 +11,13 @@ public class Account implements Writable {
 
     private String name;
     private List<Order> history;
+    private String file;
 //    private String address;
 
     public Account(String name) {
         this.name = name;
         history = new ArrayList<>();
+        file = "./data/" + name + ".json";
     }
 
     //MODIFIES: this
@@ -31,6 +33,10 @@ public class Account implements Writable {
 
     public List<Order> getHistory() {
         return history;
+    }
+
+    public String getFile() {
+        return file;
     }
 
     @Override

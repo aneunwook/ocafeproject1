@@ -26,6 +26,7 @@ public class AccountTest {
     public void testConstructor() {
         assertEquals("Vanessa", account.getName());
         assertEquals(0, account.getHistory().size());
+        assertEquals("./data/Vanessa.json", account.getFile());
     }
 
     @Test

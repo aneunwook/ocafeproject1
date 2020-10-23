@@ -1,7 +1,9 @@
 package ui;
 
 import model.*;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,10 +13,16 @@ public class Kiosk {
     private static final String SIGN_IN_COMMAND = "s";
     private static final String CREATE_ACCOUNT_COMMAND = "c";
     private static final String HOME_COMMAND = "home";
+    private static final String HISTORY_COMMAND = "history";
+    private static final String SIGN_OUT_COMMAND = "out";
     private static final String CAFE_MENU_COMMAND = "menu";
     private static final String VIEW_ORDER_COMMAND = "order";
-    private static final String CHECKOUT_COMMAND = "checkout";
     private static final String REMOVE_COMMAND = "remove";
+    private static final String CHECKOUT_COMMAND = "checkout";
+    private static final String TIP_COMMAND = "tip";
+    private static final String PAY_COMMAND = "pay";
+    private static final String SAVE_COMMAND = "save";
+    private static final String DO_NOT_SAVE_COMMAND = "continue";
     private static final String QUIT_COMMAND = "quit";
 
     private static final String COFFEE_COMMAND = "coffee";
@@ -44,6 +52,8 @@ public class Kiosk {
     private Scanner input;
     private boolean runProgram;
     private Cafe cafe;
+    private Account account;
+    private JsonWriter writer;
     private Order order;
 
     // constructor, handleUserInput, makePrettyString, and endProgram methods taken from FitLifeGymKiosk.ui.Kiosk
@@ -58,8 +68,7 @@ public class Kiosk {
 
     //EFFECTS: parses user input until user quits
     public void handleUserInput() {
-        System.out.println("Home Page");
-        homePage();
+        startPage();
         String str;
 
         while (runProgram) {
@@ -79,8 +88,11 @@ public class Kiosk {
                 case CAFE_MENU_COMMAND:
                     displayCafeMenu();
                     break;
+                case CREATE_ACCOUNT_COMMAND:
+                    handleCreateAccount();
+                    break;
                 case HOME_COMMAND:
-                    homePage();
+                    displayAccountHome();
                     break;
                 case VIEW_ORDER_COMMAND:
                     displayOrderSummary();
@@ -88,6 +100,14 @@ public class Kiosk {
                 case REMOVE_COMMAND:
                     displayItemsRemove();
                     break;
+                case CHECKOUT_COMMAND:
+                    handleCheckOut();
+                    break;
+                case PAY_COMMAND:
+                    handlePayment();
+                    break;
+                case SAVE_COMMAND:
+                    saveOrder();
                 case COFFEE_COMMAND:
                     displayCategory(coffee);
                     break;
@@ -122,9 +142,9 @@ public class Kiosk {
         }
     }
 
-    // taken from AccountNotRobust.ui.TellerApp
-    //EFFECTS: displays home page
-    private void homePage() {
+    //AccountNotRobust.ui.TellerApp
+    //EFFECTS: displays start page
+    private void startPage() {
         System.out.println("\nselect from:");
         System.out.println("\t'" + PLACE_ORDER_COMMAND + "' -> place order");
         System.out.println("\t'" + SIGN_IN_COMMAND + "' -> sign in");
@@ -147,6 +167,36 @@ public class Kiosk {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: prompts user to enter info to create an account
+    private void handleCreateAccount() {
+        System.out.println("Please enter your name:");
+        String str = input.nextLine();
+
+        account = new Account(str);
+        writer = new JsonWriter(account.getFile());
+        try {
+            writer.open();
+            writer.write(account);
+            writer.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Your name cannot contain backslashes or quotation marks");
+            handleCreateAccount();
+        }
+
+        System.out.println("\nYour account has been created, " + str + "!\n");
+
+        displayAccountHome();
+    }
+
+    //EFFECTS: displays account home page
+    private void displayAccountHome() {
+        System.out.println("\n" + account.getName() + "'s Account");
+        System.out.println("\t'" + CAFE_MENU_COMMAND + "'    -> cafe menu");
+        System.out.println("\t'" + HISTORY_COMMAND + "' -> order history");
+        System.out.println("\t'" + SIGN_OUT_COMMAND + "'     -> sign out");
+    }
+
     //EFFECTS: displays order summary
     private void displayOrderSummary() {
         System.out.println("\nYour Order Summary:");
@@ -160,10 +210,11 @@ public class Kiosk {
         System.out.println("'" + CHECKOUT_COMMAND + "' -> proceed to payment");
         System.out.println("'" + CAFE_MENU_COMMAND + "'     -> cafe menu");
         System.out.println("'" + HOME_COMMAND + "'     -> home page");
-
     }
 
-    //EFFECTS: displays the list of items that can be removed
+    //MODIFIES: this
+    //EFFECTS: prompts user to select an item to remove,
+    //         if an item is selected, removes it from order
     private void displayItemsRemove() {
         if (order.size() == 0) {
             System.out.println("\nyour order is empty :(");
@@ -172,7 +223,7 @@ public class Kiosk {
             System.out.println("\nselect which item to remove:");
             int i = 0;
             for (MenuItem item : order.getItemList()) {
-                System.out.println("\t" + i + " ->\t$" + item.getPrice() + "\t" + item.getName());
+                System.out.println("\t" + i + " -> $" + item.getPrice() + "\t" + item.getName());
                 i++;
             }
             System.out.println("\nTotal: $" + order.getTotal());
@@ -193,10 +244,45 @@ public class Kiosk {
         }
     }
 
+    //EFFECTS: prompts user to complete the order
+    private void handleCheckOut() {
+        System.out.println("\nCheckout");
+        System.out.println("Total: $" + order.getTotal());
+        System.out.println("\n'" + CAFE_MENU_COMMAND + "' -> add more items");
+        System.out.println("\n'" + TIP_COMMAND + "'  -> add a tip :)");
+        System.out.println("'" + PAY_COMMAND + "'  -> confirm payment");
+    }
+
+    //MODIFIES: this
+    //EFFECTS: makes purchase and prompts to save order !!!change after making card
+    private void handlePayment() {
+        //process payment using card...
+        //assign date to order right after payment
+        System.out.println("Your order is complete, enjoy!");
+        System.out.println("\nWould you like to save this order?");
+        System.out.println("-> '" + SAVE_COMMAND + "'");
+        System.out.println("-> '" + DO_NOT_SAVE_COMMAND + "'");
+    }
+
+    //MODIFIES: this
+    //EFFECTS: saves order to account history
+    private void saveOrder() {
+        account.addOrder(order);
+        try {
+            writer.open();
+            writer.write(account);
+            writer.close();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Order could not be saved");
+        }
+
+    }
+
     //EFFECTS: displays menu items in a category
     private void displayCategory(String[] category) {
         System.out.println("\nselect from:");
-        Integer size = category.length;
+        int size = category.length;
         for (int i = 0; i < size; i++) {
             System.out.println("\t'" + i + "' -> " + category[i] + "");
         }
@@ -343,6 +429,7 @@ public class Kiosk {
     }
 
 
+    //MODIFIES: this
     //EFFECTS: adds beverage with customization (if any) to order
     private void parseInputAddBeverageToOrder(Beverage beverage) {
         String str = input.next();
@@ -367,6 +454,7 @@ public class Kiosk {
         }
     }
 
+    //MODIFIES: this
     //EFFECTS: extends parseInputAddBeverageToOrder
     private void parseInputAddBeverageToOrder2(Beverage b, String str) {
         switch (str) {
@@ -384,6 +472,7 @@ public class Kiosk {
     }
 
 
+    //MODIFIES: this
     //EFFECTS: adds dish with customization (if any) to order
     private void parseInputAddDishToOrder(Integer num, Dish dish) {
         Dish d = new Dish(dish.getName(), dish.getPrice());
@@ -421,6 +510,7 @@ public class Kiosk {
         System.out.println("\n'" + ADD_TO_ORDER_COMMAND + "' -> add " + item.getName() + " to order");
     }
 
+    //MODIFIES: this
     //EFFECTS: prints line to confirm item has been added to order
     private void addItemAndPrintConfirmation(String command, MenuItem item) {
         order.addItem(item);
@@ -436,7 +526,7 @@ public class Kiosk {
     //         if not, returns null
     private Beverage getBeverageByName(String name, List<Beverage> category) {
         for (Beverage b : category) {
-            if (name == b.getName()) {
+            if (name.equals(b.getName())) {
                 return b;
             }
         }
@@ -447,7 +537,7 @@ public class Kiosk {
     //         if not, returns null
     private Dish getDishByName(String name, List<Dish> category) {
         for (Dish d : category) {
-            if (name == d.getName()) {
+            if (name.equals(d.getName())) {
                 return d;
             }
         }

@@ -127,6 +127,27 @@ public class BeverageTest {
         assertEquals(3, beverage.getPrice());
     }
 
+    @Test
+    public void testToStringNotCustomizable() {
+        assertTrue(beverage.setTemperature(Beverage.NOT_CUSTOMIZABLE));
+        assertTrue(beverage.setSize(Beverage.NOT_CUSTOMIZABLE));
+        //to string
+        assertEquals("$3\t\tCoffee", beverage.toString());
+    }
 
+    @Test
+    public void testToStringSizeCustomizable() {
+        assertTrue(beverage.setTemperature(Beverage.NOT_CUSTOMIZABLE));
+        //to string
+        assertEquals("$3\t\tCoffee\n   \t\t regular", beverage.toString());
+    }
+
+    @Test
+    public void testToStringTemperatureCustomizable() {
+        assertTrue(beverage.setTemperature(Beverage.EXTRA));
+        assertTrue(beverage.setSize(Beverage.NOT_CUSTOMIZABLE));
+        //to string
+        assertEquals("$4\t\tCoffee\n   \t\t cold", beverage.toString());
+    }
 
 }

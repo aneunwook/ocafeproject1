@@ -1,7 +1,6 @@
 package model;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -50,6 +49,14 @@ public class Dish extends MenuItem {
             return true;
         }
         return false;
+    }
+
+    public String toString() {
+        try {
+            return String.format("$" + price + "\t\t" + name + "\n   \t\t " + selected.getName());
+        } catch (NullPointerException e) {
+            return String.format("$" + price + "\t\t" + name);
+        }
     }
 
     //EFFECTS: returns options

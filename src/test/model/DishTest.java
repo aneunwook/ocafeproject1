@@ -116,4 +116,18 @@ public class DishTest {
         assertNull(dish.getSelected());
         assertEquals(10, dish.getPrice());
     }
+
+    @Test
+    public void testToString() {
+        dish.addSideToOptions(s1);
+        dish.addSideToOptions(s2);
+        dish.addSideToOptions(s3);
+
+        //null selected
+        assertEquals("$10\t\tSalad", dish.toString());
+
+        //select an add-on
+        assertTrue(dish.selectAddOn(s1));
+        assertEquals("$16\t\tSalad\n   \t\t Steak", dish.toString());
+    }
 }

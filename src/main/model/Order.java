@@ -4,9 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class Order implements Writable {
 
@@ -14,7 +12,7 @@ public class Order implements Writable {
     private int id;                             // this order ID
     private List<MenuItem> itemList;            // list of items in order
     private int total;                          // total value of items in itemList in dollars
-//    private Date date;
+    private Calendar date;
 //    private String address;
 
     // constructs an order with an empty itemList and zero total;
@@ -39,6 +37,18 @@ public class Order implements Writable {
             itemList.remove(item);
             total -= item.price;
         }
+    }
+
+    //MODIFIES: this
+    //EFFECTS: sets date to the date when called
+    public int setDate() {
+        date = new GregorianCalendar();
+        return date.get(Calendar.DAY_OF_WEEK);
+    }
+
+    //EFFECTS: returns order in string format
+    public String toString() {
+        date.get(Calendar.DAY_OF_WEEK);
     }
 
     //EFFECTS: returns the item in itemList if already there,

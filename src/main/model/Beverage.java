@@ -13,7 +13,9 @@ public class Beverage extends MenuItem {
 
     public static final int UPGRADE_PRICE = 1;
 
-    // constructs a drink with name, price
+    //REQUIRES: a beverage cannot be created with a customizable size AND customizable temperature,
+    //          only one can be customized or both cannot be customized
+    //EFFECTS: constructs a beverage with name, price, and customization options
     public Beverage(String name, Integer price, Integer size, Integer temperature) {
         super(name, price);
         this.size = size;
@@ -50,6 +52,25 @@ public class Beverage extends MenuItem {
         return false;
     }
 
+    public String toString() {
+        if (!isSizeCustomizable() && !isTemperatureCustomizable()) {
+            return "$" + price + "\t\t" + name;
+        } else if (isSizeCustomizable()) {
+            if (size == 0) {
+                return toStringCustomizable("regular");
+            } else {
+                return toStringCustomizable("large");
+            }
+        } else {
+            if (temperature == 0) {
+                return toStringCustomizable("hot");
+            } else {
+                return toStringCustomizable("cold");
+            }
+        }
+    }
+
+    //getters
     //EFFECTS: returns drink size or NOT_CUSTOMIZABLE
     public int getSize() {
         return size;
@@ -84,6 +105,11 @@ public class Beverage extends MenuItem {
         } else if (i == REGULAR) {
             price -= UPGRADE_PRICE;
         }
+    }
+
+    //EFFECTS: returns customizable beverages in string format
+    private String toStringCustomizable(String s) {
+        return "$" + price + "\t\t" + name + "\n   \t\t " + s;
     }
 
     @Override
