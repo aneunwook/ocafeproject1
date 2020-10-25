@@ -59,11 +59,11 @@ public class Beverage extends MenuItem {
             if (size == 0) {
                 return toStringCustomizable("regular");
             } else {
-                return toStringCustomizable("large");
+                return toStringCustomizable("large");       //add test case!!!
             }
         } else {
             if (temperature == 0) {
-                return toStringCustomizable("hot");
+                return toStringCustomizable("hot");         //add test case!!!
             } else {
                 return toStringCustomizable("cold");
             }

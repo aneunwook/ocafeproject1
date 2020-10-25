@@ -4,11 +4,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
 
+import java.time.DayOfWeek;
 import java.util.*;
 
 public class Order implements Writable {
 
     private static int PreviousOrderId = 0;     // latest Order ID
+    protected static final String[] days = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+
     private int id;                             // this order ID
     private List<MenuItem> itemList;            // list of items in order
     private int total;                          // total value of items in itemList in dollars
@@ -40,74 +43,27 @@ public class Order implements Writable {
     }
 
     //MODIFIES: this
-    //EFFECTS: sets date to the date when called
-    public int setDate() {
+    //EFFECTS: sets date to the date when called,
+    //         date is set as order payment is processed
+    public void setDate() {
         date = new GregorianCalendar();
-        return date.get(Calendar.DAY_OF_WEEK);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: sets date to year, month, day of month, hour of day, and minute
+    public void setDate(int year, int month, int dayOfMonth, int hourOfDay, int minute) {
+        date = new GregorianCalendar();
+        date.set(year, month, dayOfMonth, hourOfDay, minute);
     }
 
     //EFFECTS: returns order in string format
     public String toString() {
-        date.get(Calendar.DAY_OF_WEEK);
-    }
-
-    //EFFECTS: returns the item in itemList if already there,
-    //         if not, returns null
-    public MenuItem getItemByName(String name) {
-        for (MenuItem i : itemList) {
-            if (name == i.name) {
-                return i;
-            }
+        String weekDay = days[getDayOfWeek()];
+        String items = "";
+        for (MenuItem item : itemList) {
+            items = items + item.toString() + "\n";
         }
-        return null;
-    }
-
-
-    //getters
-    public int getPreviousOrderId() {
-        return PreviousOrderId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    //EFFECTS: returns order total
-    public int getTotal() {
-        return total;
-    }
-
-    //EFFECTS: returns itemList
-    public List<MenuItem> getItemList() {
-        return itemList;
-    }
-
-    //EFFECTS: returns a list of item names
-    public List<String> getItemNames() {
-        List<String> names = new ArrayList<>();
-        for (MenuItem i : itemList) {
-            names.add(i.name);
-        }
-        return names;
-    }
-
-    //EFFECTS: returns a list of item prices
-    public List<Integer> getItemPrices() {
-        List<Integer> prices = new ArrayList<>();
-        for (MenuItem i : itemList) {
-            prices.add(i.price);
-        }
-        return prices;
-    }
-
-    //EFFECTS: returns number of items in itemList
-    public int size() {
-        return itemList.size();
-    }
-
-    //EFFECTS: returns true if itemList contains item
-    public boolean contains(MenuItem item) {
-        return itemList.contains(item);
+        return "Your " + weekDay + " " + getAmPm() + " order:\n" + items + "\nTotal: $" + total;
     }
 
     @Override
@@ -115,12 +71,13 @@ public class Order implements Writable {
         JSONObject json = new JSONObject();
         json.put("id", id);             //!!!
         json.put("itemList", itemListToJson());
+        json.put("date", dateToJson());
         json.put("total", total);
         return json;
     }
 
     // JsonSerializationDemo.model.WorkRoom
-    // EFFECTS: returns options in this Dish as a JSON array
+    // EFFECTS: returns itemList as a JSON array
     private JSONArray itemListToJson() {
         JSONArray jsonArray = new JSONArray();
 
@@ -129,5 +86,83 @@ public class Order implements Writable {
         }
 
         return jsonArray;
+    }
+
+    //EFFECTS: returns date as a JSONObject
+    private JSONObject dateToJson() {
+        JSONObject json = new JSONObject();
+        json.put("year", date.get(Calendar.YEAR));
+        json.put("month", date.get(Calendar.MONTH));
+        json.put("day", date.get(Calendar.DAY_OF_MONTH));
+        json.put("hour", date.get(Calendar.HOUR_OF_DAY));
+        json.put("minute", date.get(Calendar.MINUTE));
+        return json;
+    }
+
+    //getters
+
+    public MenuItem getItemByName(String name) {
+        for (MenuItem i : itemList) {
+            if (name.equals(i.name)) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    public int getDayOfWeek() {
+        return date.get(Calendar.DAY_OF_WEEK) - 1;
+    }
+
+    public boolean isDateAM() {
+        return date.get(Calendar.AM_PM) == Calendar.AM;
+    }
+
+    public String getAmPm() {
+        if (isDateAM()) {
+            return "AM";
+        } else {
+            return "PM";
+        }
+    }
+
+    public int getPreviousOrderId() {
+        return PreviousOrderId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public List<MenuItem> getItemList() {
+        return itemList;
+    }
+
+    public List<String> getItemNames() {
+        List<String> names = new ArrayList<>();
+        for (MenuItem i : itemList) {
+            names.add(i.name);
+        }
+        return names;
+    }
+
+    public List<Integer> getItemPrices() {
+        List<Integer> prices = new ArrayList<>();
+        for (MenuItem i : itemList) {
+            prices.add(i.price);
+        }
+        return prices;
+    }
+
+    public int size() {
+        return itemList.size();
+    }
+
+    public boolean contains(MenuItem item) {
+        return itemList.contains(item);
     }
 }

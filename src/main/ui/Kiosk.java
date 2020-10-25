@@ -1,11 +1,12 @@
 package ui;
 
 import model.*;
+import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import java.io.FileNotFoundException;
-import java.util.List;
-import java.util.Scanner;
+import java.io.IOException;
+import java.util.*;
 
 public class Kiosk {
 
@@ -38,7 +39,7 @@ public class Kiosk {
             "Honey Ginger Tea", "Fruit Tea", "Kumquat Chrysanthemum", "Hibiscus Kombucha", "Mango Kale Smoothie"};
     private static final String[] brunch = {
             "Thai Green Curry Seafood Linguine", "Eggs Benedict", "Omurice", "Butternut Squash Risotto",
-            "Japanese Curry Rice", "Dutch Cheese Sandwich", "Spring Salad", "Butter Croissant "};
+            "Japanese Curry Rice", "Dutch Cheese Sandwich", "Spring Salad", "Butter Croissant"};
     private static final String[] dessert = {
             "Kinako Mochi", "Raspberry Pistachio Cream Tart", "Banana Cream Pie", "Sweet Potato Crepe",
             "Hojicha Parfait", "Chestnut Cake", "Tofu Ice Cream"};
@@ -46,14 +47,16 @@ public class Kiosk {
     private static final String REGULAR_SIZE_COMMAND = "r";
     private static final String LARGE_SIZE_COMMAND = "l";
     private static final String HOT_TEMP_COMMAND = "h";
-    private static final String COLD_TEMP_COMMAND = "c";
+    private static final String COLD_TEMP_COMMAND = "i";
     private static final String ADD_TO_ORDER_COMMAND = "0";
 
     private Scanner input;
     private boolean runProgram;
     private Cafe cafe;
     private Account account;
+    private ArrayList<String> accountList;
     private JsonWriter writer;
+    private JsonReader reader;
     private Order order;
 
     // constructor, handleUserInput, makePrettyString, and endProgram methods taken from FitLifeGymKiosk.ui.Kiosk
@@ -63,6 +66,7 @@ public class Kiosk {
         input = new Scanner(System.in);
         runProgram = true;
         this.cafe = cafe;
+//        accountList = new AbstractSet<String>()
         order = new Order();
     }
 
@@ -91,8 +95,14 @@ public class Kiosk {
                 case CREATE_ACCOUNT_COMMAND:
                     handleCreateAccount();
                     break;
+                case SIGN_IN_COMMAND:
+                    handleSignIn();
+                    break;
                 case HOME_COMMAND:
                     displayAccountHome();
+                    break;
+                case HISTORY_COMMAND:
+                    displayOrderHistory();
                     break;
                 case VIEW_ORDER_COMMAND:
                     displayOrderSummary();
@@ -108,6 +118,7 @@ public class Kiosk {
                     break;
                 case SAVE_COMMAND:
                     saveOrder();
+                    break;
                 case COFFEE_COMMAND:
                     displayCategory(coffee);
                     break;
@@ -173,28 +184,70 @@ public class Kiosk {
         System.out.println("Please enter your name:");
         String str = input.nextLine();
 
-        account = new Account(str);
-        writer = new JsonWriter(account.getFile());
         try {
+            account = new Account(str);
+//            accountList.add(str);
+            writer = new JsonWriter(account.getFile());
+            reader = new JsonReader(account.getFile());
             writer.open();
             writer.write(account);
             writer.close();
+
+            System.out.println("Your account has been created, " + str + "!");
+            displayAccountHome();
+
         } catch (FileNotFoundException e) {
             System.out.println("Your name cannot contain backslashes or quotation marks");
             handleCreateAccount();
         }
+    }
 
-        System.out.println("\nYour account has been created, " + str + "!\n");
+    //MODIFIES: this
+    //EFFECTS: if account with input name exists, sets account field
+    private void handleSignIn() {
+        System.out.println("Please enter your name:");
+        String str = input.nextLine();
 
-        displayAccountHome();
+        try {
+            writer = new JsonWriter("./data/" + str + ".json");
+            reader = new JsonReader("./data/" + str + ".json");
+            account = reader.read();
+            System.out.println("Welcome back, " + account.getName() + "!");
+            displayAccountHome();
+        } catch (IOException e) {
+            System.out.println("An account with name '" + str + "' cannot be found :(");
+            //try again or create account
+            System.out.println("\n'" + SIGN_IN_COMMAND + "' -> try again");
+            System.out.println("'" + CREATE_ACCOUNT_COMMAND + "' -> create account");
+        }
     }
 
     //EFFECTS: displays account home page
     private void displayAccountHome() {
         System.out.println("\n" + account.getName() + "'s Account");
-        System.out.println("\t'" + CAFE_MENU_COMMAND + "'    -> cafe menu");
+        System.out.println("\n\t'" + CAFE_MENU_COMMAND + "'    -> place order");
         System.out.println("\t'" + HISTORY_COMMAND + "' -> order history");
         System.out.println("\t'" + SIGN_OUT_COMMAND + "'     -> sign out");
+    }
+
+    //EFFECTS: prints order history !!!make another method to print out individual orders
+    private void displayOrderHistory() {
+        try {
+            account = reader.read();
+            if (account.getHistory().size() == 0) {
+                System.out.println("No orders have been saved to your account yet!");
+            } else {
+                System.out.println("\nYour Order History");
+                for (Order o : account.getHistory()) {
+                    System.out.println("\n" + o);
+                }
+            }
+
+            System.out.println("\n\t'" + CAFE_MENU_COMMAND + "' -> place order");
+            System.out.println("\t'" + HOME_COMMAND + "' -> order history");
+        } catch (IOException e) {
+            System.out.println("Account file could not be read");
+        }
     }
 
     //EFFECTS: displays order summary
@@ -208,8 +261,8 @@ public class Kiosk {
             System.out.println("'" + REMOVE_COMMAND + "'   -> select item to remove");
         }
         System.out.println("'" + CHECKOUT_COMMAND + "' -> proceed to payment");
-        System.out.println("'" + CAFE_MENU_COMMAND + "'     -> cafe menu");
-        System.out.println("'" + HOME_COMMAND + "'     -> home page");
+        System.out.println("'" + CAFE_MENU_COMMAND + "'     -> add more items");
+//        System.out.println("'" + HOME_COMMAND + "'     -> home page");
     }
 
     //MODIFIES: this
@@ -223,13 +276,13 @@ public class Kiosk {
             System.out.println("\nselect which item to remove:");
             int i = 0;
             for (MenuItem item : order.getItemList()) {
-                System.out.println("\t" + i + " -> $" + item.getPrice() + "\t" + item.getName());
+                System.out.println("\t" + i + " -> $" + item.getPrice() + "\t\t" + item.getName());
                 i++;
             }
             System.out.println("\nTotal: $" + order.getTotal());
             System.out.println("'" + CHECKOUT_COMMAND + "' -> proceed to payment");
             System.out.println("'" + CAFE_MENU_COMMAND + "'     -> cafe menu");
-            System.out.println("'" + HOME_COMMAND + "'     -> home page");
+//            System.out.println("'" + HOME_COMMAND + "'     -> home page");
 
             //handle input
             String s = input.nextLine();
@@ -237,6 +290,7 @@ public class Kiosk {
             try {
                 int num = Integer.parseInt(s);
                 order.removeItem(order.getItemList().get(num));
+                System.out.println("Removed!");
                 displayItemsRemove();
             } catch (NumberFormatException e) {
                 parseInputNavigate(s);
@@ -248,35 +302,38 @@ public class Kiosk {
     private void handleCheckOut() {
         System.out.println("\nCheckout");
         System.out.println("Total: $" + order.getTotal());
-        System.out.println("\n'" + CAFE_MENU_COMMAND + "' -> add more items");
         System.out.println("\n'" + TIP_COMMAND + "'  -> add a tip :)");
         System.out.println("'" + PAY_COMMAND + "'  -> confirm payment");
+        System.out.println("'" + CAFE_MENU_COMMAND + "' -> add more items");
     }
 
     //MODIFIES: this
     //EFFECTS: makes purchase and prompts to save order !!!change after making card
     private void handlePayment() {
         //process payment using card...
-        //assign date to order right after payment
-        System.out.println("Your order is complete, enjoy!");
+        order.setDate();
+        System.out.println("\nYour order is complete, enjoy!");
         System.out.println("\nWould you like to save this order?");
         System.out.println("-> '" + SAVE_COMMAND + "'");
         System.out.println("-> '" + DO_NOT_SAVE_COMMAND + "'");
     }
 
     //MODIFIES: this
-    //EFFECTS: saves order to account history
+    //EFFECTS: saves order to account history and prints order summary
     private void saveOrder() {
         account.addOrder(order);
         try {
             writer.open();
             writer.write(account);
             writer.close();
+            System.out.println("\nSaved!");
+            System.out.println(order);
+            System.out.println("-> '" + HOME_COMMAND + "'");
+            System.out.println("-> '" + CAFE_MENU_COMMAND + "'");
 
         } catch (FileNotFoundException e) {
             System.out.println("Order could not be saved");
         }
-
     }
 
     //EFFECTS: displays menu items in a category
@@ -346,7 +403,7 @@ public class Kiosk {
             case "Japanese Curry Rice":
             case "Dutch Cheese Sandwich":
             case "Spring Salad":
-            case "Butter Croissant ":
+            case "Butter Croissant":
                 displayDishDetails(str, cafe.brunch);
                 break;
             default:
@@ -389,10 +446,10 @@ public class Kiosk {
                 System.out.println("'" + LARGE_SIZE_COMMAND + "' -> add large " + beverage.getName() + " to order");
             } else {
                 System.out.println("hot \t\t$" + beverage.getPrice() + "");
-                System.out.println("cold\t\t$" + (beverage.getPrice() + Beverage.UPGRADE_PRICE) + "");
+                System.out.println("iced\t\t$" + (beverage.getPrice() + Beverage.UPGRADE_PRICE) + "");
 
                 System.out.println("\n'" + HOT_TEMP_COMMAND + "' -> add hot " + beverage.getName() + " to order");
-                System.out.println("'" + COLD_TEMP_COMMAND + "' -> add cold " + beverage.getName() + " to order");
+                System.out.println("'" + COLD_TEMP_COMMAND + "' -> add iced " + beverage.getName() + " to order");
             }
         }
         printGeneralInstructions();
@@ -460,7 +517,7 @@ public class Kiosk {
         switch (str) {
             case COLD_TEMP_COMMAND:
                 b.setTemperature(Beverage.EXTRA);
-                addItemAndPrintConfirmation("cold", b);
+                addItemAndPrintConfirmation("iced", b);
                 break;
             case ADD_TO_ORDER_COMMAND:
                 addItemAndPrintConfirmation(str, b);
@@ -506,7 +563,6 @@ public class Kiosk {
     //EFFECTS: displays details for non customizable menu items
     private void displayItemNotCustomizableDetails(MenuItem item) {
         System.out.println("\n" + item.getName() + "\t\t$" + item.getPrice() + "");
-//        System.out.println("\nthis item is not customizable :(");
         System.out.println("\n'" + ADD_TO_ORDER_COMMAND + "' -> add " + item.getName() + " to order");
     }
 
@@ -517,7 +573,7 @@ public class Kiosk {
         if (command.equals(ADD_TO_ORDER_COMMAND)) {
             System.out.println("\n" + item.getName() + " has been added to your order!");
         } else {
-            System.out.println("\n" + command + " " + item.getName() + " has been added to your order!");
+            System.out.println(command + " " + item.getName() + " has been added to your order!");
         }
         printGeneralInstructions();
     }

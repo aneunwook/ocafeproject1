@@ -134,7 +134,7 @@ public class Cafe {
         AdditionalOptions chicken = new AdditionalOptions("Chicken Breast", 4);
         AdditionalOptions tuna = new AdditionalOptions("Albacore Tuna", 5);
         AdditionalOptions shrimp = new AdditionalOptions("Grilled Shrimp", 5);
-        AdditionalOptions almond = new AdditionalOptions("Almond Croissant", 1);
+        AdditionalOptions almond = new AdditionalOptions("Almond", 1);
 
         additionalOptions.add(bacon);
         additionalOptions.add(salmon);

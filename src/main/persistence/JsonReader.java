@@ -44,75 +44,90 @@ public class JsonReader {
     }
 
     // EFFECTS: parses account from JSON object and returns it
-    private Account parseAccount(JSONObject jsonObjectAccount) {
-        String name = jsonObjectAccount.getString("name");
+    private Account parseAccount(JSONObject jsonAccount) {
+        String name = jsonAccount.getString("name");
         Account account = new Account(name);
-        addOrders(account, jsonObjectAccount);
+        addOrders(account, jsonAccount);
         return account;
     }
 
     // MODIFIES: account
     // EFFECTS: parses order history from JSON object and adds them to account
-    private void addOrders(Account account, JSONObject jsonObjectAccount) {
-        JSONArray jsonArray = jsonObjectAccount.getJSONArray("history");
+    private void addOrders(Account account, JSONObject jsonAccount) {
+        JSONArray jsonArray = jsonAccount.getJSONArray("history");
         for (Object json : jsonArray) {
-            JSONObject jsonObjectOrder = (JSONObject) json;
-            addOrder(account, jsonObjectOrder);
+            JSONObject jsonOrder = (JSONObject) json;
+            addOrder(account, jsonOrder);
         }
     }
 
     // MODIFIES: account
     // EFFECTS: parses an order from JSON object and adds it to account
-    private void addOrder(Account account, JSONObject jsonObjectOrder) {
+    private void addOrder(Account account, JSONObject jsonOrder) {
         Order order = new Order();
-        JSONArray jsonArray = jsonObjectOrder.getJSONArray("itemList");
+        setOrderDate(jsonOrder, order);
+
+        JSONArray jsonArray = jsonOrder.getJSONArray("itemList");
         for (Object json : jsonArray) {
-            JSONObject jsonObjectItem = (JSONObject) json;
-            addItem(order, jsonObjectItem);
+            JSONObject jsonItem = (JSONObject) json;
+            addItem(order, jsonItem);
         }
         account.addOrder(order);
     }
 
+    // MODIFIES: account
+    // EFFECTS: parses a Calendar from JSON object and sets it to order
+    private void setOrderDate(JSONObject jsonOrder, Order order) {
+        JSONObject jsonDate = jsonOrder.getJSONObject("date");
+        int year = jsonDate.getInt("year");
+        int month = jsonDate.getInt("month");
+        int day = jsonDate.getInt("day");
+        int hour = jsonDate.getInt("hour");
+        int minute = jsonDate.getInt("minute");
+
+        order.setDate(year, month, day, hour, minute);
+    }
+
     // MODIFIES: order
     // EFFECTS: parses a menu item from JSON object and adds it to order
-    private void addItem(Order order, JSONObject jsonObjectItem) {
-        String name = jsonObjectItem.getString("name");
-        int price = jsonObjectItem.getInt("price");
-        String type = jsonObjectItem.getString("type");
+    private void addItem(Order order, JSONObject jsonItem) {
+        String name = jsonItem.getString("name");
+        int price = jsonItem.getInt("price");
+        String type = jsonItem.getString("type");
         if (type.equals("beverage")) {
-            int size = jsonObjectItem.getInt("size");
-            int temperature = jsonObjectItem.getInt("temperature");
+            int size = jsonItem.getInt("size");
+            int temperature = jsonItem.getInt("temperature");
             Beverage beverage = new Beverage(name, price, size, temperature);
             order.addItem(beverage);
         } else {
             Dish dish = new Dish(name, price);
             try {
-                JSONObject jsonObjectSelected = jsonObjectItem.getJSONObject("selected");
-                AdditionalOptions selected = parseAdditionalOptions(jsonObjectSelected);
+                JSONObject jsonSelected = jsonItem.getJSONObject("selected");
+                AdditionalOptions selected = parseAdditionalOptions(jsonSelected);
                 dish.selectAddOn(selected);
             } catch (JSONException e) {
                 // do nothing
             }
-            addOptions(jsonObjectItem, dish);
+            addOptions(jsonItem, dish);
             order.addItem(dish);
         }
     }
 
     // MODIFIES: dish
     // EFFECTS: parses add-ons from JSON object and adds it to dish
-    private void addOptions(JSONObject jsonObject, Dish dish) {
-        JSONArray jsonArray = jsonObject.getJSONArray("options");
+    private void addOptions(JSONObject jsonItem, Dish dish) {
+        JSONArray jsonArray = jsonItem.getJSONArray("options");
         for (Object json : jsonArray) {
-            JSONObject jsonObjectAddOn = (JSONObject) json;
-            AdditionalOptions addOn = parseAdditionalOptions(jsonObjectAddOn);
+            JSONObject jsonAddOn = (JSONObject) json;
+            AdditionalOptions addOn = parseAdditionalOptions(jsonAddOn);
             dish.addSideToOptions(addOn);
         }
     }
 
     // EFFECTS: parses an add-on from JSON object and returns it
-    private AdditionalOptions parseAdditionalOptions(JSONObject jsonObject) {
-        String name = jsonObject.getString("name");
-        int price = jsonObject.getInt("price");
+    private AdditionalOptions parseAdditionalOptions(JSONObject jsonAddOn) {
+        String name = jsonAddOn.getString("name");
+        int price = jsonAddOn.getInt("price");
         AdditionalOptions addOn = new AdditionalOptions(name, price);
         return addOn;
     }

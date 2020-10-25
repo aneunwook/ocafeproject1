@@ -53,9 +53,9 @@ public class Dish extends MenuItem {
 
     public String toString() {
         try {
-            return String.format("$" + price + "\t\t" + name + "\n   \t\t " + selected.getName());
+            return "$" + price + "\t\t" + name + "\n   \t\t " + selected.getName();
         } catch (NullPointerException e) {
-            return String.format("$" + price + "\t\t" + name);
+            return "$" + price + "\t\t" + name;
         }
     }
 

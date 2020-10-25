@@ -1,4 +1,48 @@
 {
     "name": "Vanessa",
-    "history": []
+    "history": [{
+        "total": 34,
+        "itemList": [
+            {
+                "size": -1,
+                "price": 7,
+                "name": "Hojicha Latte",
+                "temperature": 1,
+                "type": "beverage"
+            },
+            {
+                "size": 0,
+                "price": 6,
+                "name": "Mango Kale Smoothie",
+                "temperature": -1,
+                "type": "beverage"
+            },
+            {
+                "price": 16,
+                "name": "Japanese Curry Rice",
+                "options": [
+                    {
+                        "price": 4,
+                        "name": "Fried Pork Cutlet"
+                    },
+                    {
+                        "price": 3,
+                        "name": "Assorted Tempura"
+                    }
+                ],
+                "type": "dish",
+                "selected": {
+                    "price": 4,
+                    "name": "Fried Pork Cutlet"
+                }
+            },
+            {
+                "price": 5,
+                "name": "Chestnut Cake",
+                "options": [],
+                "type": "dish"
+            }
+        ],
+        "id": 1
+    }]
 }

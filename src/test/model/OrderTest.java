@@ -1,13 +1,12 @@
 package model;
 
-import model.Beverage;
-import model.Dish;
-import model.MenuItem;
-import model.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,7 +28,7 @@ public class OrderTest {
 
     @Test
     public void testConstructor() {
-        assertEquals(order.getPreviousOrderId() + 1, order.getId());
+        assertEquals(order.getPreviousOrderId(), order.getId());
         assertEquals(0, order.size());
         assertEquals(0, order.getTotal());
     }
@@ -172,4 +171,27 @@ public class OrderTest {
         }
     }
 
+    @Test
+    public void testSetDate() {
+        //set the date
+        order.setDate();
+
+        //check day of week and AM/PM
+        Calendar testDate = new GregorianCalendar();
+        assertEquals(testDate.get(Calendar.DAY_OF_WEEK), order.getDayOfWeek());
+        assertEquals(testDate.get(Calendar.AM_PM) == Calendar.AM, order.isDateAM());
+    }
+
+    @Test
+    public void testToString() {
+        order.setDate();
+        String items = "";
+        for (MenuItem item : order.getItemList()) {
+            items = items + item.toString() + "\n";
+        }
+
+        assertEquals("Your " + Order.days[order.getDayOfWeek()] + " " + order.getAmPm() + " order:\n" + items
+                + "\nTotal: $" + order.getTotal(), order.toString());
+
+    }
 }

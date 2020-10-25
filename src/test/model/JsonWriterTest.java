@@ -1,8 +1,11 @@
-package persistence;
+package model;
 
 import model.Account;
 import model.Order;
 import org.junit.jupiter.api.Test;
+import persistence.JsonReader;
+import persistence.JsonTest;
+import persistence.JsonWriter;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-//JsonSerializationDemo.persistence.JsonWriterTest
+//JsonSerializationDemo.model.JsonWriterTest
 class JsonWriterTest extends JsonTest {
 
     @Test
