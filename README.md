@@ -28,5 +28,5 @@ for example: desserts.
 - As a user, I want to be able to select a menu item and customize it, for example the size of a beverage or the add-on
 for a dish.
 - As a user, I want to be able to create an account 
-- As a user, I want to be able to save my orders under an individually associated account.
+- As a user, I want to be able to save my orders to my account.
 - As a user, I want to be able to view previous orders made under the same account.

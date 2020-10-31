@@ -178,7 +178,7 @@ public class OrderTest {
 
         //check day of week and AM/PM
         Calendar testDate = new GregorianCalendar();
-        assertEquals(testDate.get(Calendar.DAY_OF_WEEK), order.getDayOfWeek());
+        assertEquals(testDate.get(Calendar.DAY_OF_WEEK) - 1, order.getDayOfWeek());
         assertEquals(testDate.get(Calendar.AM_PM) == Calendar.AM, order.isDateAM());
     }
 
