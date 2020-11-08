@@ -1,0 +1,48 @@
+{
+    "name": "Mehak",
+    "history": [{
+        "date": {
+            "month": 10,
+            "hour": 15,
+            "year": 2020,
+            "day": 4,
+            "minute": 6
+        },
+        "total": 26,
+        "itemList": [
+            {
+                "price": 15,
+                "name": "Japanese Curry Rice",
+                "options": [
+                    {
+                        "price": 4,
+                        "name": "Fried Pork Cutlet"
+                    },
+                    {
+                        "price": 3,
+                        "name": "Assorted Tempura"
+                    }
+                ],
+                "type": "dish",
+                "selected": {
+                    "price": 3,
+                    "name": "Assorted Tempura"
+                }
+            },
+            {
+                "size": 1,
+                "price": 6,
+                "name": "Chai Latte",
+                "temperature": -1,
+                "type": "beverage"
+            },
+            {
+                "price": 5,
+                "name": "Kinako Mochi",
+                "options": [],
+                "type": "dish"
+            }
+        ],
+        "id": 1
+    }]
+}

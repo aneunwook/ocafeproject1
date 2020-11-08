@@ -7,6 +7,7 @@ import persistence.Writable;
 import java.util.ArrayList;
 import java.util.List;
 
+// Represents an account containing a user's order history
 public class Account implements Writable {
 
     private String name;

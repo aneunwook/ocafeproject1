@@ -1,48 +1,83 @@
 {
     "name": "Vanessa",
-    "history": [{
-        "total": 34,
-        "itemList": [
-            {
-                "size": -1,
-                "price": 7,
-                "name": "Hojicha Latte",
-                "temperature": 1,
-                "type": "beverage"
+    "history": [
+        {
+            "date": {
+                "month": 10,
+                "hour": 14,
+                "year": 2020,
+                "day": 4,
+                "minute": 17
             },
-            {
-                "size": 0,
-                "price": 6,
-                "name": "Mango Kale Smoothie",
-                "temperature": -1,
-                "type": "beverage"
-            },
-            {
-                "price": 16,
-                "name": "Japanese Curry Rice",
-                "options": [
-                    {
-                        "price": 4,
-                        "name": "Fried Pork Cutlet"
-                    },
-                    {
-                        "price": 3,
-                        "name": "Assorted Tempura"
-                    }
-                ],
-                "type": "dish",
-                "selected": {
-                    "price": 4,
-                    "name": "Fried Pork Cutlet"
+            "total": 20,
+            "itemList": [
+                {
+                    "size": -1,
+                    "price": 3,
+                    "name": "Espresso",
+                    "temperature": -1,
+                    "type": "beverage"
+                },
+                {
+                    "price": 17,
+                    "name": "Eggs Benedict",
+                    "options": [
+                        {
+                            "price": 3,
+                            "name": "Canadian Bacon"
+                        },
+                        {
+                            "price": 4,
+                            "name": "Smoked Salmon"
+                        }
+                    ],
+                    "type": "dish"
                 }
+            ],
+            "id": 2
+        },
+        {
+            "date": {
+                "month": 10,
+                "hour": 15,
+                "year": 2020,
+                "day": 4,
+                "minute": 16
             },
-            {
-                "price": 5,
-                "name": "Chestnut Cake",
-                "options": [],
-                "type": "dish"
-            }
-        ],
-        "id": 1
-    }]
+            "total": 20,
+            "itemList": [
+                {
+                    "size": -1,
+                    "price": 4,
+                    "name": "Americano",
+                    "temperature": 1,
+                    "type": "beverage"
+                },
+                {
+                    "price": 16,
+                    "name": "Spring Salad",
+                    "options": [
+                        {
+                            "price": 4,
+                            "name": "Chicken Breast"
+                        },
+                        {
+                            "price": 5,
+                            "name": "Albacore Tuna"
+                        },
+                        {
+                            "price": 5,
+                            "name": "Grilled Shrimp"
+                        }
+                    ],
+                    "type": "dish",
+                    "selected": {
+                        "price": 5,
+                        "name": "Albacore Tuna"
+                    }
+                }
+            ],
+            "id": 1
+        }
+    ]
 }

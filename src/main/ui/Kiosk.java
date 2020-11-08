@@ -98,29 +98,11 @@ public class Kiosk {
                 case SIGN_IN_COMMAND:
                     handleSignIn();
                     break;
+                case SIGN_OUT_COMMAND:
+                    accountSignOut();
+                    break;
                 case HOME_COMMAND:
                     displayAccountHome();
-                    break;
-                case HISTORY_COMMAND:
-                    displayOrderHistory();
-                    break;
-                case VIEW_ORDER_COMMAND:
-                    displayOrderSummary();
-                    break;
-                case REMOVE_COMMAND:
-                    displayItemsRemove();
-                    break;
-                case CHECKOUT_COMMAND:
-                    handleCheckOut();
-                    break;
-                case PAY_COMMAND:
-                    handlePayment();
-                    break;
-                case SAVE_COMMAND:
-                    saveOrder();
-                    break;
-                case COFFEE_COMMAND:
-                    displayCategory(coffee);
                     break;
                 default:
                     parseInputNavigate2(str);
@@ -132,12 +114,54 @@ public class Kiosk {
     //EFFECTS: extends parseInputNavigate
     private void parseInputNavigate2(String str) {
         switch (str) {
+            case HISTORY_COMMAND:
+                displayOrderHistory();
+                break;
+            case VIEW_ORDER_COMMAND:
+                displayOrderSummary();
+                break;
+            case REMOVE_COMMAND:
+                displayItemsRemove();
+                break;
+            case CHECKOUT_COMMAND:
+                handleCheckOut();
+                break;
+            case PAY_COMMAND:
+                handlePayment();
+                break;
+            case SAVE_COMMAND:
+                saveOrder();
+                break;
+            default:
+                parseInputNavigate3(str);
+                break;
+        }
+    }
+
+    //EFFECTS: extends parseInputNavigate
+    private void parseInputNavigate3(String str) {
+        switch (str) {
+            case DO_NOT_SAVE_COMMAND:
+                doNotSaveOrder();
+                break;
+            case COFFEE_COMMAND:
+                displayCategory(coffee);
+                break;
             case TEA_COMMAND:
                 displayCategory(tea);
                 break;
             case NONCAFFEINATED_COMMAND:
                 displayCategory(noncaffeinated);
                 break;
+            default:
+                parseInputNavigate4(str);
+                break;
+        }
+    }
+
+    //EFFECTS: extends parseInputNavigate
+    private void parseInputNavigate4(String str) {
+        switch (str) {
             case BRUNCH_COMMAND:
                 displayCategory(brunch);
                 break;
@@ -222,14 +246,31 @@ public class Kiosk {
         }
     }
 
-    //EFFECTS: displays account home page
-    private void displayAccountHome() {
-        System.out.println("\n" + account.getName() + "'s Account");
-        System.out.println("\n\t'" + CAFE_MENU_COMMAND + "'    -> place order");
-        System.out.println("\t'" + HISTORY_COMMAND + "' -> order history");
-        System.out.println("\t'" + SIGN_OUT_COMMAND + "'     -> sign out");
+    //MODIFIES: this
+    //EFFECTS: if account is not already null, set account, writer, and reader to null and display start page,
+    //         otherwise does nothing
+    private void accountSignOut() {
+        if (account != null) {
+            account = null;
+            writer = null;
+            reader = null;
+            startPage();
+        }
     }
 
+    //EFFECTS: displays account home page
+    private void displayAccountHome() {
+        if (account == null) {
+            startPage();
+        } else {
+            System.out.println("\n" + account.getName() + "'s Account");
+            System.out.println("\n\t'" + CAFE_MENU_COMMAND + "'    -> place order");
+            System.out.println("\t'" + HISTORY_COMMAND + "' -> order history");
+            System.out.println("\t'" + SIGN_OUT_COMMAND + "'     -> sign out");
+        }
+    }
+
+    //REQUIRES: account != null
     //EFFECTS: prints order history !!!make another method to print out individual orders
     private void displayOrderHistory() {
         try {
@@ -244,7 +285,7 @@ public class Kiosk {
             }
 
             System.out.println("\n\t'" + CAFE_MENU_COMMAND + "' -> place order");
-            System.out.println("\t'" + HOME_COMMAND + "' -> order history");
+            System.out.println("\t'" + HOME_COMMAND + "' -> home page");
         } catch (IOException e) {
             System.out.println("Account file could not be read");
         }
@@ -302,8 +343,8 @@ public class Kiosk {
     private void handleCheckOut() {
         System.out.println("\nCheckout");
         System.out.println("Total: $" + order.getTotal());
-        System.out.println("\n'" + TIP_COMMAND + "'  -> add a tip :)");
-        System.out.println("'" + PAY_COMMAND + "'  -> confirm payment");
+//        System.out.println("\n'" + TIP_COMMAND + "'  -> add a tip :)");
+        System.out.println("\n'" + PAY_COMMAND + "'  -> confirm payment");
         System.out.println("'" + CAFE_MENU_COMMAND + "' -> add more items");
     }
 
@@ -312,10 +353,14 @@ public class Kiosk {
     private void handlePayment() {
         //process payment using card...
         order.setDate();
-        System.out.println("\nYour order is complete, enjoy!");
-        System.out.println("\nWould you like to save this order?");
-        System.out.println("-> '" + SAVE_COMMAND + "'");
-        System.out.println("-> '" + DO_NOT_SAVE_COMMAND + "'");
+        System.out.println("Your order has been placed, enjoy!");
+        if (account != null) {
+            System.out.println("\nWould you like to save this order?");
+            System.out.println("-> '" + SAVE_COMMAND + "'");
+            System.out.println("-> '" + DO_NOT_SAVE_COMMAND + "'");
+        } else {
+            printPostPaymentInstructions();
+        }
     }
 
     //MODIFIES: this
@@ -328,12 +373,16 @@ public class Kiosk {
             writer.close();
             System.out.println("\nSaved!");
             System.out.println(order);
-            System.out.println("-> '" + HOME_COMMAND + "'");
-            System.out.println("-> '" + CAFE_MENU_COMMAND + "'");
-
+            printPostPaymentInstructions();
         } catch (FileNotFoundException e) {
             System.out.println("Order could not be saved");
         }
+    }
+
+    //EFFECTS: prints unsaved message and post payment instructions
+    private void doNotSaveOrder() {
+        System.out.println("This order was not saved to your history");
+        printPostPaymentInstructions();
     }
 
     //EFFECTS: displays menu items in a category
@@ -576,6 +625,12 @@ public class Kiosk {
             System.out.println(command + " " + item.getName() + " has been added to your order!");
         }
         printGeneralInstructions();
+    }
+
+    //EFFECTS: prints instructions for home page and menu
+    private void printPostPaymentInstructions() {
+        System.out.println("-> '" + HOME_COMMAND + "'");
+        System.out.println("-> '" + CAFE_MENU_COMMAND + "'");
     }
 
     //EFFECTS: returns the Beverage in a category if already there,

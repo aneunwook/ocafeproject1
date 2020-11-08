@@ -4,8 +4,6 @@ package persistence;
 import model.*;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 //JsonSerializationDemo.persistence.JsonTest
@@ -17,10 +15,12 @@ public class JsonTest {
     @BeforeEach
     protected void setup() {
         o1 = new Order();
+        o1.setDate();
         o1.addItem(new Beverage("Espresso", 3, Beverage.NOT_CUSTOMIZABLE, Beverage.NOT_CUSTOMIZABLE));
         o1.addItem(new Dish("Thai Green Curry Seafood Linguine", 16));
 
         o2 = new Order();
+        o2.setDate();
         o2.addItem(new Beverage("Chai Latte", 5, Beverage.REGULAR, Beverage.NOT_CUSTOMIZABLE));
         o2.addItem(new Dish("Banana Cream Pie", 5));
         Dish jcr = new Dish("Japanese Curry Rice", 12);
@@ -31,15 +31,17 @@ public class JsonTest {
         o2.addItem(jcr);
     }
 
-    protected void checkOrder(Integer total, List<MenuItem> itemList, Order order) {
-        assertEquals(total, order.getTotal());
-        assertEquals(itemList.size(), order.size());
+    protected void checkOrder(Order order, Order parsedOrder) {
+        assertEquals(order.getTotal(), parsedOrder.getTotal());
+        assertEquals(order.size(), parsedOrder.size());
+        assertEquals(order.getDayOfWeek(), parsedOrder.getDayOfWeek());
+        assertEquals(order.getAmPm(), parsedOrder.getAmPm());
         int i = 0;
-        for (MenuItem item : itemList) {
+        for (MenuItem item : order.getItemList()) {
             String name = item.getName();
             int price = item.getPrice();
-            assertEquals(name, order.getItemList().get(i).getName());
-            assertEquals(price, order.getItemList().get(i).getPrice());
+            assertEquals(name, parsedOrder.getItemList().get(i).getName());
+            assertEquals(price, parsedOrder.getItemList().get(i).getPrice());
             i++;
         }
     }

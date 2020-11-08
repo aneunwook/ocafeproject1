@@ -6,8 +6,4 @@ public class AdditionalOptions extends MenuItem {
         super(name, price);
     }
 
-    public String toString() {
-        return String.format("\n$" + price + "\t\t" + name);
-    }
-
 }

@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+// Represents a menu item of type dish
 public class Dish extends MenuItem {
 
     private List<AdditionalOptions> options;          // add-ons available for this dish //vegetarian????
@@ -51,6 +52,7 @@ public class Dish extends MenuItem {
         return false;
     }
 
+    @Override
     public String toString() {
         try {
             return "$" + price + "\t\t" + name + "\n   \t\t " + selected.getName();

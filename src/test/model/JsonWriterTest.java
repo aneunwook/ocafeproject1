@@ -62,8 +62,8 @@ class JsonWriterTest extends JsonTest {
             assertEquals("Vanessa", parsedAccount.getName());
             List<Order> orderHistory = parsedAccount.getHistory();
             assertEquals(2, orderHistory.size());
-            checkOrder(o1.getTotal(), o1.getItemList(), orderHistory.get(0));
-            checkOrder(o2.getTotal(), o2.getItemList(), orderHistory.get(1));
+            checkOrder(o1, orderHistory.get(0));
+            checkOrder(o2, orderHistory.get(1));
         } catch (IOException e) {
             fail("Exception should not have been thrown");
         }

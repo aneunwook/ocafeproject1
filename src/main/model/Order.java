@@ -7,6 +7,7 @@ import persistence.Writable;
 import java.time.DayOfWeek;
 import java.util.*;
 
+// Represents an order with specified menu items
 public class Order implements Writable {
 
     private static int PreviousOrderId = 0;     // latest Order ID
@@ -108,6 +109,10 @@ public class Order implements Writable {
             }
         }
         return null;
+    }
+
+    public Calendar getDate() {
+        return date;
     }
 
     public int getDayOfWeek() {

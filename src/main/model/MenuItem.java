@@ -3,6 +3,7 @@ package model;
 import org.json.JSONObject;
 import persistence.Writable;
 
+// Represents a general item in a menu with a name and price
 public abstract class MenuItem implements Writable {
 
     protected String name;
@@ -25,7 +26,9 @@ public abstract class MenuItem implements Writable {
     }
 
     //EFFECTS: returns menu item in string format
-    public abstract String toString();
+    public String toString() {
+        return String.format("\n$" + price + "\t\t" + name);
+    }
 
     // JsonSerializationDemo.model.Thingy
     @Override

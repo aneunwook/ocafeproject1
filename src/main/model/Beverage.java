@@ -2,6 +2,7 @@ package model;
 
 import org.json.JSONObject;
 
+// Represents a menu item of type beverage
 public class Beverage extends MenuItem {
 
     private int size;               // regular or large
@@ -52,6 +53,7 @@ public class Beverage extends MenuItem {
         return false;
     }
 
+    @Override
     public String toString() {
         if (!isSizeCustomizable() && !isTemperatureCustomizable()) {
             return "$" + price + "\t\t" + name;
@@ -83,18 +85,12 @@ public class Beverage extends MenuItem {
 
     //EFFECTS: returns true if size is customizable, false otherwise
     public boolean isSizeCustomizable() {
-        if (size != NOT_CUSTOMIZABLE) {
-            return true;
-        }
-        return false;
+        return size != NOT_CUSTOMIZABLE;
     }
 
     //EFFECTS: returns true if temperature is customizable, false otherwise
     public boolean isTemperatureCustomizable() {
-        if (temperature != NOT_CUSTOMIZABLE) {
-            return true;
-        }
-        return false;
+        return temperature != NOT_CUSTOMIZABLE;
     }
 
     //MODIFIES: this
