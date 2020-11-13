@@ -3,7 +3,6 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -21,9 +20,9 @@ public class OrderTest {
     @BeforeEach
     public void setUp() {
         order = new Order();
-        i1 = new Beverage("Ginger Beer", 3, Beverage.NOT_CUSTOMIZABLE, Beverage.NOT_CUSTOMIZABLE);
-        i2 = new Dish("Croissant Sandwich", 7);
-        i3 = new Dish("Fruit Tart", 5);
+        i1 = new Beverage("Ginger Beer", 3.00, Beverage.NOT_CUSTOMIZABLE, Beverage.NOT_CUSTOMIZABLE);
+        i2 = new Dish("Croissant Sandwich", 7.00);
+        i3 = new Dish("Fruit Tart", 5.00);
     }
 
     @Test
@@ -40,7 +39,7 @@ public class OrderTest {
         //check i1 has been added and price of i1 has been added to total
         assertEquals(1, order.size());
         assertTrue(order.contains(i1));
-        assertEquals(3, order.getTotal());
+        assertEquals(3.00, order.getTotal());
 
         //add multiple items
         order.addItem(i2);
@@ -50,7 +49,7 @@ public class OrderTest {
         assertEquals(3, order.size());
         assertTrue(order.contains(i2));
         assertTrue(order.contains(i3));
-        assertEquals(15, order.getTotal());
+        assertEquals(15.00, order.getTotal());
     }
 
     @Test
@@ -75,7 +74,7 @@ public class OrderTest {
         assertTrue(order.contains(i1));
         assertTrue(order.contains(i2));
         assertFalse(order.contains(i3));
-        assertEquals(10, order.getTotal());
+        assertEquals(10.00, order.getTotal());
     }
 
     @Test
@@ -93,7 +92,7 @@ public class OrderTest {
         assertTrue(order.contains(i2));
         assertTrue(order.contains(i3));
         assertFalse(order.contains(i1));
-        assertEquals(12, order.getTotal());
+        assertEquals(12.00, order.getTotal());
 
 
         //remove multiple
@@ -104,7 +103,7 @@ public class OrderTest {
         assertEquals(0, order.size());
         assertFalse(order.contains(i2));
         assertFalse(order.contains(i3));
-        assertEquals(0, order.getTotal());
+        assertEquals(0.00, order.getTotal());
     }
 
     //EFFECTS: returns the item in itemList if already there,
@@ -158,15 +157,15 @@ public class OrderTest {
         order.addItem(i1);
         order.addItem(i2);
         order.addItem(i3);
-        List<Integer> prices1 = new ArrayList<>();
+        List<Double> prices1 = new ArrayList<>();
         for (MenuItem i : order.getItemList()) {
             prices1.add(i.getPrice());
         }
 
         //check prices2 has size 3 and contains all elements of prices1
-        List<Integer> prices2 = order.getItemPrices();
+        List<Double> prices2 = order.getItemPrices();
         assertEquals(3, prices2.size());
-        for (Integer p : prices1) {
+        for (Double p : prices1) {
             assertTrue(prices2.contains(p));
         }
     }
@@ -184,14 +183,20 @@ public class OrderTest {
 
     @Test
     public void testToString() {
+        //add i1, i2, and i3
+        order.addItem(i1);
+        order.addItem(i2);
+        order.addItem(i3);
+        //set date
         order.setDate();
+        //expected string format of item
         String items = "";
         for (MenuItem item : order.getItemList()) {
             items = items + item.toString() + "\n";
         }
 
         assertEquals("Your " + Order.days[order.getDayOfWeek()] + " " + order.getAmPm() + " order:\n" + items
-                + "\nTotal: $" + order.getTotal(), order.toString());
+                + "\nTotal: $15.00", order.toString());
 
     }
 }

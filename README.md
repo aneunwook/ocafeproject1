@@ -5,7 +5,7 @@
 The plan for this application is to simulate an online food ordering/delivery *service*. Users will have access to a
 varied selection of restaurant menus, and orders corresponding to specific restaurants can be created and placed. Items
 can be customized, added, and *removed* from orders. Users can create accounts with this delivery service so that orders
-and menu favourites can be recorded and accessed during the next use of this application. In **addition**, a reward 
+and menuLoader favourites can be recorded and accessed during the next use of this application. In **addition**, a reward 
 system will be implemented based on the amount spent by a card **associated** to a user's account so that the 
 user can redeem points accumulated by each purchase. 
 
@@ -20,12 +20,12 @@ wanted to dedicate this project to them in order to **express my gratitude** for
 
 
 ## User Stories
-- As a user, I want to be able to add a menu items to my order.
-- As a user, I want to be able to remove menu items to my order.
-- As a user, I want to be able to view the available item options in the menu organized by category, 
+- As a user, I want to be able to add a menuLoader items to my order.
+- As a user, I want to be able to remove menuLoader items to my order.
+- As a user, I want to be able to view the available item options in the menuLoader organized by category, 
 for example: desserts.
 - As a user, I want to be able to view the list of items in my order.
-- As a user, I want to be able to select a menu item and customize it, for example the size of a beverage or the add-on
+- As a user, I want to be able to select a menuLoader item and customize it, for example the size of a beverage or the add-on
 for a dish.
 - As a user, I want to be able to create an account 
 - As a user, I want to be able to save my orders to my account.

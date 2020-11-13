@@ -13,7 +13,7 @@ public class Dish extends MenuItem {
     private AdditionalOptions selected;               // add-on selected
 
     // constructs an dish with empty options
-    public Dish(String name, Integer price) {
+    public Dish(String name, Double price) {
         super(name, price);
         options = new ArrayList<>();
     }
@@ -54,10 +54,11 @@ public class Dish extends MenuItem {
 
     @Override
     public String toString() {
+        String s = super.toString();
         try {
-            return "$" + price + "\t\t" + name + "\n   \t\t " + selected.getName();
+            return s + "\n   \t " + selected.getName();
         } catch (NullPointerException e) {
-            return "$" + price + "\t\t" + name;
+            return s;
         }
     }
 

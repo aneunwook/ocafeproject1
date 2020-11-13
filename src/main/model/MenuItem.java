@@ -1,18 +1,36 @@
 package model;
 
+import exceptions.IllegalQuantityException;
 import org.json.JSONObject;
 import persistence.Writable;
 
 // Represents a general item in a menu with a name and price
+// that can be displayed on a menu and added to an order
 public abstract class MenuItem implements Writable {
 
     protected String name;
-    protected Integer price;        // price in dollars
+    protected Double price;        // price in dollars
+    protected int quantity;
 
     // constructs a MenuItem with a name and price
-    public MenuItem(String name, Integer price) {
+    public MenuItem(String name, Double price) {
         this.name = name;
         this.price = price;
+        quantity = 1;
+    }
+
+    //REQUIRES: q >= 1
+    //MODIFIES: this
+    //EFFECTS: sets quantity to parameter and multiplies price by quantity
+    //         throws IllegalQuantityException
+    public void setQuantity(Integer q) {
+        quantity = q;
+        price = price * q;
+    }
+
+    //EFFECTS: returns item quantity
+    public int getQuantity() {
+        return quantity;
     }
 
     //EFFECTS: returns item name
@@ -21,14 +39,15 @@ public abstract class MenuItem implements Writable {
     }
 
     //EFFECTS: returns item price
-    public int getPrice() {
+    public Double getPrice() {
         return price;
     }
 
     //EFFECTS: returns menu item in string format
     public String toString() {
-        return String.format("\n$" + price + "\t\t" + name);
+        return String.format("%-20s $%.2f", name, price);
     }
+
 
     // JsonSerializationDemo.model.Thingy
     @Override

@@ -1,6 +1,5 @@
 package model;
 
-import model.Beverage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,40 +11,38 @@ public class BeverageTest {
 
     @BeforeEach
     public void setUp() {
-        beverage = new Beverage("Coffee", 3, Beverage.REGULAR, Beverage.REGULAR);
+        beverage = new Beverage("Coffee", 3.00, Beverage.REGULAR, Beverage.REGULAR);
     }
 
     @Test
     public void testConstructor() {
-        assertEquals("Coffee", beverage.getName());
-        assertEquals(3, beverage.getPrice());
         assertEquals(beverage.REGULAR, beverage.getSize());
         assertEquals(beverage.REGULAR, beverage.getTemperature());
     }
 
-//    @Test
-//    public void testIsSizeCustomizable() {
-//        //check size is customizable
-//        assertTrue(beverage.isSizeCustomizable());
-//
-//        //set to not customizable
-//        beverage.setSize(beverage.SIZE_NOT_CUSTOMIZABLE);
-//
-//        //check size is set to not customizable
-//        assertFalse(beverage.isSizeCustomizable());
-//    }
-//
-//    @Test
-//    public void testIsTemperatureCustomizable() {
-//        //check temperature is customizable
-//        assertTrue(beverage.isTemperatureCustomizable());
-//
-//        //set to not customizable
-//        beverage.setTemperature(beverage.TEMPERATURE_NOT_CUSTOMIZABLE);
-//
-//        //check temperature is set to not customizable
-//        assertFalse(beverage.isTemperatureCustomizable());
-//    }
+    @Test
+    public void testIsSizeCustomizable() {
+        //check size is customizable
+        assertTrue(beverage.isSizeCustomizable());
+
+        //set to not customizable
+        beverage.setSize(beverage.NOT_CUSTOMIZABLE);
+
+        //check size is set to not customizable
+        assertFalse(beverage.isSizeCustomizable());
+    }
+
+    @Test
+    public void testIsTemperatureCustomizable() {
+        //check temperature is customizable
+        assertTrue(beverage.isTemperatureCustomizable());
+
+        //set to not customizable
+        beverage.setTemperature(beverage.NOT_CUSTOMIZABLE);
+
+        //check temperature is set to not customizable
+        assertFalse(beverage.isTemperatureCustomizable());
+    }
 
     @Test
     public void testSizeIsCustomizableNoChange() {
@@ -59,10 +56,10 @@ public class BeverageTest {
     @Test
     public void testSizeIsChanged() {
         //set size to large
-        assertTrue(beverage.setSize(beverage.EXTRA));
+        assertTrue(beverage.setSize(beverage.UPGRADE));
 
         //check size is large and price has increased by UPGRADE_PRICE
-        assertEquals(beverage.EXTRA, beverage.getSize());
+        assertEquals(beverage.UPGRADE, beverage.getSize());
         assertEquals(3 + beverage.UPGRADE_PRICE, beverage.getPrice());
 
         //set size to regular
@@ -80,7 +77,7 @@ public class BeverageTest {
         assertEquals(beverage.NOT_CUSTOMIZABLE, beverage.getSize());
 
         //try to set size to large
-        assertFalse(beverage.setSize(Beverage.EXTRA));
+        assertFalse(beverage.setSize(Beverage.UPGRADE));
 
         //check that size and price are unchanged
         assertEquals(beverage.NOT_CUSTOMIZABLE, beverage.getSize());
@@ -99,10 +96,10 @@ public class BeverageTest {
     @Test
     public void testTemperatureIsChanged() {
         //set temperature to iced
-        assertTrue(beverage.setTemperature(beverage.EXTRA));
+        assertTrue(beverage.setTemperature(beverage.UPGRADE));
 
         //check temperature is iced and price has increased by UPGRADE_PRICE
-        assertEquals(beverage.EXTRA, beverage.getTemperature());
+        assertEquals(beverage.UPGRADE, beverage.getTemperature());
         assertEquals(3 + beverage.UPGRADE_PRICE, beverage.getPrice());
 
         //set temperature to hot
@@ -120,7 +117,7 @@ public class BeverageTest {
         assertEquals(beverage.NOT_CUSTOMIZABLE, beverage.getTemperature());
 
         //try to set temperature to cold
-        assertFalse(beverage.setTemperature(Beverage.EXTRA));
+        assertFalse(beverage.setTemperature(Beverage.UPGRADE));
 
         //check that temperature and price are unchanged
         assertEquals(beverage.NOT_CUSTOMIZABLE, beverage.getTemperature());
@@ -132,22 +129,32 @@ public class BeverageTest {
         assertTrue(beverage.setTemperature(Beverage.NOT_CUSTOMIZABLE));
         assertTrue(beverage.setSize(Beverage.NOT_CUSTOMIZABLE));
         //to string
-        assertEquals("$3\t\tCoffee", beverage.toString());
+        assertEquals("$3.00\t\tCoffee", beverage.toString());
     }
 
     @Test
     public void testToStringSizeCustomizable() {
         assertTrue(beverage.setTemperature(Beverage.NOT_CUSTOMIZABLE));
-        //to string
-        assertEquals("$3\t\tCoffee\n   \t\t regular", beverage.toString());
+
+        //to string regular
+        assertEquals("$3.00\t\tCoffee\n   \t\t Regular", beverage.toString());
+
+        //to string large
+        assertTrue(beverage.setSize(Beverage.UPGRADE));
+        assertEquals("$3.70\t\tCoffee\n   \t\t Large", beverage.toString());
+
     }
 
     @Test
     public void testToStringTemperatureCustomizable() {
-        assertTrue(beverage.setTemperature(Beverage.EXTRA));
         assertTrue(beverage.setSize(Beverage.NOT_CUSTOMIZABLE));
-        //to string
-        assertEquals("$4\t\tCoffee\n   \t\t cold", beverage.toString());
+
+        //to string hot
+        assertEquals("$3.00\t\tCoffee\n   \t\t Hot", beverage.toString());
+
+        assertTrue(beverage.setTemperature(Beverage.UPGRADE));
+        //to string iced
+        assertEquals("$3.70\t\tCoffee\n   \t\t Iced", beverage.toString());
     }
 
 }

@@ -16,7 +16,7 @@ public class Kiosk {
     private static final String HOME_COMMAND = "home";
     private static final String HISTORY_COMMAND = "history";
     private static final String SIGN_OUT_COMMAND = "out";
-    private static final String CAFE_MENU_COMMAND = "menu";
+    private static final String CAFE_MENU_COMMAND = "menuLoader";
     private static final String VIEW_ORDER_COMMAND = "order";
     private static final String REMOVE_COMMAND = "remove";
     private static final String CHECKOUT_COMMAND = "checkout";
@@ -52,7 +52,7 @@ public class Kiosk {
 
     private Scanner input;
     private boolean runProgram;
-    private Cafe cafe;
+    private MenuLoader menuLoader;
     private Account account;
     private ArrayList<String> accountList;
     private JsonWriter writer;
@@ -61,11 +61,11 @@ public class Kiosk {
 
     // constructor, handleUserInput, makePrettyString, and endProgram methods taken from FitLifeGymKiosk.ui.Kiosk
 
-    // takes in a cafe and constructs new kiosk with new scanner, cafe, and new order
-    public Kiosk(Cafe cafe) {
+    // takes in a menuLoader and constructs new kiosk with new scanner, menuLoader, and new order
+    public Kiosk(MenuLoader menuLoader) {
         input = new Scanner(System.in);
         runProgram = true;
-        this.cafe = cafe;
+        this.menuLoader = menuLoader;
 //        accountList = new AbstractSet<String>()
         order = new Order();
     }
@@ -84,7 +84,7 @@ public class Kiosk {
         }
     }
 
-    //EFFECTS: prints menu options depending on input str
+    //EFFECTS: prints menuLoader options depending on input str
     private void parseInputNavigate(String str) {
         if (str.length() > 0) {
             switch (str) {
@@ -187,9 +187,9 @@ public class Kiosk {
         System.out.println("\nenter '" + QUIT_COMMAND + "' to quit any time.");
     }
 
-    //EFFECTS: displays cafe menu by category
+    //EFFECTS: displays menuLoader menuLoader by category
     private void displayCafeMenu() {
-        System.out.println("\nCafe Menu");
+        System.out.println("\nMenuLoader MenuLoader");
         System.out.println("enter one of:");
         System.out.println("\t'" + COFFEE_COMMAND + "'");
         System.out.println("\t'" + TEA_COMMAND + "'");
@@ -322,7 +322,7 @@ public class Kiosk {
             }
             System.out.println("\nTotal: $" + order.getTotal());
             System.out.println("'" + CHECKOUT_COMMAND + "' -> proceed to payment");
-            System.out.println("'" + CAFE_MENU_COMMAND + "'     -> cafe menu");
+            System.out.println("'" + CAFE_MENU_COMMAND + "'     -> menuLoader menuLoader");
 //            System.out.println("'" + HOME_COMMAND + "'     -> home page");
 
             //handle input
@@ -385,7 +385,7 @@ public class Kiosk {
         printPostPaymentInstructions();
     }
 
-    //EFFECTS: displays menu items in a category
+    //EFFECTS: displays menuLoader items in a category
     private void displayCategory(String[] category) {
         System.out.println("\nselect from:");
         int size = category.length;
@@ -408,7 +408,7 @@ public class Kiosk {
     }
 
 
-    //EFFECTS: prints menu item details depending on input str
+    //EFFECTS: prints menuLoader item details depending on input str
     private void parseInputItemDetails(String str) {
         if (str.length() > 0) {
             switch (str) {
@@ -418,7 +418,7 @@ public class Kiosk {
                 case "Latte":
                 case "Iced Coffee":
                 case "Cold Brew":
-                    displayBeverageDetails(str, cafe.coffee);
+                    displayBeverageDetails(str, menuLoader.coffee);
                     break;
                 case "Matcha Latte":
                 case "Hojicha Latte":
@@ -426,7 +426,7 @@ public class Kiosk {
                 case "Chai Latte":
                 case "Sencha":
                 case "Black Tea":
-                    displayBeverageDetails(str, cafe.tea);
+                    displayBeverageDetails(str, menuLoader.tea);
                     break;
                 default:
                     parseInputItemDetails2(str);
@@ -443,7 +443,7 @@ public class Kiosk {
             case "Kumquat Chrysanthemum Tea":
             case "Hibiscus Kombucha":
             case "Mango Kale Smoothie":
-                displayBeverageDetails(str, cafe.nonCaffeinated);
+                displayBeverageDetails(str, menuLoader.nonCaffeinated);
                 break;
             case "Thai Green Curry Seafood Linguine":
             case "Eggs Benedict":
@@ -453,7 +453,7 @@ public class Kiosk {
             case "Dutch Cheese Sandwich":
             case "Spring Salad":
             case "Butter Croissant":
-                displayDishDetails(str, cafe.brunch);
+                displayDishDetails(str, menuLoader.brunch);
                 break;
             default:
                 parseInputItemDetails3(str);
@@ -471,7 +471,7 @@ public class Kiosk {
             case "Hojicha Parfait":
             case "Chestnut Cake":
             case "Tofu Ice Cream":
-                displayDishDetails(str, cafe.dessert);
+                displayDishDetails(str, menuLoader.dessert);
                 break;
             default:
                 System.out.println("Invalid selection, please try again.");
@@ -487,15 +487,15 @@ public class Kiosk {
         } else {
             System.out.println("\n" + beverage.getName() + "");
             if (beverage.isSizeCustomizable()) {
-                System.out.println("regular\t\t$" + beverage.getPrice() + "");
-                System.out.println("large  \t\t$" + (beverage.getPrice() + Beverage.UPGRADE_PRICE) + "");
+                System.out.println("regular\t\t$" + beverage.getPrice());
+                System.out.println("large  \t\t$" + (beverage.getPrice() + Beverage.UPGRADE_PRICE));
 
                 System.out.println(
                         "\n'" + REGULAR_SIZE_COMMAND + "' -> add regular " + beverage.getName() + " to order");
                 System.out.println("'" + LARGE_SIZE_COMMAND + "' -> add large " + beverage.getName() + " to order");
             } else {
-                System.out.println("hot \t\t$" + beverage.getPrice() + "");
-                System.out.println("iced\t\t$" + (beverage.getPrice() + Beverage.UPGRADE_PRICE) + "");
+                System.out.println("hot \t\t$" + beverage.getPrice());
+                System.out.println("iced\t\t$" + (beverage.getPrice() + Beverage.UPGRADE_PRICE));
 
                 System.out.println("\n'" + HOT_TEMP_COMMAND + "' -> add hot " + beverage.getName() + " to order");
                 System.out.println("'" + COLD_TEMP_COMMAND + "' -> add iced " + beverage.getName() + " to order");
@@ -547,7 +547,7 @@ public class Kiosk {
                 addItemAndPrintConfirmation("regular", b);
                 break;
             case LARGE_SIZE_COMMAND:
-                b.setSize(Beverage.EXTRA);
+                b.setSize(Beverage.UPGRADE);
                 addItemAndPrintConfirmation("large", b);
                 break;
             case HOT_TEMP_COMMAND:
@@ -565,7 +565,7 @@ public class Kiosk {
     private void parseInputAddBeverageToOrder2(Beverage b, String str) {
         switch (str) {
             case COLD_TEMP_COMMAND:
-                b.setTemperature(Beverage.EXTRA);
+                b.setTemperature(Beverage.UPGRADE);
                 addItemAndPrintConfirmation("iced", b);
                 break;
             case ADD_TO_ORDER_COMMAND:
@@ -602,14 +602,14 @@ public class Kiosk {
 
     //EFFECTS: displays instructions for home page and view order
     private void printGeneralInstructions() {
-        System.out.println("\n'" + CAFE_MENU_COMMAND + "'  -> cafe menu");
+        System.out.println("\n'" + CAFE_MENU_COMMAND + "'  -> menuLoader menuLoader");
         System.out.println("'" + HOME_COMMAND + "'  -> home page");
         if (order.size() != 0) {
             System.out.println("'" + VIEW_ORDER_COMMAND + "' -> view order");
         }
     }
 
-    //EFFECTS: displays details for non customizable menu items
+    //EFFECTS: displays details for non customizable menuLoader items
     private void displayItemNotCustomizableDetails(MenuItem item) {
         System.out.println("\n" + item.getName() + "\t\t$" + item.getPrice() + "");
         System.out.println("\n'" + ADD_TO_ORDER_COMMAND + "' -> add " + item.getName() + " to order");
@@ -627,7 +627,7 @@ public class Kiosk {
         printGeneralInstructions();
     }
 
-    //EFFECTS: prints instructions for home page and menu
+    //EFFECTS: prints instructions for home page and menuLoader
     private void printPostPaymentInstructions() {
         System.out.println("-> '" + HOME_COMMAND + "'");
         System.out.println("-> '" + CAFE_MENU_COMMAND + "'");

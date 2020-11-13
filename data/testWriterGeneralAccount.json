@@ -6,10 +6,10 @@
                 "month": 10,
                 "hour": 15,
                 "year": 2020,
-                "day": 4,
-                "minute": 19
+                "day": 8,
+                "minute": 39
             },
-            "total": 19,
+            "total": 0,
             "itemList": [
                 {
                     "size": -1,
@@ -25,17 +25,17 @@
                     "type": "dish"
                 }
             ],
-            "id": 26
+            "id": 18
         },
         {
             "date": {
                 "month": 10,
                 "hour": 15,
                 "year": 2020,
-                "day": 4,
-                "minute": 19
+                "day": 8,
+                "minute": 39
             },
-            "total": 26,
+            "total": 0,
             "itemList": [
                 {
                     "size": 0,
@@ -70,7 +70,7 @@
                     }
                 }
             ],
-            "id": 27
+            "id": 19
         }
     ]
 }

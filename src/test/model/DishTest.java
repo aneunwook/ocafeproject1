@@ -16,16 +16,14 @@ public class DishTest {
 
     @BeforeEach
     public void setUp() {
-        dish = new Dish("Salad", 10);
-        s1 = new AdditionalOptions("Steak", 6);
-        s2 = new AdditionalOptions("Tuna", 5);
-        s3 = new AdditionalOptions("Chicken", 4);
+        dish = new Dish("Salad", 10.00);
+        s1 = new AdditionalOptions("Steak", 6.00);
+        s2 = new AdditionalOptions("Tuna", 5.00);
+        s3 = new AdditionalOptions("Chicken", 4.00);
     }
 
     @Test
     public void testConstructor() {
-        assertEquals("Salad", dish.getName());
-        assertEquals(10, dish.getPrice());
         assertEquals(0, dish.getOptions().size());
         assertNull(dish.getSelected());
     }
@@ -56,7 +54,7 @@ public class DishTest {
 
         //check no add-on is selected and price is unchanged
         assertNull(dish.getSelected());
-        assertEquals(10, dish.getPrice());
+        assertEquals(10.00, dish.getPrice());
     }
 
     @Test
@@ -70,7 +68,7 @@ public class DishTest {
 
         //check no add-on is selected and price is unchanged
         assertNull(dish.getSelected());
-        assertEquals(10, dish.getPrice());
+        assertEquals(10.00, dish.getPrice());
     }
 
     @Test
@@ -84,20 +82,20 @@ public class DishTest {
         assertTrue(dish.selectAddOn(s1));
         //check s1 is selected and price is added
         assertEquals(s1, dish.getSelected());
-        assertEquals(16, dish.getPrice());
+        assertEquals(16.00, dish.getPrice());
 
         //reselect add-on to s2
         assertTrue(dish.selectAddOn(s2));
         //check s2 is selected and price is added
         assertEquals(s2, dish.getSelected());
-        assertEquals(15, dish.getPrice());
+        assertEquals(15.00, dish.getPrice());
     }
 
     @Test
     public void testUnselectAddOnNull() {
         assertFalse(dish.unselectAddOn());
         assertNull(dish.getSelected());
-        assertEquals(10, dish.getPrice());
+        assertEquals(10.00, dish.getPrice());
     }
 
     @Test
@@ -114,7 +112,7 @@ public class DishTest {
 
         //check selected is null and price of s1 has been subtracted
         assertNull(dish.getSelected());
-        assertEquals(10, dish.getPrice());
+        assertEquals(10.00, dish.getPrice());
     }
 
     @Test
@@ -124,10 +122,15 @@ public class DishTest {
         dish.addSideToOptions(s3);
 
         //null selected
-        assertEquals("$10\t\tSalad", dish.toString());
+        assertEquals("$10.00\t\tSalad", dish.toString());
 
         //select an add-on
         assertTrue(dish.selectAddOn(s1));
-        assertEquals("$16\t\tSalad\n   \t\t Steak", dish.toString());
+        assertEquals("$16.00\t\tSalad\n   \t\t Steak", dish.toString());
+    }
+
+    @Test
+    public void testAddOnToString() {
+        assertEquals("$6.00\t\tSteak", s1.toString());
     }
 }

@@ -4,7 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
 
-import java.time.DayOfWeek;
 import java.util.*;
 
 // Represents an order with specified menu items
@@ -15,7 +14,7 @@ public class Order implements Writable {
 
     private int id;                             // this order ID
     private List<MenuItem> itemList;            // list of items in order
-    private int total;                          // total value of items in itemList in dollars
+    private Double total;                       // total value of items in itemList in dollars
     private Calendar date;
 //    private String address;
 
@@ -23,14 +22,14 @@ public class Order implements Writable {
     // order id is unique; PreviousOrderId is incremented
     public Order() {
         itemList = new ArrayList<>();
+        total = 0.00;
         id = ++PreviousOrderId;
     }
 
     //MODIFIES: this
-    //EFFECTS: adds item to the itemList and adds the price of the item to total
+    //EFFECTS: adds item to the itemList, and adds the price of the item to total
     public void addItem(MenuItem item) {
         itemList.add(item);
-        total += item.price;
     }
 
     //MODIFIES: this
@@ -39,7 +38,6 @@ public class Order implements Writable {
     public void removeItem(MenuItem item) {
         if (contains(item)) {
             itemList.remove(item);
-            total -= item.price;
         }
     }
 
@@ -64,7 +62,7 @@ public class Order implements Writable {
         for (MenuItem item : itemList) {
             items = items + item.toString() + "\n";
         }
-        return "Your " + weekDay + " " + getAmPm() + " order:\n" + items + "\nTotal: $" + total;
+        return String.format("Your " + weekDay + " " + getAmPm() + " order:\n" + items + "\nTotal: $%.2f", getTotal());
     }
 
     @Override
@@ -111,9 +109,9 @@ public class Order implements Writable {
         return null;
     }
 
-    public Calendar getDate() {
-        return date;
-    }
+//    public Calendar getDate() {
+//        return date;
+//    }
 
     public int getDayOfWeek() {
         return date.get(Calendar.DAY_OF_WEEK) - 1;
@@ -131,16 +129,21 @@ public class Order implements Writable {
         }
     }
 
+    //EFFECTS: adds the prices of items in itemList to total and returns it
+    public Double getTotal() {
+        total = 0.00;
+        for (MenuItem i : itemList) {
+            total += i.price;
+        }
+        return total;
+    }
+
     public int getPreviousOrderId() {
         return PreviousOrderId;
     }
 
     public int getId() {
         return id;
-    }
-
-    public int getTotal() {
-        return total;
     }
 
     public List<MenuItem> getItemList() {
@@ -155,8 +158,8 @@ public class Order implements Writable {
         return names;
     }
 
-    public List<Integer> getItemPrices() {
-        List<Integer> prices = new ArrayList<>();
+    public List<Double> getItemPrices() {
+        List<Double> prices = new ArrayList<>();
         for (MenuItem i : itemList) {
             prices.add(i.price);
         }

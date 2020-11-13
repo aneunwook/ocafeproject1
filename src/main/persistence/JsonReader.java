@@ -92,7 +92,7 @@ public class JsonReader {
     // EFFECTS: parses a menu item from JSON object and adds it to order
     private void addItem(Order order, JSONObject jsonItem) {
         String name = jsonItem.getString("name");
-        int price = jsonItem.getInt("price");
+        Double price = jsonItem.getDouble("price");
         String type = jsonItem.getString("type");
         if (type.equals("beverage")) {
             int size = jsonItem.getInt("size");
@@ -127,7 +127,7 @@ public class JsonReader {
     // EFFECTS: parses an add-on from JSON object and returns it
     private AdditionalOptions parseAdditionalOptions(JSONObject jsonAddOn) {
         String name = jsonAddOn.getString("name");
-        int price = jsonAddOn.getInt("price");
+        Double price = jsonAddOn.getDouble("price");
         AdditionalOptions addOn = new AdditionalOptions(name, price);
         return addOn;
     }
