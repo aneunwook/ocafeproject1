@@ -16,7 +16,7 @@ public class CategoryPane extends Tab {
     public CategoryPane(MenuTab menuTab, OCafe controller, String[] category) {
         super(controller);
         setLayout(new GridLayout(0, 1));
-        setBorder(BorderFactory.createLineBorder(Color.PINK));
+        setBorder(BorderFactory.createEtchedBorder());
         setSize(WIDTH, OCafe.HEIGHT * 3 / 4);
 
         this.menuTab = menuTab;

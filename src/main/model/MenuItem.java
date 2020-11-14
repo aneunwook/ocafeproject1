@@ -24,8 +24,9 @@ public abstract class MenuItem implements Writable {
     //EFFECTS: sets quantity to parameter and multiplies price by quantity
     //         throws IllegalQuantityException
     public void setQuantity(Integer q) {
+        price = price / quantity;
         quantity = q;
-        price = price * q;
+        price = price * quantity;
     }
 
     //EFFECTS: returns item quantity
