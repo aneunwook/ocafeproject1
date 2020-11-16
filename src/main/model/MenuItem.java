@@ -4,6 +4,9 @@ import exceptions.IllegalQuantityException;
 import org.json.JSONObject;
 import persistence.Writable;
 
+import javax.swing.*;
+import java.awt.*;
+
 // Represents a general item in a menu with a name and price
 // that can be displayed on a menu and added to an order
 public abstract class MenuItem implements Writable {
@@ -11,12 +14,14 @@ public abstract class MenuItem implements Writable {
     protected String name;
     protected Double price;        // price in dollars
     protected int quantity;
+    protected Image image;
 
     // constructs a MenuItem with a name and price
     public MenuItem(String name, Double price) {
         this.name = name;
         this.price = price;
         quantity = 1;
+        image = new ImageIcon("./images/" + name + ".jpg").getImage();
     }
 
     //REQUIRES: q >= 1

@@ -14,7 +14,7 @@ public abstract class Tab extends JPanel {
     //REQUIRES: SmartHomeUI controller that holds this tab
     public Tab(OCafe controller) {
         this.controller = controller;
-        setBorder(new EmptyBorder(new Insets(INSET, INSET, INSET, INSET)));
+//        setBorder(new EmptyBorder(new Insets(INSET,0,0,0)));
     }
 
     //EFFECTS: creates and returns row with button included

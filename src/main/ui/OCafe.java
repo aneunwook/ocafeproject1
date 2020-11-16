@@ -4,14 +4,15 @@ import ui.tabs.HomeTab;
 import ui.tabs.MenuTab;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class OCafe extends JFrame {
     public static final int HOME_TAB_INDEX = 0;
     public static final int MENU_TAB_INDEX = 1;
     public static final int ORDER_TAB_INDEX = 2;
 
-    public static final int WIDTH = 1000;
-    public static final int HEIGHT = 600;
+    public static final int WIDTH = 1100;
+    public static final int HEIGHT = 700;
 
     protected MenuLoader menuLoader;
 
@@ -20,6 +21,7 @@ public class OCafe extends JFrame {
     public OCafe() {
         super("OCafe");
         setSize(WIDTH, HEIGHT);
+//        setLayout(new FlowLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         menuLoader = new MenuLoader();

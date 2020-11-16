@@ -17,7 +17,8 @@ public class CategoryPane extends Tab {
         super(controller);
         setLayout(new GridLayout(0, 1));
         setBorder(BorderFactory.createEtchedBorder());
-        setSize(WIDTH, OCafe.HEIGHT * 3 / 4);
+        Dimension d = new Dimension(OCafe.WIDTH / 3, OCafe.HEIGHT * 3 / 4);
+        setPreferredSize(d);
 
         this.menuTab = menuTab;
 
@@ -31,13 +32,13 @@ public class CategoryPane extends Tab {
 
     //EFFECTS: creates new ItemDetailsPane and sets it in menu tab
     private void displayBeverageDetails(String itemName, List<Beverage> type) {
-        ItemDetailsPane p = new ItemDetailsPane(itemName, type);
+        ItemDetailsPane p = new ItemDetailsPane(itemName, type, controller);
         menuTab.setItemDetailsContainer(p);
     }
 
     //EFFECTS: displays dish item details
     private void displayDishDetails(String itemName, List<Dish> type) {
-        ItemDetailsPane p = new ItemDetailsPane(itemName, type, 1);
+        ItemDetailsPane p = new ItemDetailsPane(itemName, type, controller, 1);
         menuTab.setItemDetailsContainer(p);
     }
 

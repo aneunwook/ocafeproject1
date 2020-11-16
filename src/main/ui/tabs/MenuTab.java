@@ -101,7 +101,6 @@ public class MenuTab extends Tab {
     //EFFECTS: creates container for item details pane
     private void placeItemDetailsContainer() {
         itemDetailsContainer = new JPanel();
-        setSize(OCafe.WIDTH / 2, OCafe.HEIGHT - INSET * 2);
 
         GridBagConstraints c = new GridBagConstraints();
         c.weightx = 0.5;

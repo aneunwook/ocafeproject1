@@ -1,8 +1,6 @@
 package ui.tabs;
 
-import ui.ButtonNames;
 import ui.OCafe;
-import ui.tabs.Tab;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -11,6 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class HomeTab extends Tab {
+    private static final String PLACE_ORDER_COMMAND = "Place Order";
+    private static final String SIGN_IN_COMMAND = "Sign In";
+    private static final String CREATE_ACCOUNT_COMMAND = "Create Account";
+
     private JPanel startPage;
 
     public HomeTab(OCafe controller) {
@@ -30,7 +32,7 @@ public class HomeTab extends Tab {
 
     //EFFECTS: creates Place Order button that switches to the menu tab on the console
     private void placeOrderButton() {
-        JButton b = new JButton(ButtonNames.PLACE_ORDER.getValue());
+        JButton b = new JButton(PLACE_ORDER_COMMAND);
 
         JPanel buttonRow = formatButtonRow(b);
 //        buttonRow.setSize(WIDTH, HEIGHT / 6);
@@ -39,7 +41,7 @@ public class HomeTab extends Tab {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String buttonPressed = e.getActionCommand();
-                if (buttonPressed.equals(ButtonNames.PLACE_ORDER.getValue())) {
+                if (buttonPressed.equals(PLACE_ORDER_COMMAND)) {
                     getController().getTabbedPane().setSelectedIndex(OCafe.MENU_TAB_INDEX);
                 }
             }
@@ -49,7 +51,7 @@ public class HomeTab extends Tab {
     }
 
     private void signInButton() {
-        JButton b = new JButton(ButtonNames.SIGN_IN.getValue());
+        JButton b = new JButton(SIGN_IN_COMMAND);
         JPanel buttonRow = formatButtonRow(b);
 //        buttonRow.setSize(WIDTH, HEIGHT / 6);
 
@@ -57,7 +59,7 @@ public class HomeTab extends Tab {
     }
 
     private void createAccountButton() {
-        JButton b = new JButton(ButtonNames.CREATE_ACCOUNT.getValue());
+        JButton b = new JButton(CREATE_ACCOUNT_COMMAND);
         JPanel buttonRow = formatButtonRow(b);
 //        buttonRow.setSize(WIDTH, HEIGHT / 6);
 

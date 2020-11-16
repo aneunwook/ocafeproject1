@@ -23,7 +23,7 @@ public class JsonTest {
         o2.setDate();
         o2.addItem(new Beverage("Chai Latte", 5.00, Beverage.REGULAR, Beverage.NOT_CUSTOMIZABLE));
         o2.addItem(new Dish("Banana Cream Pie", 5.00));
-        Dish jcr = new Dish("Japanese Curry Rice", 12.00);
+        Dish jcr = new Dish("Japanese Curry Ric", 12.00);
         AdditionalOptions pork = new AdditionalOptions("Fried Pork Cutlet", 4.00);
         jcr.addSideToOptions(pork);
         jcr.addSideToOptions(new AdditionalOptions("Assorted Tempura", 3.00));

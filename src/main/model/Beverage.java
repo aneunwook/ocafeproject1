@@ -12,7 +12,7 @@ public class Beverage extends MenuItem {
     public static final int REGULAR = 0;                // size-REGULAR, temperature-HOT
     public static final int UPGRADE = 1;                  // size-LARGE, temperature-ICED
 
-    public static final Double UPGRADE_PRICE = 0.7;
+    public static final Double UPGRADE_PRICE = 0.65;
 
     //REQUIRES: a beverage cannot be created with a customizable size AND customizable temperature,
     //          only one can be customized or both cannot be customized

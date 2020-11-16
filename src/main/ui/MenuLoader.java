@@ -104,7 +104,7 @@ public class MenuLoader {
         ss.addSideToOptions(additionalOptions.get(8));
         ss.addSideToOptions(additionalOptions.get(9));
         brunch.add(ss);
-        Dish bc = new Dish("Butter Croissant ", 3.45);
+        Dish bc = new Dish("Butter Croissant", 3.45);
         bc.addSideToOptions(additionalOptions.get(10));
         brunch.add(bc);
     }
@@ -134,7 +134,7 @@ public class MenuLoader {
         AdditionalOptions chicken = new AdditionalOptions("Chicken Breast", 4.00);
         AdditionalOptions tuna = new AdditionalOptions("Albacore Tuna", 5.00);
         AdditionalOptions shrimp = new AdditionalOptions("Grilled Shrimp", 5.00);
-        AdditionalOptions almond = new AdditionalOptions("Almond", 1.00);
+        AdditionalOptions almond = new AdditionalOptions("Almond Croissant", 1.00);
 
         additionalOptions.add(bacon);
         additionalOptions.add(salmon);

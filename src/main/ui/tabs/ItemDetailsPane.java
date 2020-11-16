@@ -4,6 +4,7 @@ import model.AdditionalOptions;
 import model.Beverage;
 import model.Dish;
 import model.MenuItem;
+import ui.OCafe;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -12,59 +13,85 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class ItemDetailsPane extends JPanel {
+public class ItemDetailsPane extends Tab {
     private static final String REGULAR_SIZE = "Regular";
     private static final String LARGE = "Large";
     private static final String HOT = "Hot";
     private static final String ICED = "Iced";
 
-    Beverage beverage; //new beverage instance matching selected item
-    Dish dish;
+    private static final String NO_ADD_ONS_OPTION = "Naked";
+
+    Beverage beverageSelected;
+    Dish dishSelected;
 
     JButton addToOrderButton;
 
-    public ItemDetailsPane(String itemName) {
-        setLayout(new GridLayout(0, 1));
+    public ItemDetailsPane(String itemName, OCafe controller) {
+        super(controller);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+        Dimension d = new Dimension(OCafe.WIDTH / 3, OCafe.HEIGHT * 3 / 4);
+        setPreferredSize(d);
+
+//https://stackoverflow.com/questions/16343098/resize-a-picture-to-fit-a-jlabel/32885963#32885963
+        String sep = System.getProperty("file.separator");
+        String idk = System.getProperty("user.dir");
+        ImageIcon image = new ImageIcon(new ImageIcon("./images/Japanese Curry Rice.jpg").getImage().getScaledInstance(450, 300, Image.SCALE_DEFAULT));
+
+        JLabel icon = new JLabel(image);
+        Dimension d2 = new Dimension(OCafe.WIDTH / 3, 300);
+        icon.setPreferredSize(d2);
+        icon.setAlignmentX(Component.LEFT_ALIGNMENT);
+        add(icon);
 
         JLabel name = new JLabel(itemName);
         name.setFont(new Font("Serif", Font.PLAIN, 30));
+        name.setAlignmentX(Component.LEFT_ALIGNMENT);
         add(name);
     }
 
-    //beverage details pane constructor
-    public ItemDetailsPane(String itemName, List<Beverage> type) {
-        this(itemName);
+    // beverage details pane constructor
+    public ItemDetailsPane(String itemName, List<Beverage> type, OCafe controller) {
+        this(itemName, controller);
         Beverage b = getBeverageByName(itemName, type);
-        beverage = new Beverage(b.getName(), b.getPrice(), b.getSize(), b.getTemperature());
+        beverageSelected = new Beverage(b.getName(), b.getPrice(), b.getSize(), b.getTemperature());
 
-        if (beverage.isSizeCustomizable()) {
+        if (beverageSelected.isSizeCustomizable()) {
             placeBeverageOptionsButtons(REGULAR_SIZE, LARGE);
-        } else if (beverage.isTemperatureCustomizable()) {
+        } else if (beverageSelected.isTemperatureCustomizable()) {
             placeBeverageOptionsButtons(HOT, ICED);
         }
-        placeQuantityComboBox(beverage);
-        placeAddToOrderButton(beverage);
+
+        placeQuantityComboBox(beverageSelected);
+        placeAddToOrderButton(beverageSelected);
     }
 
-    //dish details pane constructor !!!fix dummy variable
-    public ItemDetailsPane(String itemName, List<Dish> type, int dummyVar) {
-        this(itemName);
+    // dish details pane constructor !!!fix dummy variable
+    public ItemDetailsPane(String itemName, List<Dish> type, OCafe controller, int dummyVar) {
+        this(itemName, controller);
         Dish d = getDishByName(itemName, type);
-        dish = new Dish(d.getName(), d.getPrice());
+        dishSelected = new Dish(d.getName(), d.getPrice());
         for (AdditionalOptions addOn : d.getOptions()) {
-            dish.addSideToOptions(addOn);
+            dishSelected.addSideToOptions(addOn);
         }
-        //!!!
+
+        if (dishSelected.getOptions().size() != 0) {
+            placeDishOptionsButtons();
+        }
+
+        placeQuantityComboBox(dishSelected);
+        placeAddToOrderButton(dishSelected);
     }
+
 
     private void placeBeverageOptionsButtons(String regular, String upgrade) {
-        String regularLabel = String.format("%-30s $%.2f", regular, beverage.getPrice());
-        String upgradeLabel = String.format("%-30s $%.2f", upgrade, beverage.getPrice() + Beverage.UPGRADE_PRICE);
+//        String regularLabel = String.format("%-30s $%.2f", regular, beverageSelected.getPrice());
+        String upgradeLabel = String.format("%-30s +$%.2f", upgrade, Beverage.UPGRADE_PRICE);
 
-        JRadioButton regularButton = new JRadioButton(regularLabel);
+        JRadioButton regularButton = new JRadioButton(regular);
         JRadioButton upgradeButton = new JRadioButton(upgradeLabel);
-        regularButton.setActionCommand(regular);
+        regularButton.setSelected(true);
+//        regularButton.setActionCommand(regular);
         upgradeButton.setActionCommand(upgrade);
 
         regularButton.addActionListener(new BeverageCustomizer());
@@ -74,8 +101,32 @@ public class ItemDetailsPane extends JPanel {
         group.add(regularButton);
         group.add(upgradeButton);
 
+        regularButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        upgradeButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         add(regularButton);
         add(upgradeButton);
+    }
+
+    private void placeDishOptionsButtons() {
+        JLabel addOnsTitle = new JLabel("Add Ons:");
+        add(addOnsTitle);
+
+        ButtonGroup group = new ButtonGroup();
+        JRadioButton naked = new JRadioButton(NO_ADD_ONS_OPTION);
+        naked.addActionListener(new DishCustomizer());
+        group.add(naked);
+        add(naked);
+
+        for (AdditionalOptions addOn : dishSelected.getOptions()) {
+            String addOnLabel = String.format("%-30s +$%.2f", addOn.getName(), addOn.getPrice());
+            JRadioButton b = new JRadioButton(addOnLabel);
+            b.setSelected(true);
+            b.setActionCommand(addOn.getName());
+            b.addActionListener(new DishCustomizer());
+            group.add(b);
+            add(b);
+        }
     }
 
     //creates combo box representing quantities of item,
@@ -91,12 +142,13 @@ public class ItemDetailsPane extends JPanel {
         quantityBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int q = (int) quantityBox.getSelectedItem();
+                int q = (int)quantityBox.getSelectedItem();
                 item.setQuantity(q);
                 updatePriceDisplay(item);
             }
         });
 
+        quantityBox.setAlignmentX(Component.LEFT_ALIGNMENT);
         add(quantityBox);
     }
 
@@ -112,39 +164,9 @@ public class ItemDetailsPane extends JPanel {
             }
         });
 
+        addToOrderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         add(addToOrderButton);
     }
-
-
-
-    private void displayDishDetails(String itemName, List<Dish> type) {
-        Dish dish = getDishByName(itemName, type);
-        if (dish.getOptions().size() == 0) {
-            displayItemNotCustomizableDetails(dish);
-        } else {
-            System.out.println("\n" + dish.getName() + "\t\t$" + dish.getPrice() + "");
-            for (AdditionalOptions addOn : dish.getOptions()) {
-                System.out.println("" + addOn.getName() + "\t\t+$" + addOn.getPrice() + "");
-            }
-            System.out.println("\nadd to your order:");
-            System.out.println("'0' -> naked " + dish.getName() + "");
-            for (int i = 0; i < dish.getOptions().size(); i++) {
-                System.out.println("'" + (i + 1) + "' -> " + dish.getOptions().get(i).getName() + " " + dish.getName());
-            }
-        }
-        printGeneralInstructions();
-        //handle input
-        int num;
-        String s = input.nextLine();
-
-        try {
-            num = Integer.parseInt(s);
-            parseInputAddDishToOrder(num, dish);
-        } catch (NumberFormatException e) {
-            parseInputNavigate(s);
-        }
-    }
-
 
     private class BeverageCustomizer implements ActionListener {
 
@@ -153,20 +175,38 @@ public class ItemDetailsPane extends JPanel {
             String buttonPressed = e.getActionCommand();
             switch (buttonPressed) {
                 case REGULAR_SIZE:
-                    beverage.setSize(Beverage.REGULAR);
+                    beverageSelected.setSize(Beverage.REGULAR);
                     break;
                 case LARGE:
-                    beverage.setSize(Beverage.UPGRADE);
+                    beverageSelected.setSize(Beverage.UPGRADE);
                     break;
                 case HOT:
-                    beverage.setTemperature(Beverage.REGULAR);
+                    beverageSelected.setTemperature(Beverage.REGULAR);
                     break;
                 case ICED:
                 default:
-                    beverage.setTemperature(Beverage.UPGRADE);
+                    beverageSelected.setTemperature(Beverage.UPGRADE);
                     break;
             }
-            updatePriceDisplay(beverage);
+            updatePriceDisplay(beverageSelected);
+        }
+    }
+
+    private class DishCustomizer implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String buttonPressed = e.getActionCommand();
+            if (buttonPressed.equals(NO_ADD_ONS_OPTION)) {
+                dishSelected.unselectAddOn();
+            } else {
+                for (AdditionalOptions a : dishSelected.getOptions()) {
+                    if (buttonPressed.equals(a.getName())) {
+                        dishSelected.selectAddOn(a);
+                    }
+                }
+            }
+            updatePriceDisplay(dishSelected);
         }
     }
 
@@ -174,29 +214,6 @@ public class ItemDetailsPane extends JPanel {
         String label = String.format("%-20s $%.2f", "Add to Order", item.getPrice());
         addToOrderButton.setText(label);
     }
-
-
-    //MODIFIES: this
-    //EFFECTS: adds dish with customization (if any) to order
-    private void parseInputAddDishToOrder(Integer num, Dish dish) {
-        Dish d = new Dish(dish.getName(), dish.getPrice());
-        for (AdditionalOptions addOn : dish.getOptions()) {
-            d.addSideToOptions(addOn);
-        }
-        if ((num <= d.getOptions().size()) && (num >= 0)) {
-            if (num != 0) {
-                d.selectAddOn(dish.getOptions().get(num - 1));
-                addItemAndPrintConfirmation(d.getSelected().getName(), d);
-            } else {
-                order.addItem(d);
-                System.out.println("\nnaked " + d.getName() + " has been added to your order!");
-                printGeneralInstructions();
-            }
-        } else {
-            System.out.println("Invalid selection, please try again.");
-        }
-    }
-
 
     //EFFECTS: returns the Beverage in a category if already there,
     //         if not, returns null
