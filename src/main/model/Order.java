@@ -62,7 +62,8 @@ public class Order implements Writable {
         for (MenuItem item : itemList) {
             items = items + item.toString() + "\n";
         }
-        return String.format("Your " + weekDay + " " + getAmPm() + " order:\n" + items + "\nTotal: $%.2f", getTotal());
+        return String.format(
+                "Your " + weekDay + " " + getAmPm() + " order:\n\n" + items + "\n%-50s $%.2f","Total:", getTotal());
     }
 
     @Override

@@ -8,17 +8,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 
 public class OrderTab extends Tab {
     private Order order;
 
     private JPanel summaryPane;
     private JPanel checkoutPane;
+    private JPanel receiptPane;
+    private JPanel unsavedOrderPane;
 
     public OrderTab(OCafe controller) {
         super(controller);
         order = controller.getOrder();
+
+        setBorder(BorderFactory.createEmptyBorder(OCafe.HEIGHT / 4, OCafe.WIDTH / 4, 0, OCafe.WIDTH / 2));
 
         placeSummaryPane();
     }
@@ -43,6 +46,34 @@ public class OrderTab extends Tab {
         placePayNowButton();
 
         add(checkoutPane);
+    }
+
+    private void placeReceiptPane() {
+        removeAll();
+        receiptPane = initializePane("Saved!");
+
+        JTextArea receipt = new JTextArea(order.toString());
+        receipt.setBackground(new Color(0,0,0, 0));
+        receipt.setAlignmentX(Component.LEFT_ALIGNMENT);
+        receiptPane.add(receipt);
+
+        add(receiptPane);
+        setSize(receiptPane.getSize());
+        revalidate();
+    }
+
+    private void placeUnsavedOrderPane() {
+        removeAll();
+        unsavedOrderPane = initializePane("Your order has been placed!");
+
+        unsavedOrderPane.add(Box.createRigidArea(new Dimension(50, 50)));
+
+        placeOrderButton(unsavedOrderPane);
+        placeHomeButton(unsavedOrderPane);
+
+        add(unsavedOrderPane);
+        setSize(unsavedOrderPane.getSize());
+        revalidate();
     }
 
     private void displayOrderItems(JPanel currentPanel) {
@@ -115,15 +146,22 @@ public class OrderTab extends Tab {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // process payment??
-                order.setDate();
-                int selected = JOptionPane.showConfirmDialog(null,
-                        "Your order has been placed!\nWould you like to save this order?",
-                        "Confirmation",
-                        JOptionPane.YES_NO_OPTION);
-
+                int selected = JOptionPane.NO_OPTION;
+                if (controller.getAccount() != null) {
+                    order.setDate();
+                    selected = JOptionPane.showConfirmDialog(null,
+                            "Would you like to save this order to your history?",
+                            "Confirmation",
+                            JOptionPane.YES_NO_OPTION);
+                }
                 if (selected == JOptionPane.YES_OPTION) {
                     controller.saveOrder();
+                    placeReceiptPane();
+                } else {
+                    placeUnsavedOrderPane();
                 }
+
+                order = new Order();
             }
         });
 
@@ -131,7 +169,22 @@ public class OrderTab extends Tab {
         checkoutPane.add(payNowButton);
     }
 
+    private void placeHomeButton(JPanel panel) {
+        JButton placeOrderButton = new JButton("Home");
 
+        placeOrderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String buttonPressed = e.getActionCommand();
+                if (buttonPressed.equals("Home")) {
+                    controller.getTabbedPane().setSelectedIndex(OCafe.HOME_TAB_INDEX);
+                }
+            }
+        });
+
+        placeOrderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panel.add(placeOrderButton);
+    }
 
     private String displayOrderTotal(String s) {
         return String.format("%-50s $%.2f", s, order.getTotal());

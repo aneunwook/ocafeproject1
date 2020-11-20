@@ -113,8 +113,6 @@ public class OCafe extends JFrame {
             writer.write(account);
             writer.close();
 
-            refreshTab(HOME_TAB_INDEX);
-
         } catch (FileNotFoundException e) {
             System.out.println("Order could not be saved");
         }
