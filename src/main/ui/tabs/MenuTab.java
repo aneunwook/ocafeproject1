@@ -28,8 +28,6 @@ public class MenuTab extends Tab {
 
     private static final String[] categories = {COFFEE, TEA, NONCAFFEINATED, BRUNCH, DESSERT};
 
-    private JLabel title;
-
     private JPanel categorySelectorPane;
     private JPanel categoryContainer;
     private JPanel itemDetailsContainer;
@@ -50,7 +48,7 @@ public class MenuTab extends Tab {
 
     //EFFECTS: creates title at top of console
     private void placeTitle() {
-        title = new JLabel("MENU", JLabel.CENTER);
+        JLabel title = new JLabel("MENU", JLabel.CENTER);
         title.setSize(OCafe.WIDTH, OCafe.HEIGHT / 6);
 
         GridBagConstraints c = new GridBagConstraints();

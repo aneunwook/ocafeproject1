@@ -22,23 +22,26 @@ public class CategoryPane extends Tab {
 
         this.menuTab = menuTab;
 
-        int size = category.length;
-        for (int i = 0; i < size; i++) {
-            JButton itemButton = new JButton(category[i]);       // !!!add price and actionListener
+        placeItemButtons(category);
+    }
+
+    private void placeItemButtons(String[] category) {
+        for (String s : category) {
+            JButton itemButton = new JButton(s);
             itemButton.addActionListener(new ItemSelector());
             add(itemButton);
         }
     }
 
     //EFFECTS: creates new ItemDetailsPane and sets it in menu tab
-    private void displayBeverageDetails(String itemName, List<Beverage> type) {
-        ItemDetailsPane p = new ItemDetailsPane(itemName, type, controller);
+    public void displayBeverageDetails(String itemName, List<Beverage> type) {
+        ItemDetailsPane p = new ItemDetailsPane(itemName, type, this);
         menuTab.setItemDetailsContainer(p);
     }
 
     //EFFECTS: displays dish item details
-    private void displayDishDetails(String itemName, List<Dish> type) {
-        ItemDetailsPane p = new ItemDetailsPane(itemName, type, controller, 1);
+    public void displayDishDetails(String itemName, List<Dish> type) {
+        ItemDetailsPane p = new ItemDetailsPane(itemName, type, this, 1);
         menuTab.setItemDetailsContainer(p);
     }
 

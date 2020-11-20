@@ -35,6 +35,18 @@ public abstract class Tab extends JPanel {
 //        return p;
 //    }
 
+    protected JPanel initializePane(String title) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        JLabel label = new JLabel(title);
+        label.setFont(new Font("Serif", Font.PLAIN, 30));
+        label.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panel.add(label);
+
+        return panel;
+    }
+
     //EFFECTS: returns the SmartHomeUI controller for this tab
     public OCafe getController() {
         return controller;

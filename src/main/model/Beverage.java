@@ -105,7 +105,7 @@ public class Beverage extends MenuItem {
 
     //EFFECTS: returns customizable beverages in string format
     private String toStringCustomizable(String s) {
-        return super.toString() + "\n   \t " + s;
+        return super.toString() + "\n\n   " + s;
     }
 
     @Override

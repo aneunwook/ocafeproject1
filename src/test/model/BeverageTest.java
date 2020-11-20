@@ -137,11 +137,11 @@ public class BeverageTest {
         assertTrue(beverage.setTemperature(Beverage.NOT_CUSTOMIZABLE));
 
         //to string regular
-        assertEquals("$3.00\t\tCoffee\n   \t\t Regular", beverage.toString());
+        assertEquals("$3.00\t\tCoffee\n\t Regular", beverage.toString());
 
         //to string large
         assertTrue(beverage.setSize(Beverage.UPGRADE));
-        assertEquals("$3.70\t\tCoffee\n   \t\t Large", beverage.toString());
+        assertEquals("$3.70\t\tCoffee\n\t Large", beverage.toString());
 
     }
 
@@ -150,11 +150,11 @@ public class BeverageTest {
         assertTrue(beverage.setSize(Beverage.NOT_CUSTOMIZABLE));
 
         //to string hot
-        assertEquals("$3.00\t\tCoffee\n   \t\t Hot", beverage.toString());
+        assertEquals("$3.00\t\tCoffee\n\t Hot", beverage.toString());
 
         assertTrue(beverage.setTemperature(Beverage.UPGRADE));
         //to string iced
-        assertEquals("$3.70\t\tCoffee\n   \t\t Iced", beverage.toString());
+        assertEquals("$3.70\t\tCoffee\n\t Iced", beverage.toString());
     }
 
 }

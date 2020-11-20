@@ -1,16 +1,14 @@
 package ui.tabs;
 
-import model.AdditionalOptions;
-import model.Beverage;
-import model.Dish;
+import model.*;
 import model.MenuItem;
 import ui.OCafe;
 
 import javax.swing.*;
-import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.ImageObserver;
 import java.util.List;
 
 public class ItemDetailsPane extends Tab {
@@ -18,43 +16,37 @@ public class ItemDetailsPane extends Tab {
     private static final String LARGE = "Large";
     private static final String HOT = "Hot";
     private static final String ICED = "Iced";
-
     private static final String NO_ADD_ONS_OPTION = "Naked";
 
+    private static final int IMAGE_HEIGHT = 300;
+
+    CategoryPane categoryPane;
+
     Beverage beverageSelected;
+    List<Beverage> beverageType;
+
     Dish dishSelected;
+    List<Dish> dishType;
 
     JButton addToOrderButton;
 
-    public ItemDetailsPane(String itemName, OCafe controller) {
-        super(controller);
+    public ItemDetailsPane(CategoryPane cp) {
+        super(cp.controller);
+        categoryPane = cp;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+        setBorder(BorderFactory.createEtchedBorder());
         Dimension d = new Dimension(OCafe.WIDTH / 3, OCafe.HEIGHT * 3 / 4);
         setPreferredSize(d);
-
-//https://stackoverflow.com/questions/16343098/resize-a-picture-to-fit-a-jlabel/32885963#32885963
-        String sep = System.getProperty("file.separator");
-        String idk = System.getProperty("user.dir");
-        ImageIcon image = new ImageIcon(new ImageIcon("./images/Japanese Curry Rice.jpg").getImage().getScaledInstance(450, 300, Image.SCALE_DEFAULT));
-
-        JLabel icon = new JLabel(image);
-        Dimension d2 = new Dimension(OCafe.WIDTH / 3, 300);
-        icon.setPreferredSize(d2);
-        icon.setAlignmentX(Component.LEFT_ALIGNMENT);
-        add(icon);
-
-        JLabel name = new JLabel(itemName);
-        name.setFont(new Font("Serif", Font.PLAIN, 30));
-        name.setAlignmentX(Component.LEFT_ALIGNMENT);
-        add(name);
     }
 
     // beverage details pane constructor
-    public ItemDetailsPane(String itemName, List<Beverage> type, OCafe controller) {
-        this(itemName, controller);
+    public ItemDetailsPane(String itemName, List<Beverage> type, CategoryPane cp) {
+        this(cp);
+        beverageType = type;
         Beverage b = getBeverageByName(itemName, type);
         beverageSelected = new Beverage(b.getName(), b.getPrice(), b.getSize(), b.getTemperature());
+
+        loadImageAndName(beverageSelected);
 
         if (beverageSelected.isSizeCustomizable()) {
             placeBeverageOptionsButtons(REGULAR_SIZE, LARGE);
@@ -67,13 +59,16 @@ public class ItemDetailsPane extends Tab {
     }
 
     // dish details pane constructor !!!fix dummy variable
-    public ItemDetailsPane(String itemName, List<Dish> type, OCafe controller, int dummyVar) {
-        this(itemName, controller);
+    public ItemDetailsPane(String itemName, List<Dish> type, CategoryPane cp, int dummyVar) {
+        this(cp);
+        dishType = type;
         Dish d = getDishByName(itemName, type);
         dishSelected = new Dish(d.getName(), d.getPrice());
         for (AdditionalOptions addOn : d.getOptions()) {
             dishSelected.addSideToOptions(addOn);
         }
+
+        loadImageAndName(dishSelected);
 
         if (dishSelected.getOptions().size() != 0) {
             placeDishOptionsButtons();
@@ -83,6 +78,28 @@ public class ItemDetailsPane extends Tab {
         placeAddToOrderButton(dishSelected);
     }
 
+    private void loadImageAndName(MenuItem item) {
+        Image originalImage = item.getImage();
+        int height = originalImage.getHeight(new Observer());
+        int width = originalImage.getWidth(new Observer());
+        double scale = ((double)height / IMAGE_HEIGHT);
+
+//https://stackoverflow.com/questions/16343098/resize-a-picture-to-fit-a-jlabel/32885963#32885963
+        ImageIcon scaledImage = new ImageIcon(
+                item.getImage().getScaledInstance((int)(width / scale),
+                IMAGE_HEIGHT,
+                Image.SCALE_DEFAULT));
+        JLabel icon = new JLabel(scaledImage);
+        Dimension d2 = new Dimension(OCafe.WIDTH / 3, IMAGE_HEIGHT);
+        icon.setPreferredSize(d2);
+        icon.setAlignmentX(Component.LEFT_ALIGNMENT);
+        add(icon);
+
+        JLabel name = new JLabel(item.getName());
+        name.setFont(new Font("Serif", Font.PLAIN, 30));
+        name.setAlignmentX(Component.LEFT_ALIGNMENT);
+        add(name);
+    }
 
     private void placeBeverageOptionsButtons(String regular, String upgrade) {
 //        String regularLabel = String.format("%-30s $%.2f", regular, beverageSelected.getPrice());
@@ -114,6 +131,7 @@ public class ItemDetailsPane extends Tab {
 
         ButtonGroup group = new ButtonGroup();
         JRadioButton naked = new JRadioButton(NO_ADD_ONS_OPTION);
+        naked.setSelected(true);
         naked.addActionListener(new DishCustomizer());
         group.add(naked);
         add(naked);
@@ -121,7 +139,6 @@ public class ItemDetailsPane extends Tab {
         for (AdditionalOptions addOn : dishSelected.getOptions()) {
             String addOnLabel = String.format("%-30s +$%.2f", addOn.getName(), addOn.getPrice());
             JRadioButton b = new JRadioButton(addOnLabel);
-            b.setSelected(true);
             b.setActionCommand(addOn.getName());
             b.addActionListener(new DishCustomizer());
             group.add(b);
@@ -160,7 +177,17 @@ public class ItemDetailsPane extends Tab {
         addToOrderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //!!!
+                Order order = controller.getOrder();
+                order.addItem(item);
+                controller.refreshTab(OCafe.ORDER_TAB_INDEX);
+
+                if (beverageSelected != null) {
+                    categoryPane.displayBeverageDetails(item.getName(), beverageType);
+                } else {
+                    categoryPane.displayDishDetails(item.getName(), dishType);
+                }
+
+                JOptionPane.showMessageDialog(null, item.getName() + " has been added to your order!");
             }
         });
 
@@ -235,5 +262,14 @@ public class ItemDetailsPane extends Tab {
             }
         }
         return null;
+    }
+
+
+    private class Observer implements ImageObserver {
+
+        @Override
+        public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+            return false;
+        }
     }
 }

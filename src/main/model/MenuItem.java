@@ -21,7 +21,7 @@ public abstract class MenuItem implements Writable {
         this.name = name;
         this.price = price;
         quantity = 1;
-        image = new ImageIcon("./images/" + name + ".jpg").getImage();
+        image = new ImageIcon("./data/images/" + name + ".jpg").getImage();
     }
 
     //REQUIRES: q >= 1
@@ -49,9 +49,13 @@ public abstract class MenuItem implements Writable {
         return price;
     }
 
+    public Image getImage() {
+        return image;
+    }
+
     //EFFECTS: returns menu item in string format
     public String toString() {
-        return String.format("%-20s $%.2f", name, price);
+        return String.format("%-50s $%.2f", name, price);
     }
 
 

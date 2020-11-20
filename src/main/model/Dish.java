@@ -56,7 +56,7 @@ public class Dish extends MenuItem {
     public String toString() {
         String s = super.toString();
         try {
-            return s + "\n   \t " + selected.getName();
+            return s + "\n\n   " + selected.getName();
         } catch (NullPointerException e) {
             return s;
         }
