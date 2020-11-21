@@ -32,6 +32,7 @@ public class MenuTab extends Tab {
     private JPanel categoryContainer;
     private JPanel itemDetailsContainer;
 
+    // creates menu tab
     public MenuTab(OCafe controller) {
         super(controller);
 

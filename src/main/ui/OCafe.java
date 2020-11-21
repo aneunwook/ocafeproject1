@@ -1,5 +1,6 @@
 package ui;
 
+import com.sun.tools.corba.se.idl.constExpr.Or;
 import model.Account;
 import model.Order;
 import persistence.JsonReader;
@@ -31,6 +32,7 @@ public class OCafe extends JFrame {
 
     private JTabbedPane sidebar;
 
+    // creates new OCafe object
     public OCafe() {
         super("OCafe");
         setSize(WIDTH, HEIGHT);
@@ -64,6 +66,7 @@ public class OCafe extends JFrame {
         sidebar.setTitleAt(ORDER_TAB_INDEX, "Order");
     }
 
+    // refreshes tab at index
     public void refreshTab(int tabIndex) {
         sidebar.setComponentAt(tabIndex, getTab(tabIndex));
         sidebar.getComponentAt(tabIndex).revalidate();
@@ -94,13 +97,24 @@ public class OCafe extends JFrame {
         try {
             writer = new JsonWriter("./data/" + name + ".json");
             reader = new JsonReader("./data/" + name + ".json");
-            account = reader.read();
+            readAccount();
 
             refreshTab(HOME_TAB_INDEX);
 
         } catch (IOException e) {
             System.out.println("An account with name '" + name + "' cannot be found :(");
             //try again or create account!!!
+        }
+    }
+
+    //MODIFIES: this
+    //EFFECTS: if account is not already null, set account, writer, and reader to null and display start page,
+    //         otherwise does nothing
+    public void handleSignOut() {
+        if (account != null) {
+            account = null;
+            writer = null;
+            reader = null;
         }
     }
 
@@ -118,6 +132,16 @@ public class OCafe extends JFrame {
         }
     }
 
+    // reads account from json file and sets to account field
+    public void readAccount() throws IOException {
+        account = reader.read();
+    }
+
+    // assigns order field to a new order
+    public void makeNewOrder() {
+        order = new Order();
+    }
+
     //EFFECTS: returns sidebar of this UI
     public JTabbedPane getTabbedPane() {
         return sidebar;
@@ -131,22 +155,11 @@ public class OCafe extends JFrame {
         return account;
     }
 
-    public JsonWriter getWriter() {
-        return writer;
-    }
-
-    public JsonReader getReader() {
-        return reader;
-    }
-
     public Order getOrder() {
         return order;
     }
 
-    public static void main(String[] args) {
-        new OCafe();
-    }
-
+    // retrieves a new tab according to index
     private Tab getTab(int index) {
         if (index == HOME_TAB_INDEX) {
             return new HomeTab(this);
@@ -155,5 +168,9 @@ public class OCafe extends JFrame {
         } else {
             return new OrderTab(this);
         }
+    }
+
+    public static void main(String[] args) {
+        new OCafe();
     }
 }

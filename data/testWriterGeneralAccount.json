@@ -4,10 +4,10 @@
         {
             "date": {
                 "month": 10,
-                "hour": 15,
+                "hour": 19,
                 "year": 2020,
-                "day": 8,
-                "minute": 39
+                "day": 20,
+                "minute": 30
             },
             "total": 0,
             "itemList": [
@@ -30,10 +30,10 @@
         {
             "date": {
                 "month": 10,
-                "hour": 15,
+                "hour": 19,
                 "year": 2020,
-                "day": 8,
-                "minute": 39
+                "day": 20,
+                "minute": 30
             },
             "total": 0,
             "itemList": [
@@ -52,7 +52,7 @@
                 },
                 {
                     "price": 16,
-                    "name": "Japanese Curry Rice",
+                    "name": "Japanese Curry Ric",
                     "options": [
                         {
                             "price": 4,

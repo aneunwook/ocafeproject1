@@ -9,7 +9,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// represents an order tab, allows interaction with the current order
 public class OrderTab extends Tab {
+    private static final int ITEM_PANEL_WIDTH = 380;
+
     private Order order;
 
     private JPanel summaryPane;
@@ -17,6 +20,7 @@ public class OrderTab extends Tab {
     private JPanel receiptPane;
     private JPanel unsavedOrderPane;
 
+    // creates new order tab
     public OrderTab(OCafe controller) {
         super(controller);
         order = controller.getOrder();
@@ -26,6 +30,7 @@ public class OrderTab extends Tab {
         placeSummaryPane();
     }
 
+    // creates and adds order summary panel
     private void placeSummaryPane() {
         summaryPane = initializePane("Your Order");
 
@@ -35,50 +40,59 @@ public class OrderTab extends Tab {
         add(summaryPane);
     }
 
+    // creates and adds checkout panel
     private void placeCheckoutPane() {
         checkoutPane = initializePane("Checkout");
+        checkoutPane.add(createRigidArea());
 
         displayOrderItems(checkoutPane);
 
+        checkoutPane.add(createRigidArea());
         JLabel total = new JLabel(displayOrderTotal("Total:"));
         checkoutPane.add(total);
 
+        checkoutPane.add(createRigidArea());
         placePayNowButton();
 
         add(checkoutPane);
     }
 
+    // creates and adds receipt panel
     private void placeReceiptPane() {
-        removeAll();
         receiptPane = initializePane("Saved!");
+        receiptPane.add(createRigidArea());
 
         JTextArea receipt = new JTextArea(order.toString());
         receipt.setBackground(new Color(0,0,0, 0));
         receipt.setAlignmentX(Component.LEFT_ALIGNMENT);
         receiptPane.add(receipt);
 
+        receiptPane.add(createRigidArea());
+
+        placeOrderButton(receiptPane);
+        placeHomeButton(receiptPane);
+
         add(receiptPane);
-        setSize(receiptPane.getSize());
-        revalidate();
     }
 
+    // creates and adds panel with confirmation message
     private void placeUnsavedOrderPane() {
-        removeAll();
         unsavedOrderPane = initializePane("Your order has been placed!");
 
-        unsavedOrderPane.add(Box.createRigidArea(new Dimension(50, 50)));
+        unsavedOrderPane.add(createRigidArea());
 
         placeOrderButton(unsavedOrderPane);
         placeHomeButton(unsavedOrderPane);
 
         add(unsavedOrderPane);
-        setSize(unsavedOrderPane.getSize());
-        revalidate();
     }
 
+    // displays items in current order
     private void displayOrderItems(JPanel currentPanel) {
         for (MenuItem item : order.getItemList()) {
             JPanel itemPane = new JPanel();
+            itemPane.setLayout(new BoxLayout(itemPane, BoxLayout.X_AXIS));
+            itemPane.setPreferredSize(new Dimension(ITEM_PANEL_WIDTH, 80));
             itemPane.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.DARK_GRAY));
 
             if (currentPanel.equals(summaryPane)) {
@@ -123,6 +137,7 @@ public class OrderTab extends Tab {
     // creates checkout button, switches contentpane to checkout pane
     private void placeCheckoutButton() {
         JButton checkoutButton = new JButton(displayOrderTotal("Checkout"));
+        checkoutButton.setPreferredSize(new Dimension(ITEM_PANEL_WIDTH, 40));
 
         checkoutButton.addActionListener(new ActionListener() {
             @Override
@@ -141,34 +156,15 @@ public class OrderTab extends Tab {
     // creates pay button, places order and prompts user to save this order when pressed
     private void placePayNowButton() {
         JButton payNowButton = new JButton("Pay Now");
+        payNowButton.setPreferredSize(new Dimension(ITEM_PANEL_WIDTH, 40));
 
-        payNowButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // process payment??
-                int selected = JOptionPane.NO_OPTION;
-                if (controller.getAccount() != null) {
-                    order.setDate();
-                    selected = JOptionPane.showConfirmDialog(null,
-                            "Would you like to save this order to your history?",
-                            "Confirmation",
-                            JOptionPane.YES_NO_OPTION);
-                }
-                if (selected == JOptionPane.YES_OPTION) {
-                    controller.saveOrder();
-                    placeReceiptPane();
-                } else {
-                    placeUnsavedOrderPane();
-                }
-
-                order = new Order();
-            }
-        });
+        payNowButton.addActionListener(new PaymentConfirmation());
 
         payNowButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         checkoutPane.add(payNowButton);
     }
 
+    // creates home button, sets tabbed pane to home tab
     private void placeHomeButton(JPanel panel) {
         JButton placeOrderButton = new JButton("Home");
 
@@ -186,7 +182,35 @@ public class OrderTab extends Tab {
         panel.add(placeOrderButton);
     }
 
+    // returns string representing parameter and order total
     private String displayOrderTotal(String s) {
-        return String.format("%-50s $%.2f", s, order.getTotal());
+        return String.format("%-60s $%.2f", s, order.getTotal());
+    }
+
+    // action listener for payment confirmation
+    private class PaymentConfirmation implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // process payment??
+            int selected = JOptionPane.NO_OPTION;
+            if (controller.getAccount() != null) {
+                order.setDate();
+                selected = JOptionPane.showConfirmDialog(null,
+                        "Would you like to save this order to your history?",
+                        "Confirmation", JOptionPane.YES_NO_OPTION);
+            }
+            if (selected == JOptionPane.YES_OPTION) {
+                controller.saveOrder();
+                removeAll();
+                placeReceiptPane();
+                revalidate();
+            } else {
+                removeAll();
+                placeUnsavedOrderPane();
+                revalidate();
+            }
+            controller.makeNewOrder();
+        }
     }
 }

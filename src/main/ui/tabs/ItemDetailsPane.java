@@ -30,6 +30,7 @@ public class ItemDetailsPane extends Tab {
 
     JButton addToOrderButton;
 
+    // creates a panel representing an item
     public ItemDetailsPane(CategoryPane cp) {
         super(cp.controller);
         categoryPane = cp;
@@ -78,6 +79,7 @@ public class ItemDetailsPane extends Tab {
         placeAddToOrderButton(dishSelected);
     }
 
+    // loads image and name of an item
     private void loadImageAndName(MenuItem item) {
         Image originalImage = item.getImage();
         int height = originalImage.getHeight(new Observer());
@@ -101,6 +103,7 @@ public class ItemDetailsPane extends Tab {
         add(name);
     }
 
+    // creates radio buttons for beverage customization
     private void placeBeverageOptionsButtons(String regular, String upgrade) {
 //        String regularLabel = String.format("%-30s $%.2f", regular, beverageSelected.getPrice());
         String upgradeLabel = String.format("%-30s +$%.2f", upgrade, Beverage.UPGRADE_PRICE);
@@ -125,6 +128,7 @@ public class ItemDetailsPane extends Tab {
         add(upgradeButton);
     }
 
+    // creates radio buttons for dish customization
     private void placeDishOptionsButtons() {
         JLabel addOnsTitle = new JLabel("Add Ons:");
         add(addOnsTitle);
@@ -195,6 +199,7 @@ public class ItemDetailsPane extends Tab {
         add(addToOrderButton);
     }
 
+    // customizes beverages according to selection
     private class BeverageCustomizer implements ActionListener {
 
         @Override
@@ -219,6 +224,7 @@ public class ItemDetailsPane extends Tab {
         }
     }
 
+    // customizes dishes according to selection
     private class DishCustomizer implements ActionListener {
 
         @Override
@@ -237,6 +243,7 @@ public class ItemDetailsPane extends Tab {
         }
     }
 
+    // updates price displayed
     private void updatePriceDisplay(MenuItem item) {
         String label = String.format("%-20s $%.2f", "Add to Order", item.getPrice());
         addToOrderButton.setText(label);
@@ -265,6 +272,7 @@ public class ItemDetailsPane extends Tab {
     }
 
 
+    // image observer
     private class Observer implements ImageObserver {
 
         @Override

@@ -13,6 +13,7 @@ import java.util.List;
 public class CategoryPane extends Tab {
     private MenuTab menuTab;
 
+    // creates panel with items within a category
     public CategoryPane(MenuTab menuTab, OCafe controller, String[] category) {
         super(controller);
         setLayout(new GridLayout(0, 1));
@@ -25,6 +26,7 @@ public class CategoryPane extends Tab {
         placeItemButtons(category);
     }
 
+    // creates item buttons
     private void placeItemButtons(String[] category) {
         for (String s : category) {
             JButton itemButton = new JButton(s);
@@ -45,6 +47,7 @@ public class CategoryPane extends Tab {
         menuTab.setItemDetailsContainer(p);
     }
 
+    // selects item and sets the item details pane in menu tab
     private class ItemSelector implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

@@ -3,6 +3,7 @@ package ui.tabs;
 import ui.OCafe;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,27 +20,9 @@ public abstract class Tab extends JPanel {
     //REQUIRES: SmartHomeUI controller that holds this tab
     public Tab(OCafe controller) {
         this.controller = controller;
-//        setBorder(new EmptyBorder(new Insets(INSET,0,0,0)));
     }
 
-    //EFFECTS: creates and returns row with button included
-    public JPanel formatButtonRow(JButton b) {
-        JPanel p = new JPanel();
-        p.setLayout(new FlowLayout());
-        p.add(b);
-
-        return p;
-    }
-
-    //EFFECTS: creates and returns column with button included
-//    public JPanel formatButtonColumn(JButton b) {
-//        JPanel p = new JPanel();
-//        p.setLayout(new FlowLayout());
-//        p.add(b);
-//
-//        return p;
-//    }
-
+    // creates a panel with a title
     public JPanel initializePane(String title) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -70,6 +53,11 @@ public abstract class Tab extends JPanel {
 
         placeOrderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(placeOrderButton);
+    }
+
+    // creates rigid area
+    public Component createRigidArea() {
+        return Box.createRigidArea(new Dimension(50, 20));
     }
 
     //EFFECTS: returns the SmartHomeUI controller for this tab

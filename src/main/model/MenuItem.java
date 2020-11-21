@@ -55,7 +55,7 @@ public abstract class MenuItem implements Writable {
 
     //EFFECTS: returns menu item in string format
     public String toString() {
-        return String.format("%-50s $%.2f", name, price);
+        return String.format("%-60s $%.2f", name, price);
     }
 
 

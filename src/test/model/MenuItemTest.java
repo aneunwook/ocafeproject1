@@ -4,6 +4,10 @@ import exceptions.IllegalQuantityException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.*;
+
+import java.awt.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -13,12 +17,12 @@ public class MenuItemTest {
 
     @BeforeEach
     public void setUp() {
-        item = new Beverage("Coffee", 3.00, Beverage.REGULAR, Beverage.REGULAR);
+        item = new Beverage("Espresso", 3.00, Beverage.REGULAR, Beverage.REGULAR);
     }
 
     @Test
     public void testConstructor() {
-        assertEquals("Coffee", item.getName());
+        assertEquals("Espresso", item.getName());
         assertEquals(3.00, item.getPrice());
         assertEquals(1, item.getQuantity());
     }
@@ -43,6 +47,17 @@ public class MenuItemTest {
 //        }
         assertEquals(2, item.getQuantity());
         assertEquals(6.00, item.getPrice());
+    }
+
+    @Test
+    public void testToString() {
+        assertEquals(String.format("%-60s $%.2f\n\n   Regular", "Espresso", 3.00), item.toString());
+    }
+
+    @Test
+    public void testImage() {
+        Image test = new ImageIcon("./data/images/Espresso.jpg").getImage();
+        assertEquals(test, item.getImage());
     }
 }
 

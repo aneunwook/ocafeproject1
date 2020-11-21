@@ -122,15 +122,10 @@ public class DishTest {
         dish.addSideToOptions(s3);
 
         //null selected
-        assertEquals("$10.00\t\tSalad", dish.toString());
+        assertEquals(String.format("%-60s $%.2f", "Salad", 10.00), dish.toString());
 
         //select an add-on
         assertTrue(dish.selectAddOn(s1));
-        assertEquals("$16.00\t\tSalad\n\t Steak", dish.toString());
+        assertEquals(String.format("%-60s $%.2f\n\n   Steak", "Salad", 16.00), dish.toString());
     }
-
-//    @Test
-//    public void testAddOnToString() {
-//        assertEquals("$6.00\t\tSteak", s1.toString());
-//    }
 }

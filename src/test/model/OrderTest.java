@@ -195,8 +195,8 @@ public class OrderTest {
             items = items + item.toString() + "\n";
         }
 
-        assertEquals("Your " + Order.days[order.getDayOfWeek()] + " " + order.getAmPm() + " order:\n" + items
-                + "\nTotal: $15.00", order.toString());
+        assertEquals(String.format("Your " + Order.days[order.getDayOfWeek()] + " " + order.getAmPm() + " order:\n\n" + items
+                + "\n%-50s $15.00", "Total:"), order.toString());
 
     }
 }
