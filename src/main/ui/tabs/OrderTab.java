@@ -69,7 +69,6 @@ public class OrderTab extends Tab {
 
         receiptPane.add(createRigidArea());
 
-        placeOrderButton(receiptPane);
         placeHomeButton(receiptPane);
 
         add(receiptPane);
@@ -81,7 +80,6 @@ public class OrderTab extends Tab {
 
         unsavedOrderPane.add(createRigidArea());
 
-        placeOrderButton(unsavedOrderPane);
         placeHomeButton(unsavedOrderPane);
 
         add(unsavedOrderPane);
@@ -91,8 +89,8 @@ public class OrderTab extends Tab {
     private void displayOrderItems(JPanel currentPanel) {
         for (MenuItem item : order.getItemList()) {
             JPanel itemPane = new JPanel();
-            itemPane.setLayout(new BoxLayout(itemPane, BoxLayout.X_AXIS));
-            itemPane.setPreferredSize(new Dimension(ITEM_PANEL_WIDTH, 80));
+//            itemPane.setLayout(new BoxLayout(itemPane, BoxLayout.X_AXIS));
+//            itemPane.setPreferredSize(new Dimension(ITEM_PANEL_WIDTH, 80));
             itemPane.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.DARK_GRAY));
 
             if (currentPanel.equals(summaryPane)) {
@@ -173,6 +171,7 @@ public class OrderTab extends Tab {
             public void actionPerformed(ActionEvent e) {
                 String buttonPressed = e.getActionCommand();
                 if (buttonPressed.equals("Home")) {
+                    controller.refreshTab(OCafe.ORDER_TAB_INDEX);
                     controller.getTabbedPane().setSelectedIndex(OCafe.HOME_TAB_INDEX);
                 }
             }
@@ -202,14 +201,14 @@ public class OrderTab extends Tab {
             }
             if (selected == JOptionPane.YES_OPTION) {
                 controller.saveOrder();
+                controller.refreshTab(OCafe.HOME_TAB_INDEX);
                 removeAll();
                 placeReceiptPane();
-                revalidate();
             } else {
                 removeAll();
                 placeUnsavedOrderPane();
-                revalidate();
             }
+            revalidate();
             controller.makeNewOrder();
         }
     }

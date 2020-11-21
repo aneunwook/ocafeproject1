@@ -51,6 +51,7 @@ public class HomeTab extends Tab {
 
         accountOptionsPane.add(createRigidArea());
 
+        placeOrderButton(accountOptionsPane);
         placeOrderHistoryButton();
         placeSignOutButton();
 

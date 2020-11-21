@@ -27,6 +27,8 @@ for example: desserts.
 - As a user, I want to be able to view the list of items in my order.
 - As a user, I want to be able to select a menuLoader item and customize it, for example the size of a beverage or the add-on
 for a dish.
+- As a user, I want to be able to choose the quantity of an item to add to my order.
+- As a user, I want to be able to remove items from my order
 - As a user, I want to be able to create an account 
 - As a user, I want to be able to save my orders to my account.
 - As a user, I want to be able to view previous orders made under the same account.

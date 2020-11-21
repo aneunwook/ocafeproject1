@@ -1,4 +1,30 @@
 {
     "name": "Vanessa",
-    "history": []
+    "history": [{
+        "date": {
+            "month": 10,
+            "hour": 19,
+            "year": 2020,
+            "day": 20,
+            "minute": 34
+        },
+        "total": 10.75,
+        "itemList": [
+            {
+                "size": -1,
+                "price": 3.45,
+                "name": "Espresso",
+                "temperature": -1,
+                "type": "beverage"
+            },
+            {
+                "size": -1,
+                "price": 7.3,
+                "name": "Macchiato",
+                "temperature": 0,
+                "type": "beverage"
+            }
+        ],
+        "id": 1
+    }]
 }
