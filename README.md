@@ -2,10 +2,10 @@
 
 ## About
 
-The plan for this application is to simulate an online food ordering/delivery *service*. Users will have access to a
+The plan for this application is to simulate a food ordering *service*. Users will have access to a
 varied selection of restaurant menus, and orders corresponding to specific restaurants can be created and placed. Items
-can be customized, added, and *removed* from orders. Users can create accounts with this delivery service so that orders
-and menuLoader favourites can be recorded and accessed during the next use of this application. In **addition**, a reward 
+can be customized, added, and *removed* from orders. Users can create accounts so that orders
+and menu favourites can be recorded and accessed during the next use of this application. In **addition**, a reward 
 system will be implemented based on the amount spent by a card **associated** to a user's account so that the 
 user can redeem points accumulated by each purchase. 
 
