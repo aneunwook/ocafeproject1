@@ -1,30 +1,79 @@
 {
     "name": "Vanessa",
-    "history": [{
-        "date": {
-            "month": 10,
-            "hour": 19,
-            "year": 2020,
-            "day": 20,
-            "minute": 34
-        },
-        "total": 10.75,
-        "itemList": [
-            {
-                "size": -1,
-                "price": 3.45,
-                "name": "Espresso",
-                "temperature": -1,
-                "type": "beverage"
+    "history": [
+        {
+            "date": {
+                "month": 10,
+                "hour": 19,
+                "year": 2020,
+                "day": 20,
+                "minute": 34
             },
-            {
-                "size": -1,
-                "price": 7.3,
-                "name": "Macchiato",
-                "temperature": 0,
-                "type": "beverage"
-            }
-        ],
-        "id": 1
-    }]
+            "total": 10.75,
+            "itemList": [
+                {
+                    "size": -1,
+                    "price": 3.45,
+                    "name": "Espresso",
+                    "temperature": -1,
+                    "type": "beverage"
+                },
+                {
+                    "size": -1,
+                    "price": 7.3,
+                    "name": "Macchiato",
+                    "temperature": 0,
+                    "type": "beverage"
+                }
+            ],
+            "id": 4
+        },
+        {
+            "date": {
+                "month": 10,
+                "hour": 20,
+                "year": 2020,
+                "day": 20,
+                "minute": 10
+            },
+            "total": 26.549999999999997,
+            "itemList": [
+                {
+                    "size": -1,
+                    "price": 5.95,
+                    "name": "Hojicha Latte",
+                    "temperature": 0,
+                    "type": "beverage"
+                },
+                {
+                    "price": 15.95,
+                    "name": "Omurice",
+                    "options": [{
+                        "price": 4,
+                        "name": "Beef"
+                    }],
+                    "type": "dish"
+                },
+                {
+                    "price": 4.65,
+                    "name": "Kinako Mochi",
+                    "options": [],
+                    "type": "dish"
+                }
+            ],
+            "id": 5
+        },
+        {
+            "date": {
+                "month": 10,
+                "hour": 20,
+                "year": 2020,
+                "day": 20,
+                "minute": 12
+            },
+            "total": 0,
+            "itemList": [],
+            "id": 3
+        }
+    ]
 }

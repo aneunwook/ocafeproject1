@@ -84,13 +84,18 @@ public class ItemDetailsPane extends Tab {
         Image originalImage = item.getImage();
         int height = originalImage.getHeight(new Observer());
         int width = originalImage.getWidth(new Observer());
-        double scale = ((double)height / IMAGE_HEIGHT);
+        double scale = ((double)width / (OCafe.WIDTH / 3));
+//        double scale = ((double)height / IMAGE_HEIGHT);
 
 //https://stackoverflow.com/questions/16343098/resize-a-picture-to-fit-a-jlabel/32885963#32885963
         ImageIcon scaledImage = new ImageIcon(
-                item.getImage().getScaledInstance((int)(width / scale),
-                IMAGE_HEIGHT,
-                Image.SCALE_DEFAULT));
+                item.getImage().getScaledInstance(OCafe.WIDTH / 3,
+                        (int)(height / scale),
+                        Image.SCALE_DEFAULT));
+//        ImageIcon scaledImage = new ImageIcon(
+//                item.getImage().getScaledInstance((int)(width / scale),
+//                IMAGE_HEIGHT,
+//                Image.SCALE_DEFAULT));
         JLabel icon = new JLabel(scaledImage);
         Dimension d2 = new Dimension(OCafe.WIDTH / 3, IMAGE_HEIGHT);
         icon.setPreferredSize(d2);
