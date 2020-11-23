@@ -38,6 +38,10 @@ public class HomeTab extends Tab {
         placeSignInButton();
         placeCreateAccountButton();
 
+        JLabel message = new JLabel("You must sign in or create an account to save orders!");
+        message.setAlignmentX(Component.LEFT_ALIGNMENT);
+        startPage.add(message);
+
         add(startPage);
     }
 

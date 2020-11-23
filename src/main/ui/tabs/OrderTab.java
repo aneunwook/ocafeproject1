@@ -137,6 +137,10 @@ public class OrderTab extends Tab {
         JButton checkoutButton = new JButton(displayOrderTotal("Checkout"));
         checkoutButton.setPreferredSize(new Dimension(ITEM_PANEL_WIDTH, 40));
 
+        if (order.getTotal() <= 0.0) {
+            checkoutButton.setEnabled(false);
+        }
+
         checkoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
