@@ -32,3 +32,6 @@ for a dish.
 - As a user, I want to be able to create an account 
 - As a user, I want to be able to save my orders to my account.
 - As a user, I want to be able to view previous orders made under the same account.
+
+## Phase 4: Task 2
+I have implemented a type hierarchy involving the classes MenuItem, Beverage, Dish, and Additional Options

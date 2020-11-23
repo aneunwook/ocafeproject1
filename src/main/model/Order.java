@@ -16,7 +16,6 @@ public class Order implements Writable {
     private List<MenuItem> itemList;            // list of items in order
     private Double total;                       // total value of items in itemList in dollars
     private Calendar date;
-//    private String address;
 
     // constructs an order with an empty itemList and zero total;
     // order id is unique; PreviousOrderId is incremented

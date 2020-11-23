@@ -91,7 +91,7 @@ public class ItemDetailsPane extends Tab {
         ImageIcon scaledImage = new ImageIcon(
                 item.getImage().getScaledInstance(OCafe.WIDTH / 3,
                         (int)(height / scale),
-                        Image.SCALE_DEFAULT));
+                        Image.SCALE_SMOOTH));
 //        ImageIcon scaledImage = new ImageIcon(
 //                item.getImage().getScaledInstance((int)(width / scale),
 //                IMAGE_HEIGHT,
