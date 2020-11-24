@@ -34,4 +34,5 @@ for a dish.
 - As a user, I want to be able to view previous orders made under the same account.
 
 ## Phase 4: Task 2
-I have implemented a type hierarchy involving the classes MenuItem, Beverage, Dish, and Additional Options
+I have implemented a type hierarchy involving the classes MenuItem, Beverage, Dish, and Additional Options. MenuItem is
+an abstract superclass and the others are subclasses which extend MenuItem.

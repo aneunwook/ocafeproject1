@@ -1,6 +1,5 @@
 package model;
 
-import exceptions.IllegalQuantityException;
 import org.json.JSONObject;
 import persistence.Writable;
 

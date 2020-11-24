@@ -89,8 +89,6 @@ public class OrderTab extends Tab {
     private void displayOrderItems(JPanel currentPanel) {
         for (MenuItem item : order.getItemList()) {
             JPanel itemPane = new JPanel();
-//            itemPane.setLayout(new BoxLayout(itemPane, BoxLayout.X_AXIS));
-//            itemPane.setPreferredSize(new Dimension(ITEM_PANEL_WIDTH, 80));
             itemPane.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.DARK_GRAY));
 
             if (currentPanel.equals(summaryPane)) {

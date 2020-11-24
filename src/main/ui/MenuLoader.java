@@ -24,10 +24,6 @@ public class MenuLoader {
         loadBrunch();
         loadDessert();
 
-//        Kiosk kiosk = new Kiosk(this);
-//
-//        kiosk.handleUserInput();
-//        kiosk.endProgram();
     }
 
     //MODIFIES: this

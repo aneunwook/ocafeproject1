@@ -19,6 +19,7 @@ public class ItemDetailsPane extends Tab {
     private static final String NO_ADD_ONS_OPTION = "Naked";
 
     private static final int IMAGE_HEIGHT = 300;
+    private static final int IMAGE_WIDTH = OCafe.WIDTH / 3;
 
     CategoryPane categoryPane;
 
@@ -36,7 +37,7 @@ public class ItemDetailsPane extends Tab {
         categoryPane = cp;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createEtchedBorder());
-        Dimension d = new Dimension(OCafe.WIDTH / 3, OCafe.HEIGHT * 3 / 4);
+        Dimension d = new Dimension(IMAGE_WIDTH, OCafe.HEIGHT * 3 / 4);
         setPreferredSize(d);
     }
 
@@ -55,8 +56,7 @@ public class ItemDetailsPane extends Tab {
             placeBeverageOptionsButtons(HOT, ICED);
         }
 
-        placeQuantityComboBox(beverageSelected);
-        placeAddToOrderButton(beverageSelected);
+        placeAddToOrderArea(beverageSelected);
     }
 
     // dish details pane constructor !!!fix dummy variable
@@ -75,8 +75,7 @@ public class ItemDetailsPane extends Tab {
             placeDishOptionsButtons();
         }
 
-        placeQuantityComboBox(dishSelected);
-        placeAddToOrderButton(dishSelected);
+        placeAddToOrderArea(dishSelected);
     }
 
     // loads image and name of an item
@@ -84,12 +83,12 @@ public class ItemDetailsPane extends Tab {
         Image originalImage = item.getImage();
         int height = originalImage.getHeight(new Observer());
         int width = originalImage.getWidth(new Observer());
-        double scale = ((double)width / (OCafe.WIDTH / 3));
+        double scale = ((double)width / (IMAGE_WIDTH));
 //        double scale = ((double)height / IMAGE_HEIGHT);
 
 //https://stackoverflow.com/questions/16343098/resize-a-picture-to-fit-a-jlabel/32885963#32885963
         ImageIcon scaledImage = new ImageIcon(
-                item.getImage().getScaledInstance(OCafe.WIDTH / 3,
+                item.getImage().getScaledInstance(IMAGE_WIDTH,
                         (int)(height / scale),
                         Image.SCALE_SMOOTH));
 //        ImageIcon scaledImage = new ImageIcon(
@@ -97,7 +96,7 @@ public class ItemDetailsPane extends Tab {
 //                IMAGE_HEIGHT,
 //                Image.SCALE_DEFAULT));
         JLabel icon = new JLabel(scaledImage);
-        Dimension d2 = new Dimension(OCafe.WIDTH / 3, IMAGE_HEIGHT);
+        Dimension d2 = new Dimension(IMAGE_WIDTH, IMAGE_HEIGHT);
         icon.setPreferredSize(d2);
         icon.setAlignmentX(Component.LEFT_ALIGNMENT);
         add(icon);
@@ -110,13 +109,11 @@ public class ItemDetailsPane extends Tab {
 
     // creates radio buttons for beverage customization
     private void placeBeverageOptionsButtons(String regular, String upgrade) {
-//        String regularLabel = String.format("%-30s $%.2f", regular, beverageSelected.getPrice());
-        String upgradeLabel = String.format("%-30s +$%.2f", upgrade, Beverage.UPGRADE_PRICE);
+        String upgradeLabel = String.format("%-60s +$%.2f", upgrade, Beverage.UPGRADE_PRICE);
 
         JRadioButton regularButton = new JRadioButton(regular);
         JRadioButton upgradeButton = new JRadioButton(upgradeLabel);
         regularButton.setSelected(true);
-//        regularButton.setActionCommand(regular);
         upgradeButton.setActionCommand(upgrade);
 
         regularButton.addActionListener(new BeverageCustomizer());
@@ -146,7 +143,7 @@ public class ItemDetailsPane extends Tab {
         add(naked);
 
         for (AdditionalOptions addOn : dishSelected.getOptions()) {
-            String addOnLabel = String.format("%-30s +$%.2f", addOn.getName(), addOn.getPrice());
+            String addOnLabel = String.format("%-55s +$%.2f", addOn.getName(), addOn.getPrice());
             JRadioButton b = new JRadioButton(addOnLabel);
             b.setActionCommand(addOn.getName());
             b.addActionListener(new DishCustomizer());
@@ -155,10 +152,20 @@ public class ItemDetailsPane extends Tab {
         }
     }
 
+    // creates panel area for quantity combo box and add to order button
+    private void placeAddToOrderArea(MenuItem item) {
+        add(Box.createVerticalGlue());
+        JPanel area = new JPanel();
+        area.setAlignmentX(Component.LEFT_ALIGNMENT);
+        area.add(placeQuantityComboBox(item));
+        area.add(placeAddToOrderButton(item));
+        add(area);
+    }
+
     //creates combo box representing quantities of item,
     //based on selected item, updates the quantity of item and
     //text displayed on Add to Order button to reflect price change
-    private void placeQuantityComboBox(MenuItem item) {
+    private JComboBox placeQuantityComboBox(MenuItem item) {
         JComboBox quantityBox = new JComboBox();
         for (int i = 1; i <= 100; i++) {
             quantityBox.addItem(new Integer(i));
@@ -175,12 +182,13 @@ public class ItemDetailsPane extends Tab {
         });
 
         quantityBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-        add(quantityBox);
+        return quantityBox;
     }
 
     //creates add to order button that adds item to order when pressed
-    private void placeAddToOrderButton(MenuItem item) {
+    private JButton placeAddToOrderButton(MenuItem item) {
         addToOrderButton = new JButton();
+        addToOrderButton.setPreferredSize(new Dimension(272, 32));
         updatePriceDisplay(item);
 
         addToOrderButton.addActionListener(new ActionListener() {
@@ -201,7 +209,7 @@ public class ItemDetailsPane extends Tab {
         });
 
         addToOrderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-        add(addToOrderButton);
+        return addToOrderButton;
     }
 
     // customizes beverages according to selection
@@ -250,7 +258,7 @@ public class ItemDetailsPane extends Tab {
 
     // updates price displayed
     private void updatePriceDisplay(MenuItem item) {
-        String label = String.format("%-20s $%.2f", "Add to Order", item.getPrice());
+        String label = String.format("%-35s $%.2f", "Add to Order", item.getPrice());
         addToOrderButton.setText(label);
     }
 
