@@ -36,3 +36,7 @@ for a dish.
 ## Phase 4: Task 2
 I have implemented a type hierarchy involving the classes MenuItem, Beverage, Dish, and Additional Options. MenuItem is
 an abstract superclass and the others are subclasses which extend MenuItem.
+
+## Phase 4: Task 3
+- remove the field of type Order in OrderTab class to reduce coupling.
+- combine the list fields in MenuLoader by type and refactor CategoryPane and ItemDetailsPane to reflect the change.
