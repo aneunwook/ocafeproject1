@@ -109,15 +109,11 @@ public class Order implements Writable {
         return null;
     }
 
-//    public Calendar getDate() {
-//        return date;
-//    }
-
     public int getDayOfWeek() {
         return date.get(Calendar.DAY_OF_WEEK) - 1;
     }
 
-    public boolean isDateAM() {
+    private boolean isDateAM() {
         return date.get(Calendar.AM_PM) == Calendar.AM;
     }
 

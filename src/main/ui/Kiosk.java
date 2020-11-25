@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
-// console ui
+// console application ui
 public class Kiosk {
 
     private static final String PLACE_ORDER_COMMAND = "p";

@@ -171,14 +171,17 @@ public class OrderTest {
     }
 
     @Test
-    public void testSetDate() {
-        //set the date
-        order.setDate();
+    public void testSetDateAM() {
+        order.setDate(2020, 1, 1, 1, 1);
+        assertEquals(6, order.getDayOfWeek());
+        assertEquals("AM", order.getAmPm());
+    }
 
-        //check day of week and AM/PM
-        Calendar testDate = new GregorianCalendar();
-        assertEquals(testDate.get(Calendar.DAY_OF_WEEK) - 1, order.getDayOfWeek());
-        assertEquals(testDate.get(Calendar.AM_PM) == Calendar.AM, order.isDateAM());
+    @Test
+    public void testSetDatePM() {
+        order.setDate(2020, 1, 1, 14, 1);
+        assertEquals(6, order.getDayOfWeek());
+        assertEquals("PM", order.getAmPm());
     }
 
     @Test
