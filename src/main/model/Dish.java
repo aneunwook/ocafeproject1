@@ -9,7 +9,7 @@ import java.util.List;
 // Represents a menu item of type dish
 public class Dish extends MenuItem {
 
-    private List<AdditionalOptions> options;          // add-ons available for this dish //vegetarian????
+    private List<AdditionalOptions> options;          // add-ons available for this dish
     private AdditionalOptions selected;               // add-on selected
 
     // constructs an dish with empty options

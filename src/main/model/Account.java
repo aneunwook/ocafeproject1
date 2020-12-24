@@ -13,7 +13,6 @@ public class Account implements Writable {
     private String name;
     private List<Order> history;
     private String file;
-//    private String address;
 
     public Account(String name) {
         this.name = name;
@@ -48,7 +47,6 @@ public class Account implements Writable {
         return json;
     }
 
-    // JsonSerializationDemo.model.WorkRoom
     // EFFECTS: returns history in this Account as a JSON array
     private JSONArray historyToJson() {
         JSONArray jsonArray = new JSONArray();

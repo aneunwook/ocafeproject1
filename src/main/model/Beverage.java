@@ -6,11 +6,11 @@ import org.json.JSONObject;
 public class Beverage extends MenuItem {
 
     private int size;               // regular or large
-    private int temperature;        // hot or cold
+    private int temperature;        // hot or iced
 
     public static final int NOT_CUSTOMIZABLE = -1;      // size or temperature is not customizable
     public static final int REGULAR = 0;                // size-REGULAR, temperature-HOT
-    public static final int UPGRADE = 1;                  // size-LARGE, temperature-ICED
+    public static final int UPGRADE = 1;                // size-LARGE, temperature-ICED
 
     public static final Double UPGRADE_PRICE = 0.65;
 
