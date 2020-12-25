@@ -12,7 +12,11 @@ since this will be number one of many products to come!
 ## Set Up
 - Clone repository
 - Run the application using
+
+```bash
 java -jar out/artifacts/OCafe_jar/OCafe.jar
+```
+
 - Create an account to get the full experience!
 
 ## Features
