@@ -10,12 +10,11 @@ since this will be number one of many products to come!
 
 
 ## Set Up
-1. Clone repository using any method
-   - to clone using git, enter the following in the Terminal/Command Prompt:
+1. Clone repository using any method. To clone using git, enter the following in the Terminal/Command Prompt:
   ```bash
   	git clone https://github.com/vanessaip/OCafeProject.git
   ```
-  - alternatively, the zip file can be found at the green **Code** button  
+  - alternatively, the zip file can be found at the green **Code** button   
 2. Navigate to the project file:
   ```bash
   	cd OCafeProject
