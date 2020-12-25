@@ -10,9 +10,9 @@ since this will be number one of many products to come!
 
 
 ## Set Up
-- Clone repository and open in an IDE
-- Navigate to the **ui** package
-- Run **OCafe**
+- Clone repository
+- Run the application using
+java -jar out/artifacts/OCafe_jar/OCafe.jar
 - Create an account to get the full experience!
 
 ## Features
