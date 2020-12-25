@@ -11,6 +11,10 @@ since this will be number one of many products to come!
 
 ## Set Up
 - Clone repository
+- Navigate to the project file
+```bash
+cd OCafeProject
+```
 - Run the application using
 
 ```bash
