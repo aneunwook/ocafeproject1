@@ -1,19 +1,19 @@
 # OCafe Kiosk 
 
-This application simulates a virtual food ordering system for a cafe! It features an interactive menu comprised of my personal
-favourites from brunch cafes I've visited around the world. Hopefully the OCafe Kiosk can inspire you to explore new cuisines, 
-or to take notice of the local cafes which artfully combine unique cultural flavours with the warm ambiance of a traditional 
-cafe like the ones that influenced this project! 
+This application simulates a virtual food ordering system for a cafe. It features an interactive menu comprised of my personal
+favourites from brunch cafes I've visited around the world! Hopefully the OCafe Kiosk can inspire you to explore new cuisines, 
+or to take notice of local cafes that artfully combine unique cultural flavours with the warm ambiance of a traditional 
+cafe, and appreciate the style that influenced this project!
 
 The O in OCafe stands for "Origin" or "One" which symbolizes that this is my first coding project. I thought it was a 
-meaningful sentiment since this will be number one of many new projects to come. 
+meaningful sentiment since this will be number one of many new projects to come.
 
 
-## To Demo
-- Clone repository and open in preferred IDE
+## Set Up
+- Clone repository and open in an IDE
 - Navigate to the "ui" package
 - Run "OCafe"
-- Enjoy!
+- Create an account to get the full experience!
 
 ## Features
 ### Menu
