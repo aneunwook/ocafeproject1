@@ -5,14 +5,14 @@ favourites from brunch cafes I've visited around the world! Hopefully the OCafe 
 or to take notice of local cafes that artfully combine unique cultural flavours with the warm ambiance of a traditional 
 cafe, and appreciate the style that influenced this project!
 
-The O in OCafe stands for "Origin" or "One" which symbolizes that this is my first coding project. I thought it was a 
-meaningful sentiment since this will be number one of many new projects to come.
+The O in OCafe stands for "Origin" or "One" because this is my first coding project. I thought it was a meaningful sentiment 
+since this will be number one of many products to come!
 
 
 ## Set Up
 - Clone repository and open in an IDE
-- Navigate to the "ui" package
-- Run "OCafe"
+- Navigate to the **ui** package
+- Run **OCafe**
 - Create an account to get the full experience!
 
 ## Features
