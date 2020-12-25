@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
-// JsonSerializationDemo.persistence.JsonWriter
+// JsonSerializationDemo.model.persistence.JsonWriter
 // Represents a writer that write JSON representation of an account file
 public class JsonWriter {
 

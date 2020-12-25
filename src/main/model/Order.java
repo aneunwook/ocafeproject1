@@ -1,8 +1,8 @@
 package model;
 
+import persistence.Writable;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import persistence.Writable;
 
 import java.util.*;
 

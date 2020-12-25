@@ -1,7 +1,7 @@
 package model;
 
-import org.json.JSONObject;
 import persistence.Writable;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;

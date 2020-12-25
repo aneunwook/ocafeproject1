@@ -10,10 +10,8 @@ import ui.tabs.OrderTab;
 import ui.tabs.Tab;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class OCafe extends JFrame {
     public static final int HOME_TAB_INDEX = 0;
