@@ -11,18 +11,19 @@ since this will be number one of many products to come!
 
 ## Set Up
 1. Clone repository using any method
-  to clone using git, enter the following in the Terminal/Command Prompt:
-  ```bash
-  git clone https://github.com/vanessaip/OCafeProject.git
-  ```
+   - to clone using git, enter the following in the Terminal/Command Prompt:
+  	```bash
+  	git clone https://github.com/vanessaip/OCafeProject.git
+  	```
+  - alternatively, the zip file can be found at the green button
 2. Navigate to the project file:
   ```bash
-  cd OCafeProject
+  	cd OCafeProject
   ```
 3. Run the application:
-  ```bash
-  java -jar out/artifacts/OCafe_jar/OCafe.jar
-  ```
+  	```bash
+  	java -jar out/artifacts/OCafe_jar/OCafe.jar
+  	```
 4. Create an account to get the full experience!
 
 ## Features
