@@ -5,13 +5,9 @@ favourites from brunch cafes I've visited around the world. Hopefully the OCafe 
 or to take notice of the local cafes which artfully combine unique cultural flavours with the warm ambiance of a traditional 
 cafe like the ones that influenced this project! 
 
-The O in OCafe stands for "Origin" or "One" which symbolizes that was my first coding project. I thought this was a 
-meaningful sentiment since I intend to create many more!
+The O in OCafe stands for "Origin" or "One" which symbolizes that this is my first coding project. I thought it was a 
+meaningful sentiment since this will be number one of many new projects to come. 
 
-## Built With
-- Java
-- JSON
-- Swing
 
 ## To Demo
 - Clone repository and open in preferred IDE
@@ -21,8 +17,21 @@ meaningful sentiment since I intend to create many more!
 
 ## Features
 ### Menu
-- Browse items by category
-- View details and unique customizations of individual items 
-- Customize menu items with add-ons, size options etc.
-- Add items to your order
+- Browse menu items by category
+- Select an item to view its image, details, and available customizations
+- Customize menu items by selecting add-ons, size options etc. (unique to each item)
+- Modify the quantity of an item
 
+### Order
+- Add items with desired customizations to the current order
+- View summary of all the items added to the order (plus their customizations)
+- Change the quantity of items in the order
+- Remove items from the order (scroll up in the quantity combo box to see the "Remove" option)
+- Place the order
+
+### Account
+- Create an account (optional)
+- Save the current order to the account
+- View previous orders sorted by date 
+- Sign in to a previously created account 
+- Sign out 
