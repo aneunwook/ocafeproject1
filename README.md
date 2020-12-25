@@ -10,12 +10,15 @@ since this will be number one of many products to come!
 
 
 ## Set Up
-- Clone repository
-- Navigate to the project file
+- Clone repository, example below is to clone using git in the command line:
+```bash
+git clone https://github.com/vanessaip/OCafeProject.git
+```
+- Navigate to the project file:
 ```bash
 cd OCafeProject
 ```
-- Run the application using
+- Run the application:
 
 ```bash
 java -jar out/artifacts/OCafe_jar/OCafe.jar
