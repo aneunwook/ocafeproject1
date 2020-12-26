@@ -17,7 +17,7 @@ A Java Runtime Environment (JRE) is required, available for download [here](http
 ```bash
 git clone https://github.com/vanessaip/OCafeProject.git
 ```
-   alternatively, the zip file can be found at the green **Code** button   
+alternatively, the zip file can be found at the green **Code** button   
     
 2. Navigate to the project file:
 ```bash
