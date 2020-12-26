@@ -10,7 +10,7 @@ since this will be number one of many products to come!
 
 
 ## Set Up
-A Java Runtime Environment (JRE) is required, available for download [here](https://www.oracle.com/ca-en/java/technologies/javase-jre8-downloads.html).
+A Java Runtime Environment (JRE) is required to run the application, available for download [here](https://www.oracle.com/ca-en/java/technologies/javase-jre8-downloads.html).
 
 
 1. Clone repository using any method. To clone using git, enter the following in the Terminal/Command Prompt:
