@@ -14,21 +14,17 @@ A Java Runtime Environment (JRE) is required, available for download [here](http
 
 
 1. Clone repository using any method. To clone using git, enter the following in the Terminal/Command Prompt:
-
 ```bash
 git clone https://github.com/vanessaip/OCafeProject.git
 ```
-
    alternatively, the zip file can be found at the green **Code** button   
     
 2. Navigate to the project file:
-
 ```bash
 cd OCafeProject
 ```
     
 3. Run the application:
-
 ```bash
 java -jar out/artifacts/OCafe_jar/OCafe.jar
 ```
