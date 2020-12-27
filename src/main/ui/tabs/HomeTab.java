@@ -5,7 +5,6 @@ import model.Order;
 import ui.OCafe;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +12,6 @@ import java.io.IOException;
 
 // represents a home tab, facilitates account activities provides navigation of the console
 public class HomeTab extends Tab {
-
     private JPanel startPage;
     private JPanel accountPage;
     private JPanel accountOptionsPane;
@@ -31,7 +29,7 @@ public class HomeTab extends Tab {
     // creates start page with navigation buttons
     private void initStartPage() {
         //https://examples.javacodegeeks.com/desktop-java/swing/java-swing-boxlayout-example/
-        startPage = initializePane("");
+        startPage = initializeBoxLayoutPanel("");
         startPage.setBorder(BorderFactory.createEmptyBorder(OCafe.HEIGHT / 3, 0, OCafe.HEIGHT / 3, 0));
 
         placeOrderButton(startPage);
@@ -48,7 +46,7 @@ public class HomeTab extends Tab {
     // displays account info
     private void initAccountPage() {
         accountPage = new JPanel();
-        accountOptionsPane = initializePane(controller.getAccount().getName());
+        accountOptionsPane = initializeBoxLayoutPanel(controller.getAccount().getName());
         accountOptionsPane.setPreferredSize(new Dimension(OCafe.WIDTH / 2, OCafe.HEIGHT));
         accountOptionsPane.setBorder(BorderFactory.createEmptyBorder(
                 OCafe.HEIGHT / 4, OCafe.WIDTH / 6, 0, OCafe.WIDTH / 5));
@@ -65,7 +63,7 @@ public class HomeTab extends Tab {
 
     // creates order history panel and displays history of current account
     private void placeOrderHistoryPane() {
-        JPanel orderHistoryPane = initializePane("Your Order History");
+        JPanel orderHistoryPane = initializeBoxLayoutPanel("Your Order History");
         accountOptionsPane.setPreferredSize(new Dimension(OCafe.WIDTH / 2, OCafe.HEIGHT));
         accountOptionsPane.setBorder(BorderFactory.createEmptyBorder(
                 OCafe.HEIGHT / 4, OCafe.WIDTH / 8, 0, OCafe.WIDTH / 5));

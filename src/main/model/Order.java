@@ -4,6 +4,7 @@ import persistence.Writable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 // Represents an order with specified menu items
@@ -64,6 +65,7 @@ public class Order implements Writable {
         return String.format(
                 "Your " + weekDay + " " + getAmPm() + " order:\n\n" + items + "\n%-50s $%.2f","Total:", getTotal());
     }
+
 
     @Override
     public JSONObject toJson() {

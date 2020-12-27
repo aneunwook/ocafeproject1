@@ -18,8 +18,9 @@ public class ItemDetailsPane extends Tab {
     private static final String ICED = "Iced";
     private static final String NO_ADD_ONS_OPTION = "Naked";
 
-    private static final int IMAGE_HEIGHT = 300;
-    private static final int IMAGE_WIDTH = OCafe.WIDTH / 3;
+//    private static final int IMAGE_HEIGHT = 300;
+//    private static final int IMAGE_WIDTH = ITEM_AND_CATEGORY_DIM.width;
+    private static final Dimension IMAGE_DIMENSION = new Dimension(ITEM_AND_CATEGORY_DIM.width, 300);
 
     CategoryPane categoryPane;
 
@@ -35,13 +36,12 @@ public class ItemDetailsPane extends Tab {
     public ItemDetailsPane(CategoryPane cp) {
         super(cp.controller);
         categoryPane = cp;
+        setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBorder(BorderFactory.createEtchedBorder());
-        Dimension d = new Dimension(IMAGE_WIDTH, OCafe.HEIGHT * 3 / 4);
-        setPreferredSize(d);
+        setPreferredSize(ITEM_AND_CATEGORY_DIM);
     }
 
-    // beverage details pane constructor
+    // beverage details panel constructor
     public ItemDetailsPane(String itemName, List<Beverage> type, CategoryPane cp) {
         this(cp);
         beverageType = type;
@@ -59,7 +59,7 @@ public class ItemDetailsPane extends Tab {
         placeAddToOrderArea(beverageSelected);
     }
 
-    // dish details pane constructor !!!fix dummy variable
+    // dish details panel constructor
     public ItemDetailsPane(String itemName, List<Dish> type, CategoryPane cp, int dummyVar) {
         this(cp);
         dishType = type;
@@ -83,20 +83,21 @@ public class ItemDetailsPane extends Tab {
         Image originalImage = item.getImage();
         int height = originalImage.getHeight(new Observer());
         int width = originalImage.getWidth(new Observer());
-        double scale = ((double)width / (IMAGE_WIDTH));
+        double scale = ((double)width / (IMAGE_DIMENSION.width));
 //        double scale = ((double)height / IMAGE_HEIGHT);
 
 //https://stackoverflow.com/questions/16343098/resize-a-picture-to-fit-a-jlabel/32885963#32885963
         ImageIcon scaledImage = new ImageIcon(
-                item.getImage().getScaledInstance(IMAGE_WIDTH,
+                item.getImage().getScaledInstance(IMAGE_DIMENSION.width,
                         (int)(height / scale),
                         Image.SCALE_SMOOTH));
+        // to scale the image according to height
 //        ImageIcon scaledImage = new ImageIcon(
 //                item.getImage().getScaledInstance((int)(width / scale),
 //                IMAGE_HEIGHT,
 //                Image.SCALE_DEFAULT));
         JLabel icon = new JLabel(scaledImage);
-        Dimension d2 = new Dimension(IMAGE_WIDTH, IMAGE_HEIGHT);
+        Dimension d2 = new Dimension(IMAGE_DIMENSION.width, IMAGE_DIMENSION.height);
         icon.setPreferredSize(d2);
         icon.setAlignmentX(Component.LEFT_ALIGNMENT);
         add(icon);

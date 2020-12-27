@@ -11,40 +11,69 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class CategoryPane extends Tab {
+    protected static final int DISPLAY_DETAILS_WIDTH = WIDTH * 3 / 5;
+
     private MenuTab menuTab;
 
-    // creates panel with items within a category
+    // creates panel with items within a category displayed in a grid
     public CategoryPane(MenuTab menuTab, OCafe controller, String[] category) {
         super(controller);
-        setLayout(new GridLayout(0, 1));
-        setBorder(BorderFactory.createEtchedBorder());
-        Dimension d = new Dimension(OCafe.WIDTH / 3, OCafe.HEIGHT * 3 / 4);
-        setPreferredSize(d);
+
+        setLayout(new GridLayout(0, 3, 20, 20));
+        setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        setPreferredSize(new Dimension(WIDTH, ITEM_AND_CATEGORY_DIM.height));
 
         this.menuTab = menuTab;
 
         placeItemButtons(category);
     }
 
+    //MODIFIES: this
+    //EFFECTS: sets the display layout to a column of item buttons
+    public void setColumnLayout() {
+        setLayout(new GridLayout(0, 1));
+        setBorder(BorderFactory.createEmptyBorder());
+        setPreferredSize(ITEM_AND_CATEGORY_DIM);
+    }
+
     // creates item buttons
     private void placeItemButtons(String[] category) {
-        for (String s : category) {
-            JButton itemButton = new JButton(s);
-            itemButton.addActionListener(new ItemSelector());
+        for (String itemName : category) {
+            JButton itemButton = new JButton(itemName);
             add(itemButton);
+
+
+
+//            itemButton.setText(itemName);
+
+            itemButton.addActionListener(new ItemSelector());
+        }
+        placeItemImages();
+    }
+
+    // places images for each item to be displayed in their respective buttons
+    private void placeItemImages() {
+        for (Component c : getComponents()) {
+            JButton itemButton = (JButton)c;
+
+            Image itemImage = new ImageIcon("./data/images/" + itemButton.getText() + ".jpg").getImage();
+            Dimension d = new Dimension(itemButton.getSize().width, itemButton.getSize().height - 50);
+            itemButton.setIcon(loadImageJLabel(itemImage, d));
+//            itemButton.add(loadImageJLabel(itemImage, d));
+            itemButton.setOpaque(true);
         }
     }
 
     //EFFECTS: creates new ItemDetailsPane and sets it in menu tab
     public void displayBeverageDetails(String itemName, List<Beverage> type) {
         ItemDetailsPane p = new ItemDetailsPane(itemName, type, this);
-        menuTab.setItemDetailsContainer(p);
+        menuTab.setShowItemDetailsConfiguration(p);
     }
 
     //EFFECTS: displays dish item details
     public void displayDishDetails(String itemName, List<Dish> type) {
         ItemDetailsPane p = new ItemDetailsPane(itemName, type, this, 1);
-        menuTab.setItemDetailsContainer(p);
+        menuTab.setShowItemDetailsConfiguration(p);
     }
 
     // selects item and sets the item details pane in menu tab

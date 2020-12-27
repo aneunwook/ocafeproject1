@@ -1,0 +1,21 @@
+{
+    "name": "test",
+    "history": [{
+        "date": {
+            "month": 11,
+            "hour": 2,
+            "year": 2020,
+            "day": 26,
+            "minute": 18
+        },
+        "total": 3.65,
+        "itemList": [{
+            "size": -1,
+            "price": 3.65,
+            "name": "Macchiato",
+            "temperature": 0,
+            "type": "beverage"
+        }],
+        "id": 1
+    }]
+}

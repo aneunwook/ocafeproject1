@@ -28,29 +28,36 @@ public class MenuTab extends Tab {
 
     private static final String[] categories = {COFFEE, TEA, NONCAFFEINATED, BRUNCH, DESSERT};
 
+    private static final int CATEGORY_SELECTION_HEIGHT = 50;
+
     private JPanel categorySelectorPane;
     private JPanel categoryContainer;
     private JPanel itemDetailsContainer;
 
-    // creates menu tab
+    private GridBagLayout gridBagLayout;
+
+    // creates menu tab with coffee category selected
     public MenuTab(OCafe controller) {
         super(controller);
+        setBorder(BorderFactory.createEmptyBorder(20, 20,30,25));
 
-        setLayout(new GridBagLayout());
+        gridBagLayout = new GridBagLayout();
+        setLayout(gridBagLayout);
 
         placeTitle();
 
         placeCategoryButtons();
 
+        placeItemDetailsContainer();
+
         placeCategoryContainer();
 
-        placeItemDetailsContainer();
+        setNewCategorySelectedConfiguration(coffee);
     }
 
     //EFFECTS: creates title at top of console
     private void placeTitle() {
         JLabel title = new JLabel("MENU", JLabel.CENTER);
-        title.setSize(OCafe.WIDTH, OCafe.HEIGHT / 6);
 
         GridBagConstraints c = new GridBagConstraints();
         c.weighty = 0.2;
@@ -63,7 +70,10 @@ public class MenuTab extends Tab {
 
     //EFFECTS: creates buttons for each menu category that change display of categoryContainer and title when clicked
     private void placeCategoryButtons() {
-        categorySelectorPane = new JPanel();
+        categorySelectorPane = initializeDefaultPanel();
+        categorySelectorPane.setPreferredSize(new Dimension(WIDTH, CATEGORY_SELECTION_HEIGHT));
+        categorySelectorPane.setBorder(BorderFactory.createEmptyBorder(10, 0,0,0));
+//        categorySelectorPane.setBackground(new Color(250, 214, 214, 96));
 
         for (String s : categories) {
             JButton b = new JButton(s);
@@ -83,52 +93,76 @@ public class MenuTab extends Tab {
 
     //EFFECTS: creates container for category pane
     private void placeCategoryContainer() {
-        categoryContainer = new JPanel();
-        setCategoryContainer(coffee);
-
-        GridBagConstraints c = new GridBagConstraints();
-        c.weightx = 0.5;
-        c.weighty = 1.0;
-        c.gridx = 0;
-        c.gridy = 2;
-        c.gridheight = 9;
-        c.anchor = GridBagConstraints.FIRST_LINE_END;
-
-        add(categoryContainer, c);
+        categoryContainer = initializeDefaultPanel();
+        add(categoryContainer);
     }
 
     //EFFECTS: creates container for item details pane
     private void placeItemDetailsContainer() {
-        itemDetailsContainer = new JPanel();
-
-        GridBagConstraints c = new GridBagConstraints();
-        c.weightx = 0.5;
-        c.gridx = 1;
-        c.gridy = 2;
-        c.gridheight = 9;
-        c.anchor = GridBagConstraints.FIRST_LINE_START;
-
-        add(itemDetailsContainer, c);
+        itemDetailsContainer = initializeDefaultPanel();
+        add(itemDetailsContainer);
     }
 
     //MODIFIES: this
-    //EFFECTS: creates a panel of buttons representing each menu item in a category
+    //EFFECTS: creates a panel of buttons representing each menu item in a category,
     //         buttons display item name and price, displays further details when clicked
-    //https://stackoverflow.com/questions/9401353/how-to-change-the-jpanel-in-a-jframe-at-runtime
-    private void setCategoryContainer(String[] category) {
-        categoryContainer.removeAll();
-        CategoryPane p = new CategoryPane(this, getController(), category);
-        categoryContainer.setSize(p.getSize());
-        categoryContainer.add(p);
-        categoryContainer.revalidate();
+    private void setNewCategorySelectedConfiguration(String[] category) {
+        GridBagConstraints categoryConstraints = new GridBagConstraints();
+        categoryConstraints.weightx = 1.0;
+        categoryConstraints.weighty = 1.0;
+        categoryConstraints.gridx = 0;
+        categoryConstraints.gridy = 2;
+        categoryConstraints.gridwidth = 2;
+        categoryConstraints.gridheight = 9;
+        categoryConstraints.fill = GridBagConstraints.BOTH;
+        categoryConstraints.anchor = GridBagConstraints.FIRST_LINE_START;
+        gridBagLayout.setConstraints(categoryContainer, categoryConstraints);
+
+        CategoryPane cp = new CategoryPane(this, getController(), category);
+        setContainer(categoryContainer, cp);
+
+        gridBagLayout.setConstraints(itemDetailsContainer, new GridBagConstraints());
+        itemDetailsContainer.removeAll();
+        itemDetailsContainer.revalidate();
     }
 
-    //EFFECTS: removes previous pane and adds parameter to itemDetailsPane
-    public void setItemDetailsContainer(ItemDetailsPane p) {
-        itemDetailsContainer.removeAll();
-        itemDetailsContainer.setSize(p.getSize());
-        itemDetailsContainer.add(p);
-        itemDetailsContainer.revalidate();
+    //MODIFIED: this
+    //EFFECTS: sets layout to show the category panel and the item details panel
+    //         removes previous panel and adds parameter to itemDetailsContainer
+    public void setShowItemDetailsConfiguration(ItemDetailsPane p) {
+        GridBagConstraints categoryConstraints = new GridBagConstraints();
+        categoryConstraints.weightx = 0.5;
+        categoryConstraints.weighty = 1.0;
+        categoryConstraints.gridx = 0;
+        categoryConstraints.gridy = 2;
+        categoryConstraints.gridheight = 9;
+        categoryConstraints.fill = GridBagConstraints.HORIZONTAL;
+        categoryConstraints.anchor = GridBagConstraints.FIRST_LINE_END;
+        gridBagLayout.setConstraints(categoryContainer, categoryConstraints);
+
+        CategoryPane cp = (CategoryPane)categoryContainer.getComponent(0);
+        cp.setPreferredSize(new Dimension(CategoryPane.DISPLAY_DETAILS_WIDTH, ITEM_AND_CATEGORY_DIM.height));
+//        cp.setColumnLayout();
+        categoryContainer.revalidate();
+
+        GridBagConstraints itemDetailsConstraints = new GridBagConstraints();
+        itemDetailsConstraints.weightx = 0.5;
+        itemDetailsConstraints.gridx = 1;
+        itemDetailsConstraints.gridy = 2;
+        itemDetailsConstraints.gridheight = 9;
+        itemDetailsConstraints.anchor = GridBagConstraints.FIRST_LINE_END;
+        gridBagLayout.setConstraints(itemDetailsContainer, itemDetailsConstraints);
+        setContainer(itemDetailsContainer, p);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: replaces previous panel in container with parameter p
+    //https://stackoverflow.com/questions/9401353/how-to-change-the-jpanel-in-a-jframe-at-runtime
+    private void setContainer(JPanel container, Tab p) {
+        container.removeAll();
+        container.setSize(p.getSize());
+        container.add(p);
+        container.revalidate();
     }
 
 
@@ -139,19 +173,19 @@ public class MenuTab extends Tab {
             String buttonPressed = e.getActionCommand();
             switch (buttonPressed) {
                 case COFFEE:
-                    setCategoryContainer(coffee);
+                    setNewCategorySelectedConfiguration(coffee);
                     break;
                 case TEA:
-                    setCategoryContainer(tea);
+                    setNewCategorySelectedConfiguration(tea);
                     break;
                 case NONCAFFEINATED:
-                    setCategoryContainer(noncaffeinated);
+                    setNewCategorySelectedConfiguration(noncaffeinated);
                     break;
                 case BRUNCH:
-                    setCategoryContainer(brunch);
+                    setNewCategorySelectedConfiguration(brunch);
                     break;
                 case DESSERT:
-                    setCategoryContainer(dessert);
+                    setNewCategorySelectedConfiguration(dessert);
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + buttonPressed);

@@ -10,6 +10,7 @@ import ui.tabs.OrderTab;
 import ui.tabs.Tab;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -19,7 +20,7 @@ public class OCafe extends JFrame {
     public static final int ORDER_TAB_INDEX = 2;
 
     public static final int WIDTH = 1100;
-    public static final int HEIGHT = 700;
+    public static final int HEIGHT = 800;
 
     protected MenuLoader menuLoader;
     protected Account account;
@@ -33,14 +34,14 @@ public class OCafe extends JFrame {
     public OCafe() {
         super("OCafe");
         setSize(WIDTH, HEIGHT);
-//        setLayout(new FlowLayout());
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         menuLoader = new MenuLoader();
         order = new Order();
 
         sidebar = new JTabbedPane();
-        sidebar.setTabPlacement(JTabbedPane.LEFT);
+        sidebar.setTabPlacement(JTabbedPane.TOP);
 
         loadTabs();
         add(sidebar);
@@ -55,12 +56,18 @@ public class OCafe extends JFrame {
         Tab menuTab = new MenuTab(this);
         Tab orderTab = new OrderTab(this);
 
-        sidebar.add(homeTab, HOME_TAB_INDEX);
-        sidebar.setTitleAt(HOME_TAB_INDEX, "Home");
-        sidebar.add(menuTab, MENU_TAB_INDEX);
-        sidebar.setTitleAt(MENU_TAB_INDEX, "Menu");
-        sidebar.add(orderTab, ORDER_TAB_INDEX);
-        sidebar.setTitleAt(ORDER_TAB_INDEX, "Order");
+        loadTab(homeTab, HOME_TAB_INDEX, "HOME");
+        loadTab(menuTab, MENU_TAB_INDEX, "MENU");
+        loadTab(orderTab, ORDER_TAB_INDEX, "ORDER");
+
+    }
+
+    private void loadTab(Tab t, int index, String title) {
+        sidebar.add(t, index);
+        JLabel label = new JLabel(title, SwingConstants.CENTER);
+        label.setPreferredSize(new Dimension(100, 50));
+        label.setFont(new Font("", Font.PLAIN, 14));
+        sidebar.setTabComponentAt(index, label);
     }
 
     // refreshes tab at index
@@ -74,17 +81,26 @@ public class OCafe extends JFrame {
     public void handleCreateAccount(String name) {
         try {
             account = new Account(name);
-//            accountList.add(str);
             writer = new JsonWriter(account.getFile());
             reader = new JsonReader(account.getFile());
-            writer.open();
-            writer.write(account);
-            writer.close();
+            readAccount();
+            // account with given name already exists
+            handleSignOut();
+            JOptionPane.showMessageDialog(this,
+                    "An account with this name already exists. \nSign in or try again with a different name.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
 
-            refreshTab(HOME_TAB_INDEX);
+        } catch (IOException exception) {
+        // no account exists with given name
+            try {
+                writer.open();
+                writer.write(account);
+                writer.close();
+                refreshTab(HOME_TAB_INDEX);
+            } catch (FileNotFoundException e) {
+                System.out.println("Your name cannot contain backslashes or quotation marks");
+            }
 
-        } catch (FileNotFoundException e) {
-            System.out.println("Your name cannot contain backslashes or quotation marks");
         }
     }
 
@@ -95,7 +111,6 @@ public class OCafe extends JFrame {
             writer = new JsonWriter("./data/" + name + ".json");
             reader = new JsonReader("./data/" + name + ".json");
             readAccount();
-
             refreshTab(HOME_TAB_INDEX);
 
         } catch (IOException e) {

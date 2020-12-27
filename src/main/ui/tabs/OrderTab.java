@@ -32,7 +32,7 @@ public class OrderTab extends Tab {
 
     // creates and adds order summary panel
     private void placeSummaryPane() {
-        summaryPane = initializePane("Your Order");
+        summaryPane = initializeBoxLayoutPanel("Your Order");
 
         displayOrderItems(summaryPane);
         placeCheckoutButton();
@@ -42,7 +42,7 @@ public class OrderTab extends Tab {
 
     // creates and adds checkout panel
     private void placeCheckoutPane() {
-        checkoutPane = initializePane("Checkout");
+        checkoutPane = initializeBoxLayoutPanel("Checkout");
         checkoutPane.add(createRigidArea());
 
         displayOrderItems(checkoutPane);
@@ -59,7 +59,7 @@ public class OrderTab extends Tab {
 
     // creates and adds receipt panel
     private void placeReceiptPane() {
-        receiptPane = initializePane("Saved!");
+        receiptPane = initializeBoxLayoutPanel("Saved!");
         receiptPane.add(createRigidArea());
 
         JTextArea receipt = new JTextArea(order.toString());
@@ -76,7 +76,7 @@ public class OrderTab extends Tab {
 
     // creates and adds panel with confirmation message
     private void placeUnsavedOrderPane() {
-        unsavedOrderPane = initializePane("Your order has been placed!");
+        unsavedOrderPane = initializeBoxLayoutPanel("Your order has been placed!");
 
         unsavedOrderPane.add(createRigidArea());
 
