@@ -12,6 +12,8 @@ import java.util.List;
 
 public class CategoryPane extends Tab {
     protected static final int DISPLAY_DETAILS_WIDTH = WIDTH * 3 / 5;
+    private static final int IMAGE_HEIGHT = 100;
+    private static final int IMAGE_WIDTH = 400;
 
     private MenuTab menuTab;
 
@@ -40,6 +42,11 @@ public class CategoryPane extends Tab {
     private void placeItemButtons(String[] category) {
         for (String itemName : category) {
             JButton itemButton = new JButton(itemName);
+            itemButton.setLayout(new BoxLayout(itemButton, BoxLayout.Y_AXIS));
+//            itemButton.setBorder(BorderFactory.createEmptyBorder());
+//            itemButton.setBackground(new Color(229, 229, 229, 87));
+//            itemButton.setOpaque(true);
+            itemButton.setMargin(new Insets(0,0,0,0));
             add(itemButton);
 
 
@@ -55,12 +62,20 @@ public class CategoryPane extends Tab {
     private void placeItemImages() {
         for (Component c : getComponents()) {
             JButton itemButton = (JButton)c;
-
             Image itemImage = new ImageIcon("./data/images/" + itemButton.getText() + ".jpg").getImage();
-            Dimension d = new Dimension(itemButton.getSize().width, itemButton.getSize().height - 50);
-            itemButton.setIcon(loadImageJLabel(itemImage, d));
-//            itemButton.add(loadImageJLabel(itemImage, d));
-            itemButton.setOpaque(true);
+            Dimension d = new Dimension(IMAGE_WIDTH, IMAGE_HEIGHT);
+            itemButton.add(loadImageJLabel(itemImage, d));
+
+            JLabel name = new JLabel("   " + itemButton.getText());
+            name.setFont(new Font("", Font.PLAIN, 15));
+            name.setPreferredSize(new Dimension(IMAGE_WIDTH, 40));
+            name.setMinimumSize(new Dimension(IMAGE_WIDTH, 40));
+            name.setMaximumSize(new Dimension(IMAGE_WIDTH, 40));
+            name.setAlignmentX(LEFT_ALIGNMENT);
+            itemButton.add(name);
+            itemButton.setActionCommand(itemButton.getText());
+            itemButton.setText(null);
+
         }
     }
 

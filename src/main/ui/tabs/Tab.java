@@ -48,17 +48,17 @@ public abstract class Tab extends JPanel {
     }
 
     //EFFECTS: returns image in JLabel form
-    public ImageIcon loadImageJLabel(Image originalImage, Dimension targetDimension) {
+    public JLabel loadImageJLabel(Image originalImage, Dimension targetDimension) {
 //        Image originalImage = item.getImage();
         int height = originalImage.getHeight(new ItemImageObserver());
         int width = originalImage.getWidth(new ItemImageObserver());
         double scale = ((double)width / (targetDimension.width));
 
         // to scale the image according to height
-//        double scale = ((double)height / IMAGE_HEIGHT);
-//        ImageIcon scaledImage = new ImageIcon(item.getImage().getScaledInstance((int)(targetDimension.width / scale),
-//              IMAGE_HEIGHT,
-//              Image.SCALE_SMOOTH));
+//        double scale = ((double)height / targetDimension.height);
+//        ImageIcon scaledImage = new ImageIcon(originalImage.getScaledInstance((int)(width / scale),
+//                  targetDimension.height,
+//                  Image.SCALE_SMOOTH));
 
         ImageIcon scaledImage = new ImageIcon(originalImage.getScaledInstance(targetDimension.width,
                 (int)(height / scale),
@@ -66,10 +66,10 @@ public abstract class Tab extends JPanel {
 
         JLabel icon = new JLabel(scaledImage);
         icon.setPreferredSize(new Dimension(targetDimension.width, targetDimension.height));
-//        icon.setAlignmentX(Component.LEFT_ALIGNMENT);
+        icon.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-//        return icon;
-        return scaledImage;
+        return icon;
+//        return scaledImage;
     }
 
     // image observer
