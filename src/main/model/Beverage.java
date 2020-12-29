@@ -2,6 +2,8 @@ package model;
 
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 // Represents a menu item of type beverage
 public class Beverage extends MenuItem {
 
@@ -105,7 +107,7 @@ public class Beverage extends MenuItem {
 
     //EFFECTS: returns customizable beverages in string format
     private String toStringCustomizable(String s) {
-        return super.toString() + "\n\n   " + s;
+        return super.toString() + "\n   " + s;
     }
 
     @Override
@@ -115,5 +117,25 @@ public class Beverage extends MenuItem {
         json.put("size", size);
         json.put("temperature", temperature);
         return json;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        Beverage beverage = (Beverage) o;
+        return size == beverage.size && temperature == beverage.temperature;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), size, temperature);
     }
 }

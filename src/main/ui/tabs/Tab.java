@@ -3,11 +3,15 @@ package ui.tabs;
 import model.MenuItem;
 import ui.OCafe;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.ImageObserver;
+import java.io.File;
 
 public abstract class Tab extends JPanel {
     protected static final String PLACE_ORDER_COMMAND = "Place Order";
@@ -30,11 +34,14 @@ public abstract class Tab extends JPanel {
     public JPanel initializeBoxLayoutPanel(String title) {
         JPanel panel = initializeDefaultPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(BorderFactory.createEtchedBorder());
 
+        panel.add(createRigidArea());
         JLabel label = new JLabel(title);
-        label.setFont(new Font("Serif", Font.PLAIN, 30));
+        label.setFont(new Font("", Font.PLAIN, 36));
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(label);
+        panel.add(createRigidArea());
 
         return panel;
     }
@@ -49,7 +56,6 @@ public abstract class Tab extends JPanel {
 
     //EFFECTS: returns image in JLabel form
     public JLabel loadImageJLabel(Image originalImage, Dimension targetDimension) {
-//        Image originalImage = item.getImage();
         int height = originalImage.getHeight(new ItemImageObserver());
         int width = originalImage.getWidth(new ItemImageObserver());
         double scale = ((double)width / (targetDimension.width));
@@ -103,6 +109,18 @@ public abstract class Tab extends JPanel {
     // creates rigid area
     public Component createRigidArea() {
         return Box.createRigidArea(new Dimension(50, 20));
+    }
+
+    //plays sound with sound name
+    public void playSound(String soundName) {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+        }
     }
 
     //EFFECTS: returns the SmartHomeUI controller for this tab

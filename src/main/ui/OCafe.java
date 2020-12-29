@@ -37,6 +37,19 @@ public class OCafe extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+//        try {
+//            UIManager.setLookAndFeel(
+//                    UIManager.getCrossPlatformLookAndFeelClassName());
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (InstantiationException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        } catch (UnsupportedLookAndFeelException e) {
+//            e.printStackTrace();
+//        }
+
         menuLoader = new MenuLoader();
         order = new Order();
 
@@ -152,6 +165,12 @@ public class OCafe extends JFrame {
     // assigns order field to a new order
     public void makeNewOrder() {
         order = new Order();
+    }
+
+    public void setOrderTabIcon(String fileName) {
+        Image img = new ImageIcon(fileName).getImage();
+        sidebar.setIconAt(ORDER_TAB_INDEX, new ImageIcon(img.getScaledInstance(3,3,Image.SCALE_SMOOTH)));
+        sidebar.revalidate();
     }
 
     //EFFECTS: returns sidebar of this UI

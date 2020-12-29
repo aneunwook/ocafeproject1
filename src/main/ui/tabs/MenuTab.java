@@ -35,6 +35,7 @@ public class MenuTab extends Tab {
     private JPanel itemDetailsContainer;
 
     private GridBagLayout gridBagLayout;
+    private JLabel title;
 
     // creates menu tab with coffee category selected
     public MenuTab(OCafe controller) {
@@ -57,7 +58,8 @@ public class MenuTab extends Tab {
 
     //EFFECTS: creates title at top of console
     private void placeTitle() {
-        JLabel title = new JLabel("MENU", JLabel.CENTER);
+        title = new JLabel();
+        setTitle("MENU");
 
         GridBagConstraints c = new GridBagConstraints();
         c.weighty = 0.2;
@@ -103,25 +105,20 @@ public class MenuTab extends Tab {
         add(itemDetailsContainer);
     }
 
+    private void setTitle(String category) {
+        title.setText(category);
+        title.setFont(new Font("", Font.PLAIN, 16));
+        title.revalidate();
+    }
+
     //MODIFIES: this
     //EFFECTS: creates a panel of buttons representing each menu item in a category,
     //         buttons display item name and price, displays further details when clicked
     private void setNewCategorySelectedConfiguration(String[] category) {
-        GridBagConstraints categoryConstraints = new GridBagConstraints();
-        categoryConstraints.weightx = 1.0;
-        categoryConstraints.weighty = 1.0;
-        categoryConstraints.gridx = 0;
-        categoryConstraints.gridy = 2;
-        categoryConstraints.gridwidth = 2;
-        categoryConstraints.gridheight = 9;
-        categoryConstraints.fill = GridBagConstraints.BOTH;
-        categoryConstraints.anchor = GridBagConstraints.FIRST_LINE_START;
-        gridBagLayout.setConstraints(categoryContainer, categoryConstraints);
-
+        setNewCategoryGridBagConstraints();
         CategoryPane cp = new CategoryPane(this, getController(), category);
         setContainer(categoryContainer, cp);
 
-        gridBagLayout.setConstraints(itemDetailsContainer, new GridBagConstraints());
         itemDetailsContainer.removeAll();
         itemDetailsContainer.revalidate();
     }
@@ -142,7 +139,6 @@ public class MenuTab extends Tab {
 
         CategoryPane cp = (CategoryPane)categoryContainer.getComponent(0);
         cp.setPreferredSize(new Dimension(CategoryPane.DISPLAY_DETAILS_WIDTH, ITEM_AND_CATEGORY_DIM.height));
-//        cp.setColumnLayout();
         categoryContainer.revalidate();
 
         GridBagConstraints itemDetailsConstraints = new GridBagConstraints();
@@ -165,6 +161,22 @@ public class MenuTab extends Tab {
         container.revalidate();
     }
 
+    //MODIFIES: this
+    //EFFECTS: sets GridBagConstraints for categoryContainer and itemDetailsContainer to only display categoryContainer
+    private void setNewCategoryGridBagConstraints() {
+        GridBagConstraints categoryConstraints = new GridBagConstraints();
+        categoryConstraints.weightx = 1.0;
+        categoryConstraints.weighty = 1.0;
+        categoryConstraints.gridx = 0;
+        categoryConstraints.gridy = 2;
+        categoryConstraints.gridwidth = 2;
+        categoryConstraints.gridheight = 9;
+        categoryConstraints.fill = GridBagConstraints.BOTH;
+        categoryConstraints.anchor = GridBagConstraints.FIRST_LINE_START;
+        gridBagLayout.setConstraints(categoryContainer, categoryConstraints);
+        gridBagLayout.setConstraints(itemDetailsContainer, new GridBagConstraints());
+
+    }
 
     //action listener for selector pane
     private class CategorySelector implements ActionListener {
@@ -190,6 +202,7 @@ public class MenuTab extends Tab {
                 default:
                     throw new IllegalStateException("Unexpected value: " + buttonPressed);
             }
+            setTitle(buttonPressed);
         }
     }
 

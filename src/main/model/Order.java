@@ -27,9 +27,17 @@ public class Order implements Writable {
     }
 
     //MODIFIES: this
-    //EFFECTS: adds item to the itemList, and adds the price of the item to total
+    //EFFECTS: if itemList does not contain item, then adds item to itemList
+    //         otherwise, increases the quantity of the item in itemList
     public void addItem(MenuItem item) {
-        itemList.add(item);
+        for (MenuItem i : itemList) {
+            if (i.equals(item)) {
+                i.setQuantity(i.getQuantity() + item.getQuantity());
+            }
+        }
+        if (!itemList.contains(item)) {
+            itemList.add(item);
+        }
     }
 
     //MODIFIES: this

@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 // Represents a menu item of type dish
 public class Dish extends MenuItem {
@@ -56,7 +57,7 @@ public class Dish extends MenuItem {
     public String toString() {
         String s = super.toString();
         try {
-            return s + "\n\n   " + selected.getName();
+            return s + "\n   " + selected.getName();
         } catch (NullPointerException e) {
             return s;
         }
@@ -100,5 +101,25 @@ public class Dish extends MenuItem {
         }
 
         return jsonArray;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        Dish dish = (Dish) o;
+        return Objects.equals(options, dish.options) && Objects.equals(selected, dish.selected);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), options, selected);
     }
 }

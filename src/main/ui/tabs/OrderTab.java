@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 
 // represents an order tab, allows interaction with the current order
 public class OrderTab extends Tab {
-    private static final int ITEM_PANEL_WIDTH = 380;
+    private static final Dimension ORDER_BUTTON_DIM = new Dimension(OCafe.WIDTH * 2 / 5, 50);
 
     private Order order;
 
@@ -25,7 +25,7 @@ public class OrderTab extends Tab {
         super(controller);
         order = controller.getOrder();
 
-        setBorder(BorderFactory.createEmptyBorder(OCafe.HEIGHT / 4, OCafe.WIDTH / 4, 0, OCafe.WIDTH / 2));
+        setBorder(BorderFactory.createEmptyBorder(100, OCafe.WIDTH / 4, 0, OCafe.WIDTH / 2));
 
         placeSummaryPane();
     }
@@ -35,32 +35,33 @@ public class OrderTab extends Tab {
         summaryPane = initializeBoxLayoutPanel("Your Order");
 
         displayOrderItems(summaryPane);
-        placeCheckoutButton();
 
+        summaryPane.add(createRigidArea());
+        placeCheckoutButton();
+        summaryPane.add(createRigidArea());
         add(summaryPane);
     }
 
     // creates and adds checkout panel
     private void placeCheckoutPane() {
         checkoutPane = initializeBoxLayoutPanel("Checkout");
-        checkoutPane.add(createRigidArea());
 
         displayOrderItems(checkoutPane);
 
-        checkoutPane.add(createRigidArea());
-        JLabel total = new JLabel(displayOrderTotal("Total:"));
-        checkoutPane.add(total);
+//        checkoutPane.add(createRigidArea());
+//        JLabel total = new JLabel(displayOrderTotal("Total:"));
+//        checkoutPane.add(total);
 
         checkoutPane.add(createRigidArea());
         placePayNowButton();
-
+        checkoutPane.add(createRigidArea());
         add(checkoutPane);
     }
 
     // creates and adds receipt panel
     private void placeReceiptPane() {
         receiptPane = initializeBoxLayoutPanel("Saved!");
-        receiptPane.add(createRigidArea());
+        receiptPane.setBorder(BorderFactory.createEmptyBorder());
 
         JTextArea receipt = new JTextArea(order.toString());
         receipt.setBackground(new Color(0,0,0, 0));
@@ -77,8 +78,7 @@ public class OrderTab extends Tab {
     // creates and adds panel with confirmation message
     private void placeUnsavedOrderPane() {
         unsavedOrderPane = initializeBoxLayoutPanel("Your order has been placed!");
-
-        unsavedOrderPane.add(createRigidArea());
+        unsavedOrderPane.setBorder(BorderFactory.createEmptyBorder());
 
         placeHomeButton(unsavedOrderPane);
 
@@ -88,19 +88,21 @@ public class OrderTab extends Tab {
     // displays items in current order
     private void displayOrderItems(JPanel currentPanel) {
         for (MenuItem item : order.getItemList()) {
-            JPanel itemPane = new JPanel();
-            itemPane.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.DARK_GRAY));
+            JPanel itemPane = initializeDefaultPanel();
+            itemPane.setBorder(BorderFactory.createEmptyBorder(0, 5, 15, 5));
+            itemPane.setLayout(new BoxLayout(itemPane, BoxLayout.X_AXIS));
 
             if (currentPanel.equals(summaryPane)) {
                 placeQuantityComboBox(item, itemPane);
             }
 
-            JTextArea text = new JTextArea(item.toString());
+            JTextArea text = new JTextArea("\n  " + item.toString());
             text.setBackground(new Color(0,0,0, 0));
             itemPane.add(text);
 
             itemPane.setAlignmentX(Component.LEFT_ALIGNMENT);
             currentPanel.add(itemPane);
+            currentPanel.add(new JSeparator());
         }
     }
 
@@ -133,7 +135,7 @@ public class OrderTab extends Tab {
     // creates checkout button, switches contentpane to checkout pane
     private void placeCheckoutButton() {
         JButton checkoutButton = new JButton(displayOrderTotal("Checkout"));
-        checkoutButton.setPreferredSize(new Dimension(ITEM_PANEL_WIDTH, 40));
+        checkoutButton.setPreferredSize(ORDER_BUTTON_DIM);
 
         if (order.getTotal() <= 0.0) {
             checkoutButton.setEnabled(false);
@@ -155,8 +157,16 @@ public class OrderTab extends Tab {
 
     // creates pay button, places order and prompts user to save this order when pressed
     private void placePayNowButton() {
-        JButton payNowButton = new JButton("Pay Now");
-        payNowButton.setPreferredSize(new Dimension(ITEM_PANEL_WIDTH, 40));
+        JLabel label = new JLabel(displayOrderTotal("Pay Now"));
+        label.setForeground(Color.white);
+        label.setFont(new Font("", Font.PLAIN, 14));
+
+        JButton payNowButton = new JButton();
+        payNowButton.add(label);
+        payNowButton.setPreferredSize(ORDER_BUTTON_DIM);
+        payNowButton.setBackground(Color.black);
+        payNowButton.setOpaque(true);
+        payNowButton.setBorderPainted(false);
 
         payNowButton.addActionListener(new PaymentConfirmation());
 
@@ -185,7 +195,7 @@ public class OrderTab extends Tab {
 
     // returns string representing parameter and order total
     private String displayOrderTotal(String s) {
-        return String.format("%-60s $%.2f", s, order.getTotal());
+        return String.format("%-35s " + s + " %30s $%.2f  ", "", "", order.getTotal());
     }
 
     // action listener for payment confirmation
@@ -206,9 +216,11 @@ public class OrderTab extends Tab {
                 controller.refreshTab(OCafe.HOME_TAB_INDEX);
                 removeAll();
                 placeReceiptPane();
+                setSize(receiptPane.getSize());
             } else {
                 removeAll();
                 placeUnsavedOrderPane();
+                setSize(unsavedOrderPane.getSize());
             }
             revalidate();
             controller.makeNewOrder();

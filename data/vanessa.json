@@ -26,7 +26,7 @@
                     "type": "beverage"
                 }
             ],
-            "id": 2
+            "id": 3
         },
         {
             "date": {
@@ -61,7 +61,7 @@
                     "type": "dish"
                 }
             ],
-            "id": 3
+            "id": 4
         },
         {
             "date": {
@@ -73,7 +73,7 @@
             },
             "total": 0,
             "itemList": [],
-            "id": 4
+            "id": 5
         },
         {
             "date": {
@@ -98,7 +98,7 @@
                     "type": "dish"
                 }
             ],
-            "id": 5
+            "id": 6
         },
         {
             "date": {
@@ -108,7 +108,7 @@
                 "day": 21,
                 "minute": 19
             },
-            "total": 16.95,
+            "total": 0,
             "itemList": [{
                 "price": 16.95,
                 "name": "Eggs Benedict",
@@ -122,13 +122,66 @@
                         "name": "Smoked Salmon"
                     }
                 ],
-                "type": "dish",
-                "selected": {
-                    "price": 4,
-                    "name": "Smoked Salmon"
-                }
+                "type": "dish"
             }],
-            "id": 1
+            "id": 7
+        },
+        {
+            "date": {
+                "month": 11,
+                "hour": 19,
+                "year": 2020,
+                "day": 28,
+                "minute": 45
+            },
+            "total": 0,
+            "itemList": [{
+                "size": -1,
+                "price": 3.45,
+                "name": "Americano",
+                "temperature": 0,
+                "type": "beverage"
+            }],
+            "id": 8
+        },
+        {
+            "date": {
+                "month": 11,
+                "hour": 21,
+                "year": 2020,
+                "day": 28,
+                "minute": 29
+            },
+            "total": 16.1,
+            "itemList": [
+                {
+                    "size": -1,
+                    "price": 3.45,
+                    "name": "Americano",
+                    "temperature": 0,
+                    "type": "beverage"
+                },
+                {
+                    "size": 0,
+                    "price": 4.25,
+                    "name": "Cold Brew",
+                    "temperature": -1,
+                    "type": "beverage"
+                },
+                {
+                    "price": 4.65,
+                    "name": "Hojicha Parfait",
+                    "options": [],
+                    "type": "dish"
+                },
+                {
+                    "price": 3.75,
+                    "name": "Tofu Ice Cream",
+                    "options": [],
+                    "type": "dish"
+                }
+            ],
+            "id": 2
         }
     ]
 }
