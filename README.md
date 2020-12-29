@@ -10,10 +10,26 @@ since this will be number one of many products to come!
 
 
 ## Set Up
-- Clone repository and open in an IDE
-- Navigate to the **ui** package
-- Run **OCafe**
-- Create an account to get the full experience!
+A Java Runtime Environment (JRE) is required to run the application, available for download [here](https://www.oracle.com/ca-en/java/technologies/javase-jre8-downloads.html).
+
+
+1. Clone repository using any method. To clone using git, enter the following in the Terminal/Command Prompt:
+```bash
+git clone https://github.com/vanessaip/OCafeProject.git
+```
+alternatively, the zip file can be found at the green **Code** button   
+    
+2. Navigate to the project file:
+```bash
+cd OCafeProject
+```
+    
+3. Run the application:
+```bash
+java -jar out/artifacts/OCafe_jar/OCafe.jar
+```
+    
+4. Create an account to get the full experience!
 
 ## Features
 ### Menu
@@ -33,5 +49,5 @@ since this will be number one of many products to come!
 - Create an account (optional)
 - Save the current order to the account
 - View previous orders sorted by date 
-- Sign in to a previously created account 
+- Sign in to a previously created account to access order history
 - Sign out 
