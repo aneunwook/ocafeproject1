@@ -194,7 +194,6 @@ public class ItemDetailsPane extends Tab {
                     categoryPane.displayDishDetails(item.getName(), dishType);
                 }
                 playSound("./data/sounds/Ping.wav");
-                controller.setOrderTabIcon("./data/icons/dot.png");
 //                JOptionPane.showMessageDialog(null, item.getName() + " has been added to your order!");
             }
         });
