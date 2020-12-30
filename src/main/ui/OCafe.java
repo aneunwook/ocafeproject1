@@ -132,8 +132,12 @@ public class OCafe extends JFrame {
             refreshTab(HOME_TAB_INDEX);
 
         } catch (IOException e) {
+            handleSignOut();
+            playSound("./data/sounds/Basso.wav");
+            JOptionPane.showMessageDialog(this,
+                    "No account with this name exists. \nTry again with a different name or create an account.",
+                    null, JOptionPane.ERROR_MESSAGE);
             System.out.println("An account with name '" + name + "' cannot be found :(");
-            //try again or create account!!!
         }
     }
 
