@@ -172,6 +172,19 @@ public class OCafe extends JFrame {
         order = new Order();
     }
 
+    // clears order history for this account
+    public void clearHistory() {
+        account.clearHistory();
+        try {
+            writer.open();
+            writer.write(account);
+            writer.close();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Error clearing history");
+        }
+    }
+
     public void setOrderTabIcon(String fileName) {
         Image img = new ImageIcon(fileName).getImage();
         sidebar.setIconAt(ORDER_TAB_INDEX, new ImageIcon(img.getScaledInstance(3,3,Image.SCALE_SMOOTH)));

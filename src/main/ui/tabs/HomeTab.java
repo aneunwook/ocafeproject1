@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.List;
 
 // represents a home tab, facilitates account activities provides navigation of the console
 public class HomeTab extends Tab {
@@ -52,7 +53,7 @@ public class HomeTab extends Tab {
         add(startPage);
     }
 
-    // displays account info
+    // displays account page
     private void initAccountPage() {
         setBorder(BorderFactory.createEmptyBorder(50, 100, 50, 100));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -60,6 +61,15 @@ public class HomeTab extends Tab {
         placeAccountOptionsPane();
     }
 
+    private void placeImage() {
+        add(Box.createHorizontalGlue());
+        Image img = new ImageIcon("./data/images/accountfiller.jpg").getImage();
+        JLabel icon = loadImageJLabel(img, ORDER_HISTORY_MAX_SIZE);
+        icon.setAlignmentY(TOP_ALIGNMENT);
+        add(icon);
+    }
+
+    // displays account options
     private void placeAccountOptionsPane() {
         JPanel accountOptionsPane = initializeBoxLayoutPanel(controller.getAccount().getName());
         accountOptionsPane.setBorder(BorderFactory.createEmptyBorder());
@@ -81,42 +91,16 @@ public class HomeTab extends Tab {
         orderHistoryPane.setMaximumSize(ORDER_HISTORY_MAX_SIZE);
         orderHistoryPane.setAlignmentY(TOP_ALIGNMENT);
 
-        Account a = controller.getAccount();
-        if (a.getHistory().size() == 0) {
+        List<Order> orderList = controller.getAccount().getHistory();
+        if (orderList.size() == 0) {
             orderHistoryPane.add(new JLabel("No orders have been saved to your account yet!"));
         } else {
-            JPanel historyList = new ScrollablePanel();
-            historyList.setLayout(new BoxLayout(historyList, BoxLayout.Y_AXIS));
-            historyList.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
-            historyList.setBackground(backgroundColor);
-
-            for (Order o : a.getHistory()) {
-                JTextArea order = new JTextArea(o.toString());
-                historyList.add(order);
-                historyList.add(new JSeparator());
-            }
-
-            JScrollPane scrollPane = new JScrollPane(historyList);
-            scrollPane.setAlignmentX(LEFT_ALIGNMENT);
-            orderHistoryPane.add(scrollPane);
-
-            JButton clearButton = new JButton(CLEAR_HISTORY_COMMAND);
-            clearButton.setAlignmentX(RIGHT_ALIGNMENT);
-            clearButton.addActionListener(new HomeTabListener());
-            orderHistoryPane.add(clearButton);
+            orderHistoryPane.add(loadOrderHistory(orderList));
+            orderHistoryPane.add(createRigidArea());
+            orderHistoryPane.add(loadClearHistoryButton());
         }
         add(Box.createHorizontalGlue());
         add(orderHistoryPane);
-    }
-
-    public JPanel initializeGridLayoutPanel(String title) {
-        JPanel panel = initializeDefaultPanel();
-        panel.setLayout(new GridLayout(0, 1, 0, 20));
-
-        JLabel label = new JLabel(title);
-        label.setFont(new Font("", Font.PLAIN, 36));
-        panel.add(label);
-        return panel;
     }
 
     //MODIFIES: this
@@ -135,6 +119,33 @@ public class HomeTab extends Tab {
         b.addActionListener(new HomeTabListener());
         b.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(b);
+    }
+
+    // returns JScrollPane representing orderList
+    private JScrollPane loadOrderHistory(List<Order> orderList) {
+        JPanel historyList = new ScrollablePanel();
+        historyList.setLayout(new BoxLayout(historyList, BoxLayout.Y_AXIS));
+        historyList.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        historyList.setBackground(backgroundColor);
+
+        for (Order o : orderList) {
+            JTextArea order = new JTextArea(o.toString());
+            historyList.add(order);
+            historyList.add(new JSeparator());
+        }
+
+        JScrollPane scrollPane = new JScrollPane(historyList);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setAlignmentX(LEFT_ALIGNMENT);
+        return scrollPane;
+    }
+
+    // returns clear history JButton
+    private JButton loadClearHistoryButton() {
+        JButton clearButton = new JButton(CLEAR_HISTORY_COMMAND);
+        clearButton.setAlignmentX(LEFT_ALIGNMENT);
+        clearButton.addActionListener(new HomeTabListener());
+        return clearButton;
     }
 
     // action listener for HomeTab
@@ -171,7 +182,6 @@ public class HomeTab extends Tab {
                 case SIGN_OUT_COMMAND:
                     controller.handleSignOut();
                     controller.refreshTab(OCafe.HOME_TAB_INDEX);
-//                    controller.getTabbedPane().setSelectedIndex(OCafe.HOME_TAB_INDEX);
                     break;
                 case ORDER_HISTORY_COMMAND:
                     try {
@@ -183,7 +193,10 @@ public class HomeTab extends Tab {
                     }
                     break;
                 default:
-                    controller.getAccount().clearHistory();
+                    controller.clearHistory();
+                    removeAll();
+                    initAccountPage();
+                    placeOrderHistoryPane();
                     revalidate();
                     break;
             }
@@ -195,7 +208,7 @@ public class HomeTab extends Tab {
 
         @Override
         public Dimension getPreferredScrollableViewportSize() {
-            return new Dimension(getPreferredSize().width,OCafe.HEIGHT - 300);
+            return new Dimension(getPreferredSize().width,OCafe.HEIGHT - 400);
         }
 
         @Override

@@ -71,7 +71,7 @@ public class Order implements Writable {
             items = items + item.toString() + "\n";
         }
         return String.format(
-                "Your " + weekDay + " " + getAmPm() + " order:\n\n" + items + "\n%-50s $%.2f","Total:", getTotal());
+                "Your " + weekDay + " " + getAmPm() + " order:\n\n" + items + "\n%-60s $%.2f","Total:", getTotal());
     }
 
 
