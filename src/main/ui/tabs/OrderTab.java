@@ -11,6 +11,10 @@ import java.awt.event.ActionListener;
 
 // represents an order tab, allows interaction with the current order
 public class OrderTab extends Tab {
+    private static final String CHECKOUT_COMMAND = "Checkout";
+    private static final String PAY_NOW_COMMAND = "Pay Now";
+    private static final String HOME_COMMAND = "Home";
+
     private static final Dimension ORDER_BUTTON_DIM = new Dimension(OCafe.WIDTH * 2 / 5, 50);
 
     private Order order;
@@ -44,13 +48,9 @@ public class OrderTab extends Tab {
 
     // creates and adds checkout panel
     private void placeCheckoutPane() {
-        checkoutPane = initializeBoxLayoutPanel("Checkout");
+        checkoutPane = initializeBoxLayoutPanel(CHECKOUT_COMMAND);
 
         displayOrderItems(checkoutPane);
-
-//        checkoutPane.add(createRigidArea());
-//        JLabel total = new JLabel(displayOrderTotal("Total:"));
-//        checkoutPane.add(total);
 
         checkoutPane.add(createRigidArea());
         placePayNowButton();
@@ -126,6 +126,7 @@ public class OrderTab extends Tab {
                     order.removeItem(item);
                 }
                 controller.refreshTab(OCafe.ORDER_TAB_INDEX);
+                controller.playSound("./data/sounds/Pop.wav");
             }
         });
 
@@ -134,7 +135,7 @@ public class OrderTab extends Tab {
 
     // creates checkout button, switches contentpane to checkout pane
     private void placeCheckoutButton() {
-        JButton checkoutButton = new JButton(displayOrderTotal("Checkout"));
+        JButton checkoutButton = new JButton(displayOrderTotal(CHECKOUT_COMMAND));
         checkoutButton.setPreferredSize(ORDER_BUTTON_DIM);
 
         if (order.getTotal() <= 0.0) {
@@ -148,6 +149,7 @@ public class OrderTab extends Tab {
                 placeCheckoutPane();
                 setSize(checkoutPane.getSize());
                 revalidate();
+                controller.playSound("./data/sounds/Morse.wav");
             }
         });
 
@@ -157,7 +159,7 @@ public class OrderTab extends Tab {
 
     // creates pay button, places order and prompts user to save this order when pressed
     private void placePayNowButton() {
-        JLabel label = new JLabel(displayOrderTotal("Pay Now"));
+        JLabel label = new JLabel(displayOrderTotal(PAY_NOW_COMMAND));
         label.setForeground(Color.white);
         label.setFont(new Font("", Font.PLAIN, 14));
 
@@ -176,21 +178,19 @@ public class OrderTab extends Tab {
 
     // creates home button, sets tabbed pane to home tab
     private void placeHomeButton(JPanel panel) {
-        JButton placeOrderButton = new JButton("Home");
+        JButton homeButton = new JButton(HOME_COMMAND);
 
-        placeOrderButton.addActionListener(new ActionListener() {
+        homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String buttonPressed = e.getActionCommand();
-                if (buttonPressed.equals("Home")) {
-                    controller.refreshTab(OCafe.ORDER_TAB_INDEX);
-                    controller.getTabbedPane().setSelectedIndex(OCafe.HOME_TAB_INDEX);
-                }
+                controller.refreshTab(OCafe.ORDER_TAB_INDEX);
+                controller.getTabbedPane().setSelectedIndex(OCafe.HOME_TAB_INDEX);
+                controller.playSound("./data/sounds/Morse.wav");
             }
         });
 
-        placeOrderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-        panel.add(placeOrderButton);
+        homeButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panel.add(homeButton);
     }
 
     // returns string representing parameter and order total
@@ -204,6 +204,7 @@ public class OrderTab extends Tab {
         @Override
         public void actionPerformed(ActionEvent e) {
             // process payment??
+            controller.playSound("./data/sounds/Ping.wav");
             int selected = JOptionPane.NO_OPTION;
             if (controller.getAccount() != null) {
                 order.setDate();

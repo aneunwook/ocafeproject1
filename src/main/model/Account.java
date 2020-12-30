@@ -26,6 +26,12 @@ public class Account implements Writable {
         history.add(order);
     }
 
+    //MODIFIES: this
+    //EFFECTS: clears order history
+    public void clearHistory() {
+        history.clear();
+    }
+
     //getters
     public String getName() {
         return name;

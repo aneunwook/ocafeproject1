@@ -75,7 +75,6 @@ public class MenuTab extends Tab {
         categorySelectorPane = initializeDefaultPanel();
         categorySelectorPane.setPreferredSize(new Dimension(WIDTH, CATEGORY_SELECTION_HEIGHT));
         categorySelectorPane.setBorder(BorderFactory.createEmptyBorder(10, 0,0,0));
-//        categorySelectorPane.setBackground(new Color(250, 214, 214, 96));
 
         for (String s : categories) {
             JButton b = new JButton(s);
@@ -105,6 +104,7 @@ public class MenuTab extends Tab {
         add(itemDetailsContainer);
     }
 
+    //EFFECTS: sets the title displayed at the top of MenuTab
     private void setTitle(String category) {
         title.setText(category);
         title.setFont(new Font("", Font.PLAIN, 16));
@@ -203,6 +203,7 @@ public class MenuTab extends Tab {
                     throw new IllegalStateException("Unexpected value: " + buttonPressed);
             }
             setTitle(buttonPressed);
+            controller.playSound("./data/sounds/Morse.wav");
         }
     }
 

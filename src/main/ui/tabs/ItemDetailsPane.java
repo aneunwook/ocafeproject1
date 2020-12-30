@@ -21,12 +21,10 @@ public class ItemDetailsPane extends Tab {
     private static final String ICED = "Iced";
     private static final String NO_ADD_ONS_OPTION = "Naked";
 
-    //    private static final int IMAGE_HEIGHT = 300;
-//    private static final int IMAGE_WIDTH = ITEM_AND_CATEGORY_DIM.width;
     private static final Dimension IMAGE_DIMENSION = new Dimension(ITEM_AND_CATEGORY_DIM.width, 300);
     private static final int ADD_TO_ORDER_HEIGHT = 100;
 
-    private CategoryPane categoryPane;
+    private final CategoryPane categoryPane;
 
     private Beverage beverageSelected;
     private List<Beverage> beverageType;
@@ -91,7 +89,7 @@ public class ItemDetailsPane extends Tab {
 
         JLabel name = new JLabel(" " + item.getName());
         name.setFont(new Font("", Font.PLAIN, 25));
-        name.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        name.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
         name.setAlignmentX(Component.LEFT_ALIGNMENT);
         add(name);
     }
@@ -169,6 +167,7 @@ public class ItemDetailsPane extends Tab {
                 int q = (int) quantityBox.getSelectedItem();
                 item.setQuantity(q);
                 updatePriceDisplay(item);
+                controller.playSound("./data/sounds/Pop.wav");
             }
         });
 
@@ -178,7 +177,6 @@ public class ItemDetailsPane extends Tab {
     //creates add to order button that adds item to order when pressed
     private JButton placeAddToOrderButton(MenuItem item) {
         addToOrderButton = new JButton();
-//        addToOrderButton.setPreferredSize(new Dimension(250, 50));
         updatePriceDisplay(item);
 
         addToOrderButton.addActionListener(new ActionListener() {
@@ -193,7 +191,7 @@ public class ItemDetailsPane extends Tab {
                 } else {
                     categoryPane.displayDishDetails(item.getName(), dishType);
                 }
-                playSound("./data/sounds/Ping.wav");
+                controller.playSound("./data/sounds/Bottle.wav");
 //                JOptionPane.showMessageDialog(null, item.getName() + " has been added to your order!");
             }
         });
@@ -223,6 +221,7 @@ public class ItemDetailsPane extends Tab {
                     break;
             }
             updatePriceDisplay(beverageSelected);
+            controller.playSound("./data/sounds/Pop.wav");
         }
     }
 
@@ -242,6 +241,7 @@ public class ItemDetailsPane extends Tab {
                 }
             }
             updatePriceDisplay(dishSelected);
+            controller.playSound("./data/sounds/Pop.wav");
         }
     }
 

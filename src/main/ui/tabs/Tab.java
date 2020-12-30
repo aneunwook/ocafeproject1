@@ -14,10 +14,6 @@ import java.awt.image.ImageObserver;
 import java.io.File;
 
 public abstract class Tab extends JPanel {
-    protected static final String PLACE_ORDER_COMMAND = "Place Order";
-    protected static final String SIGN_IN_COMMAND = "Sign In";
-    protected static final String CREATE_ACCOUNT_COMMAND = "Create Account";
-
     protected static final int WIDTH = OCafe.WIDTH - 100;
     protected static final Dimension ITEM_AND_CATEGORY_DIM = new Dimension(OCafe.WIDTH * 11 / 30, OCafe.HEIGHT * 3 / 4);
     protected static final Color backgroundColor = Color.white;
@@ -54,7 +50,7 @@ public abstract class Tab extends JPanel {
         return panel;
     }
 
-    //EFFECTS: returns image in JLabel form
+    //EFFECTS: returns image in JLabel form with target dimension
     public JLabel loadImageJLabel(Image originalImage, Dimension targetDimension) {
         int height = originalImage.getHeight(new ItemImageObserver());
         int width = originalImage.getWidth(new ItemImageObserver());
@@ -87,40 +83,9 @@ public abstract class Tab extends JPanel {
         }
     }
 
-    //EFFECTS: creates Place Order button that switches the content pane to the menu tab when pressed
-    public void placeOrderButton(JPanel panel) {
-        JButton placeOrderButton = new JButton(PLACE_ORDER_COMMAND);
-
-        placeOrderButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String buttonPressed = e.getActionCommand();
-                if (buttonPressed.equals(PLACE_ORDER_COMMAND)) {
-                    controller.refreshTab(OCafe.ORDER_TAB_INDEX);
-                    controller.getTabbedPane().setSelectedIndex(OCafe.MENU_TAB_INDEX);
-                }
-            }
-        });
-
-        placeOrderButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-        panel.add(placeOrderButton);
-    }
-
     // creates rigid area
     public Component createRigidArea() {
         return Box.createRigidArea(new Dimension(50, 20));
-    }
-
-    //plays sound with sound name
-    public void playSound(String soundName) {
-        try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.start();
-        } catch (Exception ex) {
-            System.out.println("Error with playing sound.");
-        }
     }
 
     //EFFECTS: returns the SmartHomeUI controller for this tab

@@ -9,8 +9,12 @@ import ui.tabs.MenuTab;
 import ui.tabs.OrderTab;
 import ui.tabs.Tab;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -99,9 +103,10 @@ public class OCafe extends JFrame {
             readAccount();
             // account with given name already exists
             handleSignOut();
+            playSound("./data/sounds/Basso.wav");
             JOptionPane.showMessageDialog(this,
                     "An account with this name already exists. \nSign in or try again with a different name.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                    null, JOptionPane.ERROR_MESSAGE);
 
         } catch (IOException exception) {
         // no account exists with given name
@@ -171,6 +176,18 @@ public class OCafe extends JFrame {
         Image img = new ImageIcon(fileName).getImage();
         sidebar.setIconAt(ORDER_TAB_INDEX, new ImageIcon(img.getScaledInstance(3,3,Image.SCALE_SMOOTH)));
         sidebar.revalidate();
+    }
+
+    //plays sound with sound name
+    public void playSound(String soundName) {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+        }
     }
 
     //EFFECTS: returns sidebar of this UI

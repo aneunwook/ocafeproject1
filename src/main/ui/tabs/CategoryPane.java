@@ -43,16 +43,8 @@ public class CategoryPane extends Tab {
         for (String itemName : category) {
             JButton itemButton = new JButton(itemName);
             itemButton.setLayout(new BoxLayout(itemButton, BoxLayout.Y_AXIS));
-//            itemButton.setBorder(BorderFactory.createEmptyBorder());
-//            itemButton.setBackground(new Color(229, 229, 229, 87));
-//            itemButton.setOpaque(true);
             itemButton.setMargin(new Insets(0,0,0,0));
             add(itemButton);
-
-
-
-//            itemButton.setText(itemName);
-
             itemButton.addActionListener(new ItemSelector());
         }
         placeItemImages();
@@ -95,6 +87,7 @@ public class CategoryPane extends Tab {
     private class ItemSelector implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            controller.playSound("./data/sounds/Morse.wav");
             String buttonPressed = e.getActionCommand();
             switch (buttonPressed) {
                 case "Espresso":
