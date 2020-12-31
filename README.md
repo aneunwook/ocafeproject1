@@ -49,5 +49,6 @@ java -jar out/artifacts/OCafe_jar/OCafe.jar
 - Create an account (optional)
 - Save the current order to the account
 - View previous orders sorted by date 
+- Clear order history
 - Sign in to a previously created account to access order history
 - Sign out 
