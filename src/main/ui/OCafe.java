@@ -32,7 +32,7 @@ public class OCafe extends JFrame {
     protected JsonReader reader;
     protected Order order;
 
-    private JTabbedPane sidebar;
+    private JTabbedPane tabbedPane;
 
     // creates new OCafe object
     public OCafe() {
@@ -57,11 +57,11 @@ public class OCafe extends JFrame {
         menuLoader = new MenuLoader();
         order = new Order();
 
-        sidebar = new JTabbedPane();
-        sidebar.setTabPlacement(JTabbedPane.TOP);
+        tabbedPane = new JTabbedPane();
+        tabbedPane.setTabPlacement(JTabbedPane.TOP);
 
         loadTabs();
-        add(sidebar);
+        add(tabbedPane);
 
         setVisible(true);
     }
@@ -80,46 +80,47 @@ public class OCafe extends JFrame {
     }
 
     private void loadTab(Tab t, int index, String title) {
-        sidebar.add(t, index);
+        tabbedPane.add(t, index);
         JLabel label = new JLabel(title, SwingConstants.CENTER);
         label.setPreferredSize(new Dimension(100, 50));
         label.setFont(new Font("", Font.PLAIN, 14));
-        sidebar.setTabComponentAt(index, label);
+        tabbedPane.setTabComponentAt(index, label);
     }
 
     // refreshes tab at index
     public void refreshTab(int tabIndex) {
-        sidebar.setComponentAt(tabIndex, getTab(tabIndex));
-        sidebar.getComponentAt(tabIndex).revalidate();
+        tabbedPane.setComponentAt(tabIndex, getTab(tabIndex));
+        tabbedPane.getComponentAt(tabIndex).revalidate();
     }
 
     //MODIFIES: this
     //EFFECTS: creates an account associated with parameter name
     public void handleCreateAccount(String name) {
-        try {
-            account = new Account(name);
-            writer = new JsonWriter(account.getFile());
-            reader = new JsonReader(account.getFile());
-            readAccount();
-            // account with given name already exists
-            handleSignOut();
-            playSound("./data/sounds/Basso.wav");
-            JOptionPane.showMessageDialog(this,
-                    "An account with this name already exists. \nSign in or try again with a different name.",
-                    null, JOptionPane.ERROR_MESSAGE);
-
-        } catch (IOException exception) {
-        // no account exists with given name
+        if (name == null || name.equals("")) {
+            displayAccountError("Cannot create account. \nPlease try again with a valid name.");
+        } else {
             try {
-                writer.open();
-                writer.write(account);
-                writer.close();
-                refreshTab(HOME_TAB_INDEX);
-            } catch (FileNotFoundException e) {
-                System.out.println("Your name cannot contain backslashes or quotation marks");
-            }
+                account = new Account(name);
+                writer = new JsonWriter(account.getFile());
+                reader = new JsonReader(account.getFile());
+                readAccount();
+                // account with given name already exists
+                displayAccountError(
+                        "An account with this name already exists. \nSign in or try again with a different name.");
 
+            } catch (IOException exception) {
+                // no account exists with given name
+                try {
+                    writer.open();
+                    writer.write(account);
+                    writer.close();
+                    refreshTab(HOME_TAB_INDEX);
+                } catch (FileNotFoundException e) {
+                    System.out.println("Your name cannot contain backslashes or quotation marks");
+                }
+            }
         }
+
     }
 
     //MODIFIES: this
@@ -133,12 +134,18 @@ public class OCafe extends JFrame {
 
         } catch (IOException e) {
             handleSignOut();
-            playSound("./data/sounds/Basso.wav");
-            JOptionPane.showMessageDialog(this,
-                    "No account with this name exists. \nTry again with a different name or create an account.",
-                    null, JOptionPane.ERROR_MESSAGE);
-            System.out.println("An account with name '" + name + "' cannot be found :(");
+            displayAccountError(
+                    "No account with this name exists. \nTry again with a different name or create an account.");
         }
+    }
+
+    // plays error sound and displays error pop up with message
+    private void displayAccountError(String message) {
+        handleSignOut();
+        playSound("./data/sounds/Basso.wav");
+        JOptionPane.showMessageDialog(this,
+                message,
+                null, JOptionPane.ERROR_MESSAGE);
     }
 
     //MODIFIES: this
@@ -189,12 +196,6 @@ public class OCafe extends JFrame {
         }
     }
 
-    public void setOrderTabIcon(String fileName) {
-        Image img = new ImageIcon(fileName).getImage();
-        sidebar.setIconAt(ORDER_TAB_INDEX, new ImageIcon(img.getScaledInstance(3,3,Image.SCALE_SMOOTH)));
-        sidebar.revalidate();
-    }
-
     //plays sound with sound name
     public void playSound(String soundName) {
         try {
@@ -207,9 +208,9 @@ public class OCafe extends JFrame {
         }
     }
 
-    //EFFECTS: returns sidebar of this UI
+    //EFFECTS: returns tabbed pane of this UI
     public JTabbedPane getTabbedPane() {
-        return sidebar;
+        return tabbedPane;
     }
 
     public MenuLoader getMenuLoader() {
