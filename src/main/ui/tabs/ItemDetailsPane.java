@@ -4,14 +4,10 @@ import model.MenuItem;
 import model.*;
 import ui.OCafe;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.List;
 
 public class ItemDetailsPane extends Tab {
@@ -22,7 +18,9 @@ public class ItemDetailsPane extends Tab {
     private static final String NO_ADD_ONS_OPTION = "Naked";
 
     private static final Dimension IMAGE_DIMENSION = new Dimension(ITEM_AND_CATEGORY_DIM.width, 300);
-    private static final int ADD_TO_ORDER_HEIGHT = 100;
+    private static final int ADD_TO_ORDER_AREA_HEIGHT = 100;
+    private static final int ADD_TO_ORDER_BUTTON_HEIGHT = 50;
+
 
     private final CategoryPane categoryPane;
 
@@ -106,6 +104,9 @@ public class ItemDetailsPane extends Tab {
         regularButton.addActionListener(new BeverageCustomizer());
         upgradeButton.addActionListener(new BeverageCustomizer());
 
+        regularButton.setBackground(backgroundColor);
+        upgradeButton.setBackground(backgroundColor);
+
         ButtonGroup group = new ButtonGroup();
         group.add(regularButton);
         group.add(upgradeButton);
@@ -129,6 +130,7 @@ public class ItemDetailsPane extends Tab {
         for (AdditionalOptions addOn : dishSelected.getOptions()) {
             String addOnLabel = String.format("%-65s +$%.2f", addOn.getName(), addOn.getPrice());
             JRadioButton b = new JRadioButton(addOnLabel);
+            b.setBackground(backgroundColor);
             b.setActionCommand(addOn.getName());
             b.addActionListener(new DishCustomizer());
             group.add(b);
@@ -142,9 +144,9 @@ public class ItemDetailsPane extends Tab {
         JPanel area = new JPanel();
         area.setLayout(new BoxLayout(area, BoxLayout.X_AXIS));
         area.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
-        area.setPreferredSize(new Dimension(ITEM_AND_CATEGORY_DIM.width, ADD_TO_ORDER_HEIGHT));
-        area.setMinimumSize(new Dimension(ITEM_AND_CATEGORY_DIM.width, ADD_TO_ORDER_HEIGHT));
-        area.setMaximumSize(new Dimension(ITEM_AND_CATEGORY_DIM.width, ADD_TO_ORDER_HEIGHT));
+        area.setPreferredSize(new Dimension(ITEM_AND_CATEGORY_DIM.width, ADD_TO_ORDER_AREA_HEIGHT));
+        area.setMinimumSize(new Dimension(ITEM_AND_CATEGORY_DIM.width, ADD_TO_ORDER_AREA_HEIGHT));
+        area.setMaximumSize(new Dimension(ITEM_AND_CATEGORY_DIM.width, ADD_TO_ORDER_AREA_HEIGHT));
         area.setAlignmentX(Component.LEFT_ALIGNMENT);
         area.add(placeQuantityComboBox(item));
         area.add(placeAddToOrderButton(item));
@@ -192,7 +194,6 @@ public class ItemDetailsPane extends Tab {
                     categoryPane.displayDishDetails(item.getName(), dishType);
                 }
                 controller.playSound("./data/sounds/Bottle.wav");
-//                JOptionPane.showMessageDialog(null, item.getName() + " has been added to your order!");
             }
         });
 

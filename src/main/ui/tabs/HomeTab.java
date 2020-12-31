@@ -1,6 +1,5 @@
 package ui.tabs;
 
-import model.Account;
 import model.Order;
 import ui.OCafe;
 
@@ -23,6 +22,7 @@ public class HomeTab extends Tab {
     private static final Dimension ORDER_HISTORY_MAX_SIZE = new Dimension(WIDTH * 2 / 5, OCafe.HEIGHT);
 
     private JPanel startPage;
+    private JPanel orderHistoryPane;
 
     public HomeTab(OCafe controller) {
         super(controller);
@@ -86,21 +86,23 @@ public class HomeTab extends Tab {
 
     // creates order history panel and displays history of current account
     private void placeOrderHistoryPane() {
-        JPanel orderHistoryPane = initializeBoxLayoutPanel("Your Order History");
-        orderHistoryPane.setBorder(BorderFactory.createEmptyBorder());
-        orderHistoryPane.setMaximumSize(ORDER_HISTORY_MAX_SIZE);
-        orderHistoryPane.setAlignmentY(TOP_ALIGNMENT);
+        if (orderHistoryPane == null) {
+            orderHistoryPane = initializeBoxLayoutPanel("Your Order History");
+            orderHistoryPane.setBorder(BorderFactory.createEmptyBorder());
+            orderHistoryPane.setMaximumSize(ORDER_HISTORY_MAX_SIZE);
+            orderHistoryPane.setAlignmentY(TOP_ALIGNMENT);
 
-        List<Order> orderList = controller.getAccount().getHistory();
-        if (orderList.size() == 0) {
-            orderHistoryPane.add(new JLabel("No orders have been saved to your account yet!"));
-        } else {
-            orderHistoryPane.add(loadOrderHistory(orderList));
-            orderHistoryPane.add(createRigidArea());
-            orderHistoryPane.add(loadClearHistoryButton());
+            List<Order> orderList = controller.getAccount().getHistory();
+            if (orderList.size() == 0) {
+                orderHistoryPane.add(new JLabel("No orders have been saved to your account yet!"));
+            } else {
+                orderHistoryPane.add(loadOrderHistory(orderList));
+                orderHistoryPane.add(createRigidArea());
+                orderHistoryPane.add(loadClearHistoryButton());
+            }
+            add(Box.createHorizontalGlue());
+            add(orderHistoryPane);
         }
-        add(Box.createHorizontalGlue());
-        add(orderHistoryPane);
     }
 
     //MODIFIES: this
@@ -208,7 +210,7 @@ public class HomeTab extends Tab {
 
         @Override
         public Dimension getPreferredScrollableViewportSize() {
-            return new Dimension(getPreferredSize().width,OCafe.HEIGHT - 400);
+            return new Dimension(getPreferredSize().width, OCafe.HEIGHT - 400);
         }
 
         @Override

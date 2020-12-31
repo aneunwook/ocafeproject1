@@ -73,8 +73,8 @@ public class MenuTab extends Tab {
     //EFFECTS: creates buttons for each menu category that change display of categoryContainer and title when clicked
     private void placeCategoryButtons() {
         categorySelectorPane = initializeDefaultPanel();
-        categorySelectorPane.setPreferredSize(new Dimension(WIDTH, CATEGORY_SELECTION_HEIGHT));
-        categorySelectorPane.setBorder(BorderFactory.createEmptyBorder(10, 0,0,0));
+//        categorySelectorPane.setPreferredSize(new Dimension(WIDTH, CATEGORY_SELECTION_HEIGHT));
+//        categorySelectorPane.setBorder(BorderFactory.createEmptyBorder(10, 0,0,0));
 
         for (String s : categories) {
             JButton b = new JButton(s);

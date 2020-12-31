@@ -1,17 +1,10 @@
 package ui.tabs;
 
-import model.MenuItem;
 import ui.OCafe;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.ImageObserver;
-import java.io.File;
 
 public abstract class Tab extends JPanel {
     protected static final int WIDTH = OCafe.WIDTH - 100;
@@ -74,15 +67,6 @@ public abstract class Tab extends JPanel {
 //        return scaledImage;
     }
 
-    // image observer
-    private class ItemImageObserver implements ImageObserver {
-
-        @Override
-        public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-            return false;
-        }
-    }
-
     // creates rigid area
     public Component createRigidArea() {
         return Box.createRigidArea(new Dimension(50, 20));
@@ -93,4 +77,12 @@ public abstract class Tab extends JPanel {
         return controller;
     }
 
+    // image observer
+    private class ItemImageObserver implements ImageObserver {
+
+        @Override
+        public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+            return false;
+        }
+    }
 }

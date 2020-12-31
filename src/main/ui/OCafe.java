@@ -124,7 +124,7 @@ public class OCafe extends JFrame {
     }
 
     //MODIFIES: this
-    //EFFECTS: if account with input name exists, sets account field
+    //EFFECTS: if account with input name exists, sets as current account
     public void handleSignIn(String name) {
         try {
             writer = new JsonWriter("./data/" + name + ".json");
@@ -137,15 +137,6 @@ public class OCafe extends JFrame {
             displayAccountError(
                     "No account with this name exists. \nTry again with a different name or create an account.");
         }
-    }
-
-    // plays error sound and displays error pop up with message
-    private void displayAccountError(String message) {
-        handleSignOut();
-        playSound("./data/sounds/Basso.wav");
-        JOptionPane.showMessageDialog(this,
-                message,
-                null, JOptionPane.ERROR_MESSAGE);
     }
 
     //MODIFIES: this
@@ -196,7 +187,16 @@ public class OCafe extends JFrame {
         }
     }
 
-    //plays sound with sound name
+    // plays error sound and displays error pop up with message
+    private void displayAccountError(String message) {
+        handleSignOut();
+        playSound("./data/sounds/Basso.wav");
+        JOptionPane.showMessageDialog(this,
+                message,
+                null, JOptionPane.ERROR_MESSAGE);
+    }
+
+    //plays sound from file soundName
     public void playSound(String soundName) {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
