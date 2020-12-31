@@ -37,12 +37,13 @@ java -jar out/artifacts/OCafe_jar/OCafe.jar
 - Select an item to view its image, details, and available customizations
 - Customize menu items by selecting add-ons, size options etc. (unique to each item)
 - Modify the quantity of an item
+- View updated price dynamically
 
 ### Order
 - Add items with desired customizations to the current order
-- View summary of all the items added to the order (plus their customizations)
+- View summary of all the items added to the order
 - Change the quantity of items in the order
-- Remove items from the order (scroll up in the quantity combo box to see the "Remove" option)
+- Remove items from the order
 - Place the order
 
 ### Account
@@ -50,5 +51,5 @@ java -jar out/artifacts/OCafe_jar/OCafe.jar
 - Save the current order to the account
 - View previous orders sorted by date 
 - Clear order history
-- Sign in to a previously created account to access order history
+- Sign in to access data from an account after relaunching the app or signing out
 - Sign out 
