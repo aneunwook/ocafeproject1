@@ -25,10 +25,7 @@ public class MenuTab extends Tab {
     private static final String NONCAFFEINATED = "Noncaffeinated";
     private static final String BRUNCH = "Brunch";
     private static final String DESSERT = "Dessert";
-
     private static final String[] categories = {COFFEE, TEA, NONCAFFEINATED, BRUNCH, DESSERT};
-
-    private static final int CATEGORY_SELECTION_HEIGHT = 50;
 
     private JPanel categorySelectorPane;
     private JPanel categoryContainer;
@@ -47,13 +44,13 @@ public class MenuTab extends Tab {
 
         placeTitle();
 
-        placeCategoryButtons();
+        placeCategorySelectorPanel();
 
         placeItemDetailsContainer();
 
         placeCategoryContainer();
 
-        setNewCategorySelectedConfiguration(coffee);
+        displayNewCategory(coffee);
     }
 
     //EFFECTS: creates title at top of console
@@ -70,11 +67,10 @@ public class MenuTab extends Tab {
         add(title, c);
     }
 
-    //EFFECTS: creates buttons for each menu category that change display of categoryContainer and title when clicked
-    private void placeCategoryButtons() {
+    //EFFECTS: places panel with buttons for each menu category,
+    //         changes display of categoryContainer and title when clicked
+    private void placeCategorySelectorPanel() {
         categorySelectorPane = initializeDefaultPanel();
-//        categorySelectorPane.setPreferredSize(new Dimension(WIDTH, CATEGORY_SELECTION_HEIGHT));
-//        categorySelectorPane.setBorder(BorderFactory.createEmptyBorder(10, 0,0,0));
 
         for (String s : categories) {
             JButton b = new JButton(s);
@@ -114,10 +110,10 @@ public class MenuTab extends Tab {
     //MODIFIES: this
     //EFFECTS: creates a panel of buttons representing each menu item in a category,
     //         buttons display item name and price, displays further details when clicked
-    private void setNewCategorySelectedConfiguration(String[] category) {
+    private void displayNewCategory(String[] category) {
         setNewCategoryGridBagConstraints();
         CategoryPane cp = new CategoryPane(this, getController(), category);
-        setContainer(categoryContainer, cp);
+        setContainerContent(categoryContainer, cp);
 
         itemDetailsContainer.removeAll();
         itemDetailsContainer.revalidate();
@@ -126,39 +122,10 @@ public class MenuTab extends Tab {
     //MODIFIED: this
     //EFFECTS: sets layout to show the category panel and the item details panel
     //         removes previous panel and adds parameter to itemDetailsContainer
-    public void setShowItemDetailsConfiguration(ItemDetailsPane p) {
-        GridBagConstraints categoryConstraints = new GridBagConstraints();
-        categoryConstraints.weightx = 0.5;
-        categoryConstraints.weighty = 1.0;
-        categoryConstraints.gridx = 0;
-        categoryConstraints.gridy = 2;
-        categoryConstraints.gridheight = 9;
-        categoryConstraints.fill = GridBagConstraints.HORIZONTAL;
-        categoryConstraints.anchor = GridBagConstraints.FIRST_LINE_END;
-        gridBagLayout.setConstraints(categoryContainer, categoryConstraints);
-
-        CategoryPane cp = (CategoryPane)categoryContainer.getComponent(0);
-        cp.setPreferredSize(new Dimension(CategoryPane.DISPLAY_DETAILS_WIDTH, ITEM_AND_CATEGORY_DIM.height));
+    public void displayItemDetails(ItemDetailsPane p) {
+        setDisplayItemDetailsGridBagConstraints();
         categoryContainer.revalidate();
-
-        GridBagConstraints itemDetailsConstraints = new GridBagConstraints();
-        itemDetailsConstraints.weightx = 0.5;
-        itemDetailsConstraints.gridx = 1;
-        itemDetailsConstraints.gridy = 2;
-        itemDetailsConstraints.gridheight = 9;
-        itemDetailsConstraints.anchor = GridBagConstraints.FIRST_LINE_END;
-        gridBagLayout.setConstraints(itemDetailsContainer, itemDetailsConstraints);
-        setContainer(itemDetailsContainer, p);
-    }
-
-    //MODIFIES: this
-    //EFFECTS: replaces previous panel in container with parameter p
-    //https://stackoverflow.com/questions/9401353/how-to-change-the-jpanel-in-a-jframe-at-runtime
-    private void setContainer(JPanel container, Tab p) {
-        container.removeAll();
-        container.setSize(p.getSize());
-        container.add(p);
-        container.revalidate();
+        setContainerContent(itemDetailsContainer, p);
     }
 
     //MODIFIES: this
@@ -175,29 +142,60 @@ public class MenuTab extends Tab {
         categoryConstraints.anchor = GridBagConstraints.FIRST_LINE_START;
         gridBagLayout.setConstraints(categoryContainer, categoryConstraints);
         gridBagLayout.setConstraints(itemDetailsContainer, new GridBagConstraints());
-
     }
 
-    //action listener for selector pane
+    //MODIFIES: this
+    //EFFECTS: sets GridBag Constraints for CategoryContainer and itemDetailsContainer to show both panels
+    private void setDisplayItemDetailsGridBagConstraints() {
+        GridBagConstraints categoryConstraints = new GridBagConstraints();
+        categoryConstraints.weightx = 0.5;
+        categoryConstraints.weighty = 1.0;
+        categoryConstraints.gridx = 0;
+        categoryConstraints.gridy = 2;
+        categoryConstraints.gridheight = 9;
+        categoryConstraints.fill = GridBagConstraints.HORIZONTAL;
+        categoryConstraints.anchor = GridBagConstraints.FIRST_LINE_END;
+        gridBagLayout.setConstraints(categoryContainer, categoryConstraints);
+
+        GridBagConstraints itemDetailsConstraints = new GridBagConstraints();
+        itemDetailsConstraints.weightx = 0.5;
+        itemDetailsConstraints.gridx = 1;
+        itemDetailsConstraints.gridy = 2;
+        itemDetailsConstraints.gridheight = 9;
+        itemDetailsConstraints.anchor = GridBagConstraints.FIRST_LINE_END;
+        gridBagLayout.setConstraints(itemDetailsContainer, itemDetailsConstraints);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: replaces previous panel in container with parameter p
+    //https://stackoverflow.com/questions/9401353/how-to-change-the-jpanel-in-a-jframe-at-runtime
+    private void setContainerContent(JPanel container, Tab p) {
+        container.removeAll();
+        container.setSize(p.getSize());
+        container.add(p);
+        container.revalidate();
+    }
+
+    //action listener for buttons in category selector panel
     private class CategorySelector implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             String buttonPressed = e.getActionCommand();
             switch (buttonPressed) {
                 case COFFEE:
-                    setNewCategorySelectedConfiguration(coffee);
+                    displayNewCategory(coffee);
                     break;
                 case TEA:
-                    setNewCategorySelectedConfiguration(tea);
+                    displayNewCategory(tea);
                     break;
                 case NONCAFFEINATED:
-                    setNewCategorySelectedConfiguration(noncaffeinated);
+                    displayNewCategory(noncaffeinated);
                     break;
                 case BRUNCH:
-                    setNewCategorySelectedConfiguration(brunch);
+                    displayNewCategory(brunch);
                     break;
                 case DESSERT:
-                    setNewCategorySelectedConfiguration(dessert);
+                    displayNewCategory(dessert);
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + buttonPressed);

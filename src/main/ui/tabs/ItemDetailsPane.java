@@ -19,8 +19,6 @@ public class ItemDetailsPane extends Tab {
 
     private static final Dimension IMAGE_DIMENSION = new Dimension(ITEM_AND_CATEGORY_DIM.width, 300);
     private static final int ADD_TO_ORDER_AREA_HEIGHT = 100;
-    private static final int ADD_TO_ORDER_BUTTON_HEIGHT = 50;
-
 
     private final CategoryPane categoryPane;
 
@@ -92,7 +90,7 @@ public class ItemDetailsPane extends Tab {
         add(name);
     }
 
-    // creates radio buttons for beverage customization
+    // places radio buttons for beverage customization
     private void placeBeverageOptionsButtons(String regular, String upgrade) {
         String upgradeLabel = String.format("%-75s +$%.2f", upgrade, Beverage.UPGRADE_PRICE);
 
@@ -118,7 +116,7 @@ public class ItemDetailsPane extends Tab {
         add(upgradeButton);
     }
 
-    // creates radio buttons for dish customization
+    // places radio buttons for dish customization
     private void placeDishOptionsButtons() {
         ButtonGroup group = new ButtonGroup();
         JRadioButton naked = new JRadioButton(NO_ADD_ONS_OPTION);
@@ -138,7 +136,7 @@ public class ItemDetailsPane extends Tab {
         }
     }
 
-    // creates panel area for quantity combo box and add to order button
+    // places panel area for quantity combo box and add to order button
     private void placeAddToOrderArea(MenuItem item) {
         add(Box.createVerticalGlue());
         JPanel area = new JPanel();
@@ -153,9 +151,9 @@ public class ItemDetailsPane extends Tab {
         add(area);
     }
 
-    //creates combo box representing quantities of item,
-    //based on selected item, updates the quantity of item and
-    //text displayed on Add to Order button to reflect price change
+    // returns combo box representing quantities of item,
+    // based on selected item, updates the quantity of item and
+    // text displayed on Add to Order button to reflect price change
     private JComboBox placeQuantityComboBox(MenuItem item) {
         JComboBox quantityBox = new JComboBox();
         for (int i = 1; i <= 100; i++) {
@@ -176,7 +174,7 @@ public class ItemDetailsPane extends Tab {
         return quantityBox;
     }
 
-    //creates add to order button that adds item to order when pressed
+    // returns add to order button that adds item to order when pressed
     private JButton placeAddToOrderButton(MenuItem item) {
         addToOrderButton = new JButton();
         updatePriceDisplay(item);

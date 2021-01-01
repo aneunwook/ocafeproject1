@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class CategoryPane extends Tab {
-    protected static final int DISPLAY_DETAILS_WIDTH = WIDTH * 3 / 5;
+    protected static final Dimension DISPLAY_DETAILS_DIM = new Dimension(WIDTH * 3 / 5, ITEM_AND_CATEGORY_DIM.height);
     private static final int IMAGE_HEIGHT = 100;
     private static final int IMAGE_WIDTH = 400;
 
@@ -28,14 +28,6 @@ public class CategoryPane extends Tab {
         this.menuTab = menuTab;
 
         placeItemButtons(category);
-    }
-
-    //MODIFIES: this
-    //EFFECTS: sets the display layout to a column of item buttons
-    public void setColumnLayout() {
-        setLayout(new GridLayout(0, 1));
-        setBorder(BorderFactory.createEmptyBorder());
-        setPreferredSize(ITEM_AND_CATEGORY_DIM);
     }
 
     // creates item buttons
@@ -73,14 +65,16 @@ public class CategoryPane extends Tab {
 
     //EFFECTS: creates new ItemDetailsPane and sets it in menu tab
     public void displayBeverageDetails(String itemName, List<Beverage> type) {
+        setPreferredSize(DISPLAY_DETAILS_DIM);
         ItemDetailsPane p = new ItemDetailsPane(itemName, type, this);
-        menuTab.setShowItemDetailsConfiguration(p);
+        menuTab.displayItemDetails(p);
     }
 
     //EFFECTS: displays dish item details
     public void displayDishDetails(String itemName, List<Dish> type) {
+        setPreferredSize(DISPLAY_DETAILS_DIM);
         ItemDetailsPane p = new ItemDetailsPane(itemName, type, this, 1);
-        menuTab.setShowItemDetailsConfiguration(p);
+        menuTab.displayItemDetails(p);
     }
 
     // selects item and sets the item details pane in menu tab

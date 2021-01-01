@@ -1,4 +1,116 @@
 {
     "name": "Vanessa",
-    "history": []
+    "history": [
+        {
+            "date": {
+                "month": 11,
+                "hour": 18,
+                "year": 2020,
+                "day": 31,
+                "minute": 2
+            },
+            "total": 43.85,
+            "itemList": [
+                {
+                    "size": -1,
+                    "price": 13.200000000000001,
+                    "name": "Matcha Latte",
+                    "temperature": 1,
+                    "type": "beverage"
+                },
+                {
+                    "size": 1,
+                    "price": 5.6000000000000005,
+                    "name": "London Fog",
+                    "temperature": -1,
+                    "type": "beverage"
+                },
+                {
+                    "price": 15.95,
+                    "name": "Eggs Benedict",
+                    "options": [
+                        {
+                            "price": 3,
+                            "name": "Canadian Bacon"
+                        },
+                        {
+                            "price": 4,
+                            "name": "Smoked Salmon"
+                        }
+                    ],
+                    "type": "dish"
+                },
+                {
+                    "price": 4.45,
+                    "name": "Butter Croissant",
+                    "options": [{
+                        "price": 1,
+                        "name": "Almond Croissant"
+                    }],
+                    "type": "dish"
+                },
+                {
+                    "price": 4.65,
+                    "name": "Hojicha Parfait",
+                    "options": [],
+                    "type": "dish"
+                }
+            ],
+            "id": 3
+        },
+        {
+            "date": {
+                "month": 11,
+                "hour": 20,
+                "year": 2020,
+                "day": 31,
+                "minute": 40
+            },
+            "total": 51.35000000000001,
+            "itemList": [
+                {
+                    "size": -1,
+                    "price": 6.9,
+                    "name": "Espresso",
+                    "temperature": -1,
+                    "type": "beverage"
+                },
+                {
+                    "size": -1,
+                    "price": 3.65,
+                    "name": "Macchiato",
+                    "temperature": 0,
+                    "type": "beverage"
+                },
+                {
+                    "price": 23.9,
+                    "name": "Japanese Curry Rice",
+                    "options": [
+                        {
+                            "price": 4,
+                            "name": "Fried Pork Cutlet"
+                        },
+                        {
+                            "price": 3,
+                            "name": "Assorted Tempura"
+                        }
+                    ],
+                    "type": "dish"
+                },
+                {
+                    "price": 10.95,
+                    "name": "Dutch Cheese Sandwich",
+                    "options": [],
+                    "type": "dish"
+                },
+                {
+                    "price": 5.95,
+                    "name": "Banana Cream Pie",
+                    "options": [],
+                    "type": "dish"
+                }
+            ],
+            "id": 1
+        }
+    ]
 }

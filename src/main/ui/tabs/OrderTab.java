@@ -58,33 +58,6 @@ public class OrderTab extends Tab {
         add(checkoutPane);
     }
 
-    // creates and adds receipt panel
-    private void placeReceiptPane() {
-        receiptPane = initializeBoxLayoutPanel("Saved!");
-        receiptPane.setBorder(BorderFactory.createEmptyBorder());
-
-        JTextArea receipt = new JTextArea(order.toString());
-        receipt.setBackground(new Color(0,0,0, 0));
-        receipt.setAlignmentX(Component.LEFT_ALIGNMENT);
-        receiptPane.add(receipt);
-
-        receiptPane.add(createRigidArea());
-
-        placeHomeButton(receiptPane);
-
-        add(receiptPane);
-    }
-
-    // creates and adds panel with confirmation message
-    private void placeUnsavedOrderPane() {
-        unsavedOrderPane = initializeBoxLayoutPanel("Your order has been placed!");
-        unsavedOrderPane.setBorder(BorderFactory.createEmptyBorder());
-
-        placeHomeButton(unsavedOrderPane);
-
-        add(unsavedOrderPane);
-    }
-
     // displays items in current order
     private void displayOrderItems(JPanel currentPanel) {
         for (MenuItem item : order.getItemList()) {
@@ -106,7 +79,7 @@ public class OrderTab extends Tab {
         }
     }
 
-    // creates combo box representing item quantity and remove option
+    // creates combo box that can modify item quantity or remove from current order
     private void placeQuantityComboBox(MenuItem item, JPanel panel) {
         JComboBox quantityBox = new JComboBox();
         quantityBox.setPreferredSize(new Dimension(60, 50));
@@ -115,7 +88,6 @@ public class OrderTab extends Tab {
             quantityBox.addItem(new Integer(i));
         }
         quantityBox.setSelectedIndex(item.getQuantity());
-
         quantityBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -129,7 +101,6 @@ public class OrderTab extends Tab {
                 controller.playSound("./data/sounds/Pop.wav");
             }
         });
-
         panel.add(quantityBox);
     }
 
@@ -176,6 +147,33 @@ public class OrderTab extends Tab {
         checkoutPane.add(payNowButton);
     }
 
+    // creates and adds receipt panel
+    private void placeReceiptPane() {
+        receiptPane = initializeBoxLayoutPanel("Saved!");
+        receiptPane.setBorder(BorderFactory.createEmptyBorder());
+
+        JTextArea receipt = new JTextArea(order.toString());
+        receipt.setBackground(new Color(0,0,0, 0));
+        receipt.setAlignmentX(Component.LEFT_ALIGNMENT);
+        receiptPane.add(receipt);
+
+        receiptPane.add(createRigidArea());
+
+        placeHomeButton(receiptPane);
+
+        add(receiptPane);
+    }
+
+    // creates and adds panel with confirmation message
+    private void placeUnsavedOrderPane() {
+        unsavedOrderPane = initializeBoxLayoutPanel("Your order has been placed!");
+        unsavedOrderPane.setBorder(BorderFactory.createEmptyBorder());
+
+        placeHomeButton(unsavedOrderPane);
+
+        add(unsavedOrderPane);
+    }
+
     // creates home button, sets tabbed pane to home tab
     private void placeHomeButton(JPanel panel) {
         JButton homeButton = new JButton(HOME_COMMAND);
@@ -188,7 +186,6 @@ public class OrderTab extends Tab {
                 controller.playSound("./data/sounds/Morse.wav");
             }
         });
-
         homeButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(homeButton);
     }
@@ -198,7 +195,7 @@ public class OrderTab extends Tab {
         return String.format("%-35s " + s + " %30s $%.2f  ", "", "", order.getTotal());
     }
 
-    // action listener for payment confirmation
+    // action listener for Pay Now button
     private class PaymentConfirmation implements ActionListener {
 
         @Override

@@ -64,7 +64,6 @@ public abstract class Tab extends JPanel {
         icon.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         return icon;
-//        return scaledImage;
     }
 
     // creates rigid area
