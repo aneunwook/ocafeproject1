@@ -5,9 +5,6 @@ favourites from brunch cafes I've visited around the world! Hopefully the OCafe 
 or to take notice of local cafes that artfully combine unique cultural flavours with the warm ambiance of a traditional 
 cafe, and appreciate the style that influenced this project!
 
-The O in OCafe stands for "Origin" or "One" because this is my first coding project. I thought it was a meaningful sentiment 
-since this will be number one of many products to come!
-
 
 ## Set Up
 A Java Runtime Environment (JRE) is required to run the application, available for download [here](https://www.oracle.com/ca-en/java/technologies/javase-jre8-downloads.html).
@@ -28,8 +25,7 @@ cd OCafeProject
 ```bash
 java -jar out/artifacts/OCafe_jar/OCafe.jar
 ```
-    
-4. Create an account to get the full experience!
+
 
 ## Features
 ### Menu
