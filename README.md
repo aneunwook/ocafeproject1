@@ -1,7 +1,7 @@
 # OCafe Kiosk 
 
-This application simulates a virtual food ordering system for a cafe. It features an interactive menu comprised of my personal
-favourites from brunch cafes I've visited around the world! Hopefully the OCafe Kiosk can inspire you to explore new cuisines, 
+This application simulates a virtual food ordering system for a cafe. It features an interactive menu comprised of my favourite 
+items from brunch cafes I've visited around the world! Hopefully the OCafe Kiosk can inspire you to explore new cuisines, 
 or to take notice of local cafes that artfully combine unique cultural flavours with the warm ambiance of a traditional 
 cafe, and appreciate the style that influenced this project!
 
