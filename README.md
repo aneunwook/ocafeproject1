@@ -5,6 +5,11 @@ items from brunch cafes I've visited around the world! Hopefully the OCafe Kiosk
 or to take notice of local cafes that artfully combine unique cultural flavours with the warm ambiance of a traditional 
 cafe, and appreciate the style that influenced this project!
 
+## Demo
+
+https://user-images.githubusercontent.com/74160990/118728615-7d814000-b802-11eb-841c-e74ab9e0ad50.mp4
+
+
 
 ## Set Up
 A Java Runtime Environment (JRE) is required to run the application, available for download [here](https://www.oracle.com/ca-en/java/technologies/javase-jre8-downloads.html).
