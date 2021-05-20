@@ -64,3 +64,6 @@ java -jar out/artifacts/OCafe_jar/OCafe.jar
 - Clear order history
 - Sign in to access data from an account after relaunching the app or signing out
 - Sign out 
+
+## Bugs
+- "Invalid username" error pops up if "cancel" is selected at sign in
