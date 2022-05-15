@@ -32,7 +32,7 @@ public class WeatherTab extends Tab {
     private static final String[] categories = {COFFEE, TEA, NONCAFFEINATED, BRUNCH, DESSERT};
 
     // 현재는 수기로 변경해줘야됨
-    private String weather = "Cold";
+    private String weather = "Cold";//
     
     
     private JPanel categorySelectorPane;
