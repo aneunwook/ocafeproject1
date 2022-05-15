@@ -25,7 +25,7 @@ public class OCafe extends JFrame {
     public static final int ORDER_TAB_INDEX = 2;
     public static final int WEATHER_TAB_INDEX = 3;
 
-    public static final int WIDTH = 1100;
+    public static final int WIDTH = 1100;//
     public static final int HEIGHT = 800;
 
     protected MenuLoader menuLoader;
