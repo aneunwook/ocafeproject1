@@ -13,11 +13,12 @@ import java.util.List;
 public class CategoryPane extends Tab {
     protected static final Dimension DISPLAY_DETAILS_DIM = new Dimension(WIDTH * 3 / 5, ITEM_AND_CATEGORY_DIM.height);
     private static final int IMAGE_HEIGHT = 100;
-    private static final int IMAGE_WIDTH = 400;
+    private static final int IMAGE_WIDTH = 400; // 사진들 크기
 
     private MenuTab menuTab;
+    private WeatherTab weatherTab;
 
-    // creates panel with items within a category displayed in a grid
+ // 그리드에 표시된 범주 내의 항목이 있는 패널을 만듭니다.    
     public CategoryPane(MenuTab menuTab, OCafe controller, String[] category) {
         super(controller);
 
@@ -28,6 +29,19 @@ public class CategoryPane extends Tab {
         this.menuTab = menuTab;
 
         placeItemButtons(category);
+    }
+    // 추가 : weathertab을 쓰기 위해 생성자 오버로딩을 했다 ㅎㅋ
+    public CategoryPane(WeatherTab weatherTab, OCafe controller, String[] category) {
+        super(controller);
+
+        setLayout(new GridLayout(0, 3, 20, 20));
+        setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        setPreferredSize(new Dimension(WIDTH, ITEM_AND_CATEGORY_DIM.height));
+
+        this.weatherTab = weatherTab;
+
+        placeItemButtonsWeather(category);
+        
     }
 
     // creates item buttons
@@ -47,15 +61,15 @@ public class CategoryPane extends Tab {
         for (Component c : getComponents()) {
             JButton itemButton = (JButton)c;
             Image itemImage = new ImageIcon("./data/images/" + itemButton.getText() + ".jpg").getImage();
-            Dimension d = new Dimension(IMAGE_WIDTH, IMAGE_HEIGHT);
-            itemButton.add(loadImageJLabel(itemImage, d));
+            Dimension d = new Dimension(IMAGE_WIDTH, IMAGE_HEIGHT); //치수 
+            itemButton.add(loadImageJLabel(itemImage, d)); 
 
-            JLabel name = new JLabel("   " + itemButton.getText());
+            JLabel name = new JLabel("  " + itemButton.getText());
             name.setFont(new Font("", Font.PLAIN, 15));
             name.setPreferredSize(new Dimension(IMAGE_WIDTH, 40));
             name.setMinimumSize(new Dimension(IMAGE_WIDTH, 40));
             name.setMaximumSize(new Dimension(IMAGE_WIDTH, 40));
-            name.setAlignmentX(LEFT_ALIGNMENT);
+            name.setAlignmentX(LEFT_ALIGNMENT); //왼쪽 정렬
             itemButton.add(name);
             itemButton.setActionCommand(itemButton.getText());
             itemButton.setText(null);
@@ -63,21 +77,56 @@ public class CategoryPane extends Tab {
         }
     }
 
-    //EFFECTS: creates new ItemDetailsPane and sets it in menu tab
+    // Weather -----------------------------------------------------------------------------
+    
+    private void placeItemButtonsWeather(String[] category) {
+        for (String itemName : category) {
+            JButton itemButton = new JButton(itemName);
+            itemButton.setLayout(new BoxLayout(itemButton, BoxLayout.Y_AXIS));
+            itemButton.setMargin(new Insets(0,0,0,0));
+            add(itemButton);
+            itemButton.addActionListener(new ItemSelector());
+        }
+        placeItemImagesWeather();
+    }
+    
+    private void placeItemImagesWeather() {
+        for (Component c : getComponents()) {
+            JButton itemButton = (JButton)c;
+            Image itemImage = new ImageIcon("./data/images/" + itemButton.getText() + ".jpg").getImage();
+            Dimension d = new Dimension(IMAGE_WIDTH, IMAGE_HEIGHT); //치수 
+            itemButton.add(loadImageJLabel(itemImage, d)); 
+
+            JLabel name = new JLabel("  " + itemButton.getText());
+            name.setFont(new Font("", Font.PLAIN, 15));
+            name.setPreferredSize(new Dimension(IMAGE_WIDTH, 40));
+            name.setMinimumSize(new Dimension(IMAGE_WIDTH, 40));
+            name.setMaximumSize(new Dimension(IMAGE_WIDTH, 40));
+            name.setAlignmentX(LEFT_ALIGNMENT); //왼쪽 정렬
+            itemButton.add(name);
+            itemButton.setActionCommand(itemButton.getText());
+            itemButton.setText(null);
+
+        }
+    }
+    
+    // Weather -----------------------------------------------------------------------------End
+    
+    //효과: 새 ItemDetailsPane을 만들고 메뉴 탭에서 설정합니다.
     public void displayBeverageDetails(String itemName, List<Beverage> type) {
         setPreferredSize(DISPLAY_DETAILS_DIM);
         ItemDetailsPane p = new ItemDetailsPane(itemName, type, this);
         menuTab.displayItemDetails(p);
     }
 
-    //EFFECTS: displays dish item details
+    //효과: dish 항목 세부 정보 표시
     public void displayDishDetails(String itemName, List<Dish> type) {
         setPreferredSize(DISPLAY_DETAILS_DIM);
         ItemDetailsPane p = new ItemDetailsPane(itemName, type, this, 1);
         menuTab.displayItemDetails(p);
     }
 
-    // selects item and sets the item details pane in menu tab
+     // 항목을 선택하고 메뉴 탭에서 항목 세부 정보 창을 설정합니다.
     private class ItemSelector implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -106,7 +155,7 @@ public class CategoryPane extends Tab {
             }
         }
 
-        //EFFECTS: extension of actionPerformed
+                 //효과: 동작의 확장 수행
         private void parseInputItemDetails2(String str) {
             switch (str) {
                 case "Honey Ginger Tea":
@@ -132,7 +181,7 @@ public class CategoryPane extends Tab {
             }
         }
 
-        //EFFECTS: extension of actionPerformed
+        		//효과: 동작의 확장 수행
         private void parseInputItemDetails3(String str) {
             switch (str) {
                 case "Kinako Mochi":

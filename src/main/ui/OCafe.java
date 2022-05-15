@@ -8,6 +8,7 @@ import ui.tabs.HomeTab;
 import ui.tabs.MenuTab;
 import ui.tabs.OrderTab;
 import ui.tabs.Tab;
+import ui.tabs.WeatherTab;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -22,6 +23,7 @@ public class OCafe extends JFrame {
     public static final int HOME_TAB_INDEX = 0;
     public static final int MENU_TAB_INDEX = 1;
     public static final int ORDER_TAB_INDEX = 2;
+    public static final int WEATHER_TAB_INDEX = 3;
 
     public static final int WIDTH = 1100;
     public static final int HEIGHT = 800;
@@ -72,10 +74,12 @@ public class OCafe extends JFrame {
         Tab homeTab = new HomeTab(this);
         Tab menuTab = new MenuTab(this);
         Tab orderTab = new OrderTab(this);
+        Tab WeatherTab = new WeatherTab(this);
 
         loadTab(homeTab, HOME_TAB_INDEX, "HOME");
         loadTab(menuTab, MENU_TAB_INDEX, "MENU");
         loadTab(orderTab, ORDER_TAB_INDEX, "ORDER");
+        loadTab(WeatherTab, WEATHER_TAB_INDEX, "WEATHER");
 
     }
 

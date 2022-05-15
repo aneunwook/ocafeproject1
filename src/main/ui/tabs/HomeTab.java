@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
 
-// represents a home tab, facilitates account activities provides navigation of the console
+//홈 탭을 나타내며, 계정 활동을 용이하게 하여 콘솔의 탐색을 제공합니다.
 public class HomeTab extends Tab {
     protected static final String PLACE_ORDER_COMMAND = "Place Order";
     protected static final String SIGN_IN_COMMAND = "Sign In";
@@ -39,21 +39,21 @@ public class HomeTab extends Tab {
         startPage = initializeBoxLayoutPanel("Welcome to OCafe!");
         startPage.setBorder(BorderFactory.createEmptyBorder(OCafe.HEIGHT / 4, 0, OCafe.HEIGHT / 3, 0));
 
-        placeButton(startPage, PLACE_ORDER_COMMAND);
+        placeButton(startPage, PLACE_ORDER_COMMAND); 	//place, signin, sign out
         startPage.add(createRigidArea());
-        placeButton(startPage, SIGN_IN_COMMAND);
+        placeButton(startPage, SIGN_IN_COMMAND);         
         startPage.add(createRigidArea());
-        placeButton(startPage, CREATE_ACCOUNT_COMMAND);
+        placeButton(startPage, CREATE_ACCOUNT_COMMAND);   
         startPage.add(createRigidArea());
 
-        JLabel message = new JLabel("You must sign in or create an account to save orders!");
+        JLabel message = new JLabel("You  must sign in or create an account to save orders!");
         message.setAlignmentX(Component.LEFT_ALIGNMENT);
         startPage.add(message);
 
         add(startPage);
     }
 
-    // displays account page
+    // 계정 페이지 표시
     private void initAccountPage() {
         setBorder(BorderFactory.createEmptyBorder(50, 100, 50, 100));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -69,7 +69,7 @@ public class HomeTab extends Tab {
         add(icon);
     }
 
-    // displays account options
+    // 계정 옵션 표시
     private void placeAccountOptionsPane() {
         JPanel accountOptionsPane = initializeBoxLayoutPanel(controller.getAccount().getName());
         accountOptionsPane.setBorder(BorderFactory.createEmptyBorder());
@@ -84,7 +84,7 @@ public class HomeTab extends Tab {
         add(accountOptionsPane);
     }
 
-    // creates order history panel and displays history of current account
+    // 주문 내역 패널을 만들고 현재 계정의 기록을 표시합니다.
     private void placeOrderHistoryPane() {
         if (orderHistoryPane == null) {
             orderHistoryPane = initializeBoxLayoutPanel("Your Order History");
@@ -104,9 +104,8 @@ public class HomeTab extends Tab {
             add(orderHistoryPane);
         }
     }
-
-    //MODIFIES: this
-    //EFFECTS: creates button with command and adds it to panel
+  //수정: this
+  //Effects: 명령이 포함된 버튼을 만들어 패널에 추가합니다.
     private void placeButton(JPanel panel, String command) {
         JLabel label = new JLabel(command);
         label.setForeground(backgroundColor);
@@ -123,7 +122,7 @@ public class HomeTab extends Tab {
         panel.add(b);
     }
 
-    // returns JScrollPane representing orderList
+    //orderList를 나타내는 JScrollPane을 반환합니다.
     private JScrollPane loadOrderHistory(List<Order> orderList) {
         JPanel historyList = new ScrollablePanel();
         historyList.setLayout(new BoxLayout(historyList, BoxLayout.Y_AXIS));
@@ -142,7 +141,8 @@ public class HomeTab extends Tab {
         return scrollPane;
     }
 
-    // returns clear history JButton
+//    기록 지우기 JButton을 반환합니다.
+
     private JButton loadClearHistoryButton() {
         JButton clearButton = new JButton(CLEAR_HISTORY_COMMAND);
         clearButton.setAlignmentX(LEFT_ALIGNMENT);
@@ -150,7 +150,8 @@ public class HomeTab extends Tab {
         return clearButton;
     }
 
-    // action listener for HomeTab
+    // 홈 탭의 작업 수신기
+
     private class HomeTabListener implements ActionListener {
 
         @Override
