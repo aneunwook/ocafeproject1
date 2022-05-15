@@ -29,7 +29,7 @@ public class OCafe extends JFrame {
     public static final int HEIGHT = 800;
 
     protected MenuLoader menuLoader;
-    protected Account account;
+    protected Account account;//
     protected JsonWriter writer;
     protected JsonReader reader;
     protected Order order;
