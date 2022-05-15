@@ -178,7 +178,7 @@ public class OCafe extends JFrame {
         order = new Order();
     }
 
-    // clears order history for this account
+    // clears order history for this account//
     public void clearHistory() {
         account.clearHistory();
         try {
