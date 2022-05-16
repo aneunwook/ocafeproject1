@@ -74,6 +74,22 @@ public class WeatherTab extends Tab {
         c.gridwidth = GridBagConstraints.REMAINDER;
 
         add(title, c);
+        
+        JButton test = new JButton("추운 날 메뉴");
+        test.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(weather == "Hot") {
+					test.setText("추운 날 메뉴");
+					weather = "Cold"; 					
+				}else {
+					test.setText("더운 날 메뉴");
+					weather = "Hot";
+				}
+			}
+		});
+        add(test);
     }
     
     
@@ -130,8 +146,8 @@ public class WeatherTab extends Tab {
     // 범주의 각 메뉴 항목을 나타내는 버튼 패널을 만듭니다.
  // 단추는 품목 이름 및 가격을 표시하고, 클릭하면 추가 세부 정보를 표시합니다.
     private void displayNewCategory(String[] category) {
+    	System.out.println(" sadfdfsaasdffasd " + category);
         setNewCategoryGridBagConstraints();
-        // 여기서 this 는 해당 Class 를 의미 ( WeatherTab )
         CategoryPane cp = new CategoryPane(this, getController(), category);
         setContainerContent(categoryContainer, cp);
 
@@ -149,14 +165,7 @@ public class WeatherTab extends Tab {
         categoryContainer.revalidate();
         setContainerContent(itemDetailsContainer, p);
     }
-    
-    // 위 내용 Weather 로 변환 ------------------------------------------------
-    public void displayItemDetailsWeather(ItemDetailsPaneWeather p) {
-        setDisplayItemDetailsGridBagConstraints();
-        categoryContainer.revalidate();
-        setContainerContent(itemDetailsContainer, p);
-    }
-    //---------------------------------------------------------------------
+
     //MODIFIES: this
     //EFFECTS: sets GridBagConstraints for categoryContainer and itemDetailsContainer to only display categoryContainer
     // 범주 Container 및 itemDetailsContainer에 대한 GridBagConstraints를 범주 Container만 표시하도록 설정합니다.

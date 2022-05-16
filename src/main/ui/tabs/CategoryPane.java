@@ -79,13 +79,14 @@ public class CategoryPane extends Tab {
 
     // Weather -----------------------------------------------------------------------------
     
+    
     private void placeItemButtonsWeather(String[] category) {
         for (String itemName : category) {
             JButton itemButton = new JButton(itemName);
             itemButton.setLayout(new BoxLayout(itemButton, BoxLayout.Y_AXIS));
             itemButton.setMargin(new Insets(0,0,0,0));
             add(itemButton);
-            itemButton.addActionListener(new ItemSelector());
+            itemButton.addActionListener(new ItemSelectorWeather());
         }
         placeItemImagesWeather();
     }
@@ -110,6 +111,94 @@ public class CategoryPane extends Tab {
         }
     }
     
+    // ItemDetailsPane Class 를 ItemDetailsPaneWeather 로 하나 만듬 ( 클래스 안에 들어가면 설명 있음 )
+    //효과: 새 ItemDetailsPane을 만들고 메뉴 탭에서 설정합니다.
+    public void displayBeverageDetailsWeather(String itemName, List<Beverage> type) {
+    	setPreferredSize(DISPLAY_DETAILS_DIM);
+    	ItemDetailsPaneWeather p = new ItemDetailsPaneWeather(itemName, type, this);
+    	weatherTab.displayItemDetailsWeather(p);
+    }
+    
+    //효과: dish 항목 세부 정보 표시
+    public void displayDishDetailsWeather(String itemName, List<Dish> type) {
+    	setPreferredSize(DISPLAY_DETAILS_DIM);
+    	ItemDetailsPaneWeather p = new ItemDetailsPaneWeather(itemName, type, this, 1);
+    	weatherTab.displayItemDetailsWeather(p);
+    }
+    
+    // 항목을 선택하고 메뉴 탭에서 항목 세부 정보 창을 설정합니다.
+    private class ItemSelectorWeather implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            controller.playSound("./data/sounds/Morse.wav");
+            String buttonPressed = e.getActionCommand();
+            switch (buttonPressed) {
+                case "Espresso":
+                case "Americano":
+                case "Macchiato":
+                case "Latte":
+                case "Iced Coffee":
+                case "Cold Brew":
+                    displayBeverageDetailsWeather(buttonPressed, controller.getMenuLoader().getCoffee());
+                    break;
+                case "Matcha Latte":
+                case "Hojicha Latte":
+                case "London Fog":
+                case "Chai Latte":
+                case "Sencha":
+                case "Black Tea":
+                    displayBeverageDetailsWeather(buttonPressed, controller.getMenuLoader().getTea());
+                    break;
+                default:
+                    parseInputItemDetails2(buttonPressed);
+                    break;
+            }
+        }
+
+                 //효과: 동작의 확장 수행
+        private void parseInputItemDetails2(String str) {
+            switch (str) {
+                case "Honey Ginger Tea":
+                case "Fruit Tea":
+                case "Kumquat Chrysanthemum Tea":
+                case "Hibiscus Kombucha":
+                case "Mango Kale Smoothie":
+                    displayBeverageDetailsWeather(str, controller.getMenuLoader().getNonCaffeinated());
+                    break;
+                case "Thai Green Curry Seafood Linguine":
+                case "Eggs Benedict":
+                case "Omurice":
+                case "Butternut Squash Risotto":
+                case "Japanese Curry Rice":
+                case "Dutch Cheese Sandwich":
+                case "Spring Salad":
+                case "Butter Croissant":
+                	displayDishDetailsWeather(str, controller.getMenuLoader().getBrunch());
+                    break;
+                default:
+                    parseInputItemDetails3(str);
+                    break;
+            }
+        }
+
+        		//효과: 동작의 확장 수행
+        private void parseInputItemDetails3(String str) {
+            switch (str) {
+                case "Kinako Mochi":
+                case "Raspberry Pistachio Cream Tart":
+                case "Banana Cream Pie":
+                case "Sweet Potato Crepe":
+                case "Hojicha Parfait":
+                case "Chestnut Cake":
+                case "Tofu Ice Cream":
+                	displayDishDetailsWeather(str, controller.getMenuLoader().getDessert());
+                    break;
+                default:
+                    System.out.println("Invalid selection, please try again.");
+                    break;
+            }
+        }
+    }
     // Weather -----------------------------------------------------------------------------End
     
     //효과: 새 ItemDetailsPane을 만들고 메뉴 탭에서 설정합니다.
