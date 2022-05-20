@@ -14,10 +14,16 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 
 public class OCafe extends JFrame {
     public static final int HOME_TAB_INDEX = 0;
@@ -37,7 +43,7 @@ public class OCafe extends JFrame {
     private JTabbedPane tabbedPane;
 
     // creates new OCafe object
-    public OCafe() {
+    public OCafe() throws IOException, SAXException, ParserConfigurationException {
         super("OCafe");
         setSize(WIDTH, HEIGHT);
         setLocationRelativeTo(null);
@@ -70,7 +76,7 @@ public class OCafe extends JFrame {
 
     //MODIFIES: this
     //EFFECTS: adds home tab, settings tab and report tab to this UI
-    private void loadTabs() {
+    private void loadTabs() throws IOException, SAXException, ParserConfigurationException {
         Tab homeTab = new HomeTab(this);
         Tab menuTab = new MenuTab(this);
         Tab orderTab = new OrderTab(this);
@@ -240,7 +246,7 @@ public class OCafe extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
         new OCafe();
     }
 }

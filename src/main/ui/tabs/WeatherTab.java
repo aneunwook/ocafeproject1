@@ -5,9 +5,31 @@ import ui.tabs.CategoryPane;
 import ui.tabs.Tab;
 
 import javax.swing.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import jdk.nashorn.internal.parser.JSONParser;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class WeatherTab extends Tab {
 	// data/images 폴더에 이미지 추가 필요함 ( 확장자 jpg 로 통일해줘야 코드 변경 없이 사용하기 편함 ) // 배열 안에 있는 이름과 이미지파일 이름이 같아야함(띄어쓰기, 공백, 숫자 등등 다 전부 다)
@@ -38,12 +60,13 @@ public class WeatherTab extends Tab {
     private JPanel categorySelectorPane;
     private JPanel categoryContainer;
     private JPanel itemDetailsContainer;
-
+    private String[] categories2;
+    private String[] obsrValue2;
     private GridBagLayout gridBagLayout;
     private JLabel title;
 
     // creates menu tab with coffee category selected
-    public WeatherTab(OCafe controller) {
+    public WeatherTab(OCafe controller) throws IOException, SAXException, ParserConfigurationException {
         super(controller);
         setBorder(BorderFactory.createEmptyBorder(20, 20,30,25));
 
@@ -55,13 +78,136 @@ public class WeatherTab extends Tab {
         placeCategorySelectorPanel();
 
         placeItemDetailsContainer();
-
+        getWeather();
         placeCategoryContainer();
 
         //빈 공간 날씨 관련 추가
         //displayNewCategory(raincoffee);
     }
+    //String authKey = "N6YNoQqTapDv9A%2BfGAzqVwzRkddWoYfJrSfx1eRoFLAIPZrBxcB%2FtfelMEPnRfGeuL9ev7sFvXLoWXcM8lm1yQ%3D%3D"; // 본인 서비스 키
 
+    private static String getTagValue(String tag, Element eElement) {
+	    NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
+	    Node nValue = (Node) nlList.item(0);
+	    if(nValue == null) 
+	        return null;
+	    return nValue.getNodeValue();
+	}
+    
+    public void getWeather() throws IOException, SAXException, ParserConfigurationException {
+    	// 변수 설정
+        String apiURL = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst";
+        String authKey = "N6YNoQqTapDv9A%2BfGAzqVwzRkddWoYfJrSfx1eRoFLAIPZrBxcB%2FtfelMEPnRfGeuL9ev7sFvXLoWXcM8lm1yQ%3D%3D"; // 본인 서비스 키
+
+		// 구하고자 하는 시간과 좌표 대입
+        String nx = "93";
+        String ny = "91";
+        Date todayYHD = new Date();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMdd");
+		SimpleDateFormat sdf2 = new SimpleDateFormat("HHmm");
+		
+		String today = sdf.format(todayYHD); // 년월일
+		
+		//23시에는 안되는 이슈가 있음
+		String todayTime = sdf2.format(todayYHD); //시간
+		System.out.println(todayTime);
+		
+		String baseDate = "20220519";	//조회하고싶은 날짜
+		String baseTime = "1500";	//조회하고싶은 시간
+
+        String dataType = "JSON";
+
+        StringBuilder urlBuilder = new StringBuilder(apiURL);
+        urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + authKey);
+        urlBuilder.append("&" + URLEncoder.encode("numOfRows=10", "UTF-8"));    // 표 개수
+        urlBuilder.append("&" + URLEncoder.encode("pageNo=1", "UTF-8"));    // 페이지 수
+        // JSON 형식으로 반환을 원하면 주석 제거
+//         urlBuilder.append("&" + URLEncoder.encode("dataType", "UTF-8") + "=" + URLEncoder.encode(dataType, "UTF-8")); // 받으려는 타입
+        urlBuilder.append("&" + URLEncoder.encode("base_date", "UTF-8") + "=" + URLEncoder.encode(baseDate, "UTF-8")); // 조회하고 싶은 날짜
+        urlBuilder.append("&" + URLEncoder.encode("base_time", "UTF-8") + "=" + URLEncoder.encode(baseTime, "UTF-8")); // 조회하고싶은 시간
+        urlBuilder.append("&" + URLEncoder.encode("nx", "UTF-8") + "=" + URLEncoder.encode(nx, "UTF-8")); // x좌표
+        urlBuilder.append("&" + URLEncoder.encode("ny", "UTF-8") + "=" + URLEncoder.encode(ny, "UTF-8")); // y좌표
+
+        URL url = new URL(urlBuilder.toString());
+        System.out.println(url);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Content-type", "application/xml");
+        System.out.println("Response code: " + conn.getResponseCode());
+        BufferedReader rd;
+        if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        } else {
+            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        }
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = rd.readLine()) != null) {
+            sb.append(line);
+        }
+        rd.close();
+        conn.disconnect();
+        String result = sb.toString();
+
+		// 테스트를 위해 출력
+        System.out.println(result);
+        String url2 = urlBuilder.toString();
+        DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
+        Document doc = dBuilder.parse(url2);
+        
+        doc.getDocumentElement().normalize();
+        System.out.println("Root element: " + doc.getDocumentElement().getNodeName()); 
+        
+        NodeList nList = doc.getElementsByTagName("item");
+        System.out.println("파싱할 리스트 수 : "+ nList.getLength());
+        
+        
+        for(int temp = 0; temp < nList.getLength(); temp++){		
+        	Node nNode = nList.item(temp);
+        	if(nNode.getNodeType() == Node.ELEMENT_NODE){
+        						
+        		Element eElement = (Element) nNode;
+        		System.out.println("######################");
+        		//System.out.println(eElement.getTextContent());
+//        		System.out.println("baseDate  : " + getTagValue("baseDate", eElement));
+
+        		String baseDateXML = getTagValue("baseDate", eElement);
+        		String baseTimeXML = getTagValue("baseTime", eElement);
+        		String categoryXML = getTagValue("category", eElement);
+        		String nxXML = getTagValue("nx", eElement);
+        		String nyXML = getTagValue("ny", eElement);
+        		String obsrValueXML = getTagValue("obsrValue", eElement);     		
+        		System.out.println("baseDate = " + baseDateXML);
+        		System.out.println("baseTime = " + baseTimeXML);
+        		System.out.println("category = " + categoryXML);
+        		System.out.println("nx = " + nxXML);
+        		System.out.println("ny = " + nyXML);
+        		System.out.println("obsrValue = " + obsrValueXML);
+        		
+        		System.out.println("-----------------------------------------------------------");
+        		
+        		System.out.println("baseTime  : " + getTagValue("baseDate", eElement));
+        		System.out.println("baseTime  : " + getTagValue("baseTime", eElement));
+        		System.out.println("category : " + getTagValue("category", eElement));
+        		System.out.println("nx  : " + getTagValue("nx", eElement));
+        		System.out.println("ny : " + getTagValue("ny", eElement));
+        		System.out.println("obsrValue : " + getTagValue("obsrValue", eElement));
+        	}	// for end
+        }
+        
+//        JSONArray jArray = jObject.getJSONArray("items");
+//        
+//        for(int i = 0 ; i < jArray.length(); i++) {
+//        	JSONObject obj = jArray.getJSONObject(i);
+//        	String baseDateJSON = obj.getString("baseDate");
+//        	System.out.println(i + " : " + baseDateJSON);
+//        }
+        
+        
+        
+    }
     //EFFECTS: creates title at top of console
     private void placeTitle() {
         title = new JLabel();
