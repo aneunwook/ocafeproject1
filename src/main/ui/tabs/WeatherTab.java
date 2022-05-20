@@ -55,7 +55,8 @@ public class WeatherTab extends Tab {
 
     // 현재는 수기로 변경해줘야됨
     private String weather = "Cold";//
-    
+    private String PTY;
+    private String obsrValue;
     
     private JPanel categorySelectorPane;
     private JPanel categoryContainer;
@@ -64,6 +65,7 @@ public class WeatherTab extends Tab {
     private String[] obsrValue2;
     private GridBagLayout gridBagLayout;
     private JLabel title;
+    private JLabel weatherView;
 
     // creates menu tab with coffee category selected
     public WeatherTab(OCafe controller) throws IOException, SAXException, ParserConfigurationException {
@@ -73,12 +75,11 @@ public class WeatherTab extends Tab {
         gridBagLayout = new GridBagLayout();
         setLayout(gridBagLayout);
 
+        getWeather();
         placeTitle();
 
         placeCategorySelectorPanel();
-
         placeItemDetailsContainer();
-        getWeather();
         placeCategoryContainer();
 
         //빈 공간 날씨 관련 추가
@@ -113,7 +114,7 @@ public class WeatherTab extends Tab {
 		String todayTime = sdf2.format(todayYHD); //시간
 		System.out.println(todayTime);
 		
-		String baseDate = "20220519";	//조회하고싶은 날짜
+		String baseDate = today;	//조회하고싶은 날짜
 		String baseTime = "1500";	//조회하고싶은 시간
 
         String dataType = "JSON";
@@ -178,7 +179,8 @@ public class WeatherTab extends Tab {
         		String categoryXML = getTagValue("category", eElement);
         		String nxXML = getTagValue("nx", eElement);
         		String nyXML = getTagValue("ny", eElement);
-        		String obsrValueXML = getTagValue("obsrValue", eElement);     		
+        		String obsrValueXML = getTagValue("obsrValue", eElement);     
+        		
         		System.out.println("baseDate = " + baseDateXML);
         		System.out.println("baseTime = " + baseTimeXML);
         		System.out.println("category = " + categoryXML);
@@ -186,43 +188,34 @@ public class WeatherTab extends Tab {
         		System.out.println("ny = " + nyXML);
         		System.out.println("obsrValue = " + obsrValueXML);
         		
-        		System.out.println("-----------------------------------------------------------");
-        		
-        		System.out.println("baseTime  : " + getTagValue("baseDate", eElement));
-        		System.out.println("baseTime  : " + getTagValue("baseTime", eElement));
-        		System.out.println("category : " + getTagValue("category", eElement));
-        		System.out.println("nx  : " + getTagValue("nx", eElement));
-        		System.out.println("ny : " + getTagValue("ny", eElement));
-        		System.out.println("obsrValue : " + getTagValue("obsrValue", eElement));
-        	}	// for end
+//        		if(categoryXML.equals("PTY")) {
+//        			PTY = obsrValueXML;
+//        		}
+        		if(categoryXML.equals("PTY")) {
+        			PTY = obsrValueXML;
+        		}
+        		if(categoryXML.equals("T1H")) {
+        			obsrValue = obsrValueXML;
+        			System.out.println("기온 = " + obsrValue);
+        		}
+        	}
         }
-        
-//        JSONArray jArray = jObject.getJSONArray("items");
-//        
-//        for(int i = 0 ; i < jArray.length(); i++) {
-//        	JSONObject obj = jArray.getJSONObject(i);
-//        	String baseDateJSON = obj.getString("baseDate");
-//        	System.out.println(i + " : " + baseDateJSON);
-//        }
-        
-        
-        
+        	
     }
     //EFFECTS: creates title at top of console
     private void placeTitle() {
-        title = new JLabel();
+        title = new JLabel();       
         setTitle("MENU");
 
         GridBagConstraints c = new GridBagConstraints();
-        c.weighty = 0.2;
+        c.weighty = 0.1;
         c.gridx = 0;
         c.gridy = 0;
         c.gridwidth = GridBagConstraints.REMAINDER;
 
         add(title, c);
+ 
     }
-    
-    
     //EFFECTS: places panel with buttons for each menu category,
     //         changes display of categoryContainer and title when clicked
     //각 메뉴 범주에 대한 버튼이 있는 패널을 배치합니다.
@@ -364,17 +357,24 @@ public class WeatherTab extends Tab {
         @Override
         public void actionPerformed(ActionEvent e) {
             String buttonPressed = e.getActionCommand();
+            /*
+            0 : 없음
+            1 : 비
+            2 : 비/눈
+            3 : 눈/비
+            4 : 눈
+            */
             switch (buttonPressed) {
                 case COFFEE:
-                	if(weather.equals("Cold")) { // 날씨에 따른 메뉴를 보여주기 위한 테스트 위에 Line 32 참고 하면 됨 ( 현재는 수기로 바꿔줘야됨 )
-                		//날씨에 따라 메뉴가 다르게 나오는지만 확인 하면 되는 부분
+                	if(PTY.equals("0")) { // 날씨에 따른 메뉴를 보여주기 위한 테스트 위에 Line 32 참고 하면 됨 ( 현재는 수기로 바꿔줘야됨 )
                 		displayNewCategory(noRainCoffee);
-                	}else if(weather.equals("Hot")) {
+                	}else if(PTY.equals("1")) {
                 		displayNewCategory(rainCoffee);
                 	}
                     break;
                 case TEA:
                     displayNewCategory(tea);
+                    System.out.println(PTY);
                     break;
                 case NONCAFFEINATED:
                     displayNewCategory(noncaffeinated);

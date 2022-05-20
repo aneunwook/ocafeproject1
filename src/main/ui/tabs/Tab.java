@@ -17,6 +17,7 @@ public abstract class Tab extends JPanel {
     public Tab(OCafe controller) {
         this.controller = controller;
         setBackground(backgroundColor);
+    	
     }
 
     // returns a box layout panel with a title
@@ -31,7 +32,7 @@ public abstract class Tab extends JPanel {
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(label);
         panel.add(createRigidArea());
-
+        
         return panel;
     }
 

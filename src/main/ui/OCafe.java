@@ -49,19 +49,6 @@ public class OCafe extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-//        try {
-//            UIManager.setLookAndFeel(
-//                    UIManager.getCrossPlatformLookAndFeelClassName());
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (InstantiationException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        } catch (UnsupportedLookAndFeelException e) {
-//            e.printStackTrace();
-//        }
-
         menuLoader = new MenuLoader();
         order = new Order();
 
@@ -69,6 +56,7 @@ public class OCafe extends JFrame {
         tabbedPane.setTabPlacement(JTabbedPane.TOP);
 
         loadTabs();
+       
         add(tabbedPane);
 
         setVisible(true);
