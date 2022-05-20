@@ -244,7 +244,7 @@ public class WeatherTab extends Tab {
     private void placeCategoryContainer() {
         categoryContainer = initializeDefaultPanel();
         add(categoryContainer);
-    }
+    } 
 
     //EFFECTS: creates container for item details pane
     // 항목 상세 내역 창에 대한 컨테이너 생성
