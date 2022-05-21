@@ -68,13 +68,15 @@ public class OCafe extends JFrame {
         Tab homeTab = new HomeTab(this);
         Tab menuTab = new MenuTab(this);
         Tab orderTab = new OrderTab(this);
-        Tab WeatherTab = new WeatherTab(this);
+        Tab weatherTab = new WeatherTab(this);
+        Tab tempTab = new WeatherTab(this);
 
         loadTab(homeTab, HOME_TAB_INDEX, "HOME");
         loadTab(menuTab, MENU_TAB_INDEX, "MENU");
         loadTab(orderTab, ORDER_TAB_INDEX, "ORDER");
-        loadTab(WeatherTab, WEATHER_TAB_INDEX, "WEATHER");
-
+        loadTab(weatherTab, WEATHER_TAB_INDEX, WeatherTab.weather + ", " + WeatherTab.obsrValue);
+//      loadTab(tempTab, 4, WeatherTab.weather);
+ //       loadTab(tempTab, 4, WeatherTab.weather + ", " + WeatherTab.obsrValue);
     }
 
     private void loadTab(Tab t, int index, String title) {
@@ -189,9 +191,7 @@ public class OCafe extends JFrame {
     private void displayAccountError(String message) {
         handleSignOut();
         playSound("./data/sounds/Basso.wav");
-        JOptionPane.showMessageDialog(this,
-                message,
-                null, JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, message, null, JOptionPane.ERROR_MESSAGE);
     }
 
     //plays sound from file soundName

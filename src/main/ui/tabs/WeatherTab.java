@@ -53,11 +53,12 @@ public class WeatherTab extends Tab {
     private static final String BRUNCH = "Brunch";
     private static final String DESSERT = "Dessert";
     private static final String[] categories = {COFFEE, TEA, NONCAFFEINATED, BRUNCH, DESSERT,"weatherChange"};
+    public static String weather = "맑음";
 
     // 현재는 수기로 변경해줘야됨
-    private String weather = "Cold";//
+//    private String weather = "Cold";//
     private String PTY;
-    private String obsrValue;
+    public static String obsrValue = "30.5"; //api가 작동안할 때 기본값
     
     private JPanel categorySelectorPane;
     private JPanel categoryContainer;
@@ -115,7 +116,8 @@ public class WeatherTab extends Tab {
 		System.out.println(todayTime);
 		
 		String baseDate = today;	//조회하고싶은 날짜
-		String baseTime = todayTime;	//조회하고싶은 시간
+//		String baseTime = todayTime;	//조회하고싶은 시간
+		String baseTime = "1600";	//조회하고싶은 시간
 
         String dataType = "JSON";
 
@@ -193,6 +195,11 @@ public class WeatherTab extends Tab {
 //        		}
         		if(categoryXML.equals("PTY")) {
         			PTY = obsrValueXML;
+                    if (PTY.equals("0")) weather = "맑음";
+                    if (PTY.equals("1")) weather = "흐림";
+                    if (PTY.equals("2")) weather = "비";
+                    if (PTY.equals("3")) weather = "구름많음";
+                    if (PTY.equals("4")) weather = "눈";
         		}
         		if(categoryXML.equals("T1H")) {
         			obsrValue = obsrValueXML;
@@ -401,6 +408,7 @@ public class WeatherTab extends Tab {
                 		PTY = "1";
                 	}else if(change.equals("눈")) {
                 		PTY = "4";
+                        weather = "눈";
                 	}
                 	break;
                 default:
