@@ -55,8 +55,8 @@ public class OCafe extends JFrame {
         tabbedPane = new JTabbedPane();
         tabbedPane.setTabPlacement(JTabbedPane.TOP);
 
-        loadTabs();
-       
+        loadTabs();     
+
         add(tabbedPane);
 
         setVisible(true);

@@ -50,7 +50,7 @@ public class HomeTab extends Tab {
         message.setAlignmentX(Component.LEFT_ALIGNMENT);
         startPage.add(message);
 
-        add(startPage);
+               add(startPage);
     }
 
     // 계정 페이지 표시
