@@ -38,7 +38,7 @@ public class OCafe extends JFrame {
     protected Account account;//
     protected JsonWriter writer;
     protected JsonReader reader;
-    protected Order order;
+    protected Order order;  
 
     private JTabbedPane tabbedPane;
 
@@ -74,7 +74,7 @@ public class OCafe extends JFrame {
         loadTab(homeTab, HOME_TAB_INDEX, "HOME");
         loadTab(menuTab, MENU_TAB_INDEX, "MENU");
         loadTab(orderTab, ORDER_TAB_INDEX, "ORDER");
-        loadTab(weatherTab, WEATHER_TAB_INDEX, WeatherTab.weather + ", " + WeatherTab.obsrValue);
+        loadTab(weatherTab, WEATHER_TAB_INDEX,"Best  " + WeatherTab.weather + ", " + WeatherTab.obsrValue);
 //      loadTab(tempTab, 4, WeatherTab.weather);
  //       loadTab(tempTab, 4, WeatherTab.weather + ", " + WeatherTab.obsrValue);
     }

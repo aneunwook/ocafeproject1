@@ -8,18 +8,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MenuTab extends Tab {
-    private static final String[] coffee = {"Espresso", "Americano", "Macchiato", "Latte", "Iced Coffee", "Cold Brew"};
+	private static final String[] coffee = {"에스프레소", "아메리카노", "마끼아또", "라떼", "아이스 커피", "콜드브루"};
     private static final String[] tea = {
-            "Matcha Latte", "Hojicha Latte", "London Fog", "Chai Latte", "Sencha", "Black Tea"};
+            "말차 라떼", "호지차 라떼", "런던 포그", "차이 라떼", "센차", "홍차"};
     private static final String[] noncaffeinated = {
-            "Honey Ginger Tea", "Fruit Tea", "Kumquat Chrysanthemum Tea", "Hibiscus Kombucha", "Mango Kale Smoothie"};
+            "생강 꿀 차", "과실 차", "금귤 국화 차", "히비스커스 차", "망고 케일 스무디"};
     private static final String[] brunch = {
-            "Thai Green Curry Seafood Linguine", "Eggs Benedict", "Omurice", "Butternut Squash Risotto",
-            "Japanese Curry Rice", "Dutch Cheese Sandwich", "Spring Salad", "Butter Croissant"};
+            "태국 야채 카레 해산물 링귀네", "에그 베네딕트", "오므라이스", "버터넛 스쿼시 리조또",
+            "일본 카레", "더치 치즈 샌드위치", "봄철 셀러드", "버터 크로아상"};
     private static final String[] dessert = {
-            "Kinako Mochi", "Raspberry Pistachio Cream Tart", "Banana Cream Pie", "Sweet Potato Crepe",
-            "Hojicha Parfait", "Chestnut Cake", "Tofu Ice Cream"};
-
+            "키나코 모찌", "라즈베리 피스타치오 크림 타르트", "바나나 크림 파이", "고구마 크레페"};
     private static final String COFFEE = "Coffee";
     private static final String TEA = "Tea";
     private static final String NONCAFFEINATED = "Noncaffeinated";

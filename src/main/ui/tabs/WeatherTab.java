@@ -32,28 +32,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class WeatherTab extends Tab {
-	// data/images 폴더에 이미지 추가 필요함 ( 확장자 jpg 로 통일해줘야 코드 변경 없이 사용하기 편함 ) // 배열 안에 있는 이름과 이미지파일 이름이 같아야함(띄어쓰기, 공백, 숫자 등등 다 전부 다)
-    private static final String[] rainCoffee = {"Espresso", "Americano", "Macchiato", "Latte", "TEST1", "TEST2","TEST3","TEST4","TEST5"};
-    private static final String[] noRainCoffee = {"Espresso", "Americano", "Macchiato", "Latte"};
-    private static final String[] snowCoffee = {"Espresso", "Americano"};
-    private static final String[] tea = {
-            "Matcha Latte", "Hojicha Latte", "London Fog", "Chai Latte", "Sencha", "Black Tea"};
-    private static final String[] noncaffeinated = {
-            "Honey Ginger Tea", "Fruit Tea", "Kumquat Chrysanthemum Tea", "Hibiscus Kombucha", "Mango Kale Smoothie"};
-    private static final String[] brunch = {
-            "Thai Green Curry Seafood Linguine", "Eggs Benedict", "Omurice", "Butternut Squash Risotto",
-            "Japanese Curry Rice", "Dutch Cheese Sandwich", "Spring Salad", "Butter Croissant"};
-    private static final String[] dessert = {
-            "Kinako Mochi", "Raspberry Pistachio Cream Tart", "Banana Cream Pie", "Sweet Potato Crepe",
-            "Hojicha Parfait", "Chestnut Cake", "Tofu Ice Cream"};
+   // data/images 폴더에 이미지 추가 필요함 ( 확장자 jpg 로 통일해줘야 코드 변경 없이 사용하기 편함 ) // 배열 안에 있는 이름과 이미지파일 이름이 같아야함(띄어쓰기, 공백, 숫자 등등 다 전부 다)
+    private static final String[] rain = {"고구마 크레페", "아메리카노", "일본 카레", "키나코 모찌", "홍차", "히비스커스 차"};
+    private static final String[] noRain = {"봄철 셀러드", "아메리카노", "마끼아또", "런던 포그"};
+    private static final String[] snowNrain = {"에스프레소", "아메리카노", "센차", "태국 야채 카레 해산물 링귀네"};
+    private static final String[] snow = {"오므라이스", "아메리카노"};
 
-    private static final String COFFEE = "Coffee";
-    private static final String TEA = "Tea";
-    private static final String NONCAFFEINATED = "Noncaffeinated";
-    private static final String BRUNCH = "Brunch";
-    private static final String DESSERT = "Dessert";
-    private static final String[] categories = {COFFEE, TEA, NONCAFFEINATED, BRUNCH, DESSERT,"weatherChange"};
-    public static String weather = "맑음";
+    private static final String BEST = "Best";
+    private static final String[] categories = {BEST,"weatherChange"};
+    public static String weather;
 
     // 현재는 수기로 변경해줘야됨
 //    private String weather = "Cold";//
@@ -89,36 +76,35 @@ public class WeatherTab extends Tab {
     //String authKey = "N6YNoQqTapDv9A%2BfGAzqVwzRkddWoYfJrSfx1eRoFLAIPZrBxcB%2FtfelMEPnRfGeuL9ev7sFvXLoWXcM8lm1yQ%3D%3D"; // 본인 서비스 키
 
     private static String getTagValue(String tag, Element eElement) {
-	    NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
-	    Node nValue = (Node) nlList.item(0);
-	    if(nValue == null) 
-	        return null;
-	    return nValue.getNodeValue();
-	}
+       NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
+       Node nValue = (Node) nlList.item(0);
+       if(nValue == null) 
+           return null;
+       return nValue.getNodeValue();
+   }
     
     public void getWeather() throws IOException, SAXException, ParserConfigurationException {
-    	// 변수 설정
+       // 변수 설정
         String apiURL = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst";
         String authKey = "N6YNoQqTapDv9A%2BfGAzqVwzRkddWoYfJrSfx1eRoFLAIPZrBxcB%2FtfelMEPnRfGeuL9ev7sFvXLoWXcM8lm1yQ%3D%3D"; // 본인 서비스 키
 
-		// 구하고자 하는 시간과 좌표 대입
+      // 구하고자 하는 시간과 좌표 대입
         String nx = "93";
         String ny = "91";
         Date todayYHD = new Date();
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMdd");
-		SimpleDateFormat sdf2 = new SimpleDateFormat("HHmm");
-		
-		String today = sdf.format(todayYHD); // 년월일
-		
-		//23시에는 안되는 이슈가 있음
-		String todayTime = sdf2.format(todayYHD); //시간
-		System.out.println(todayTime);
-		
-		String baseDate = today;	//조회하고싶은 날짜
-//		String baseTime = todayTime;	//조회하고싶은 시간
-		String baseTime = "1600";	//조회하고싶은 시간
-
+      
+      SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMdd");
+      SimpleDateFormat sdf2 = new SimpleDateFormat("HHmm");
+      
+      String today = sdf.format(todayYHD); // 년월일
+      
+      //23시에는 안되는 이슈가 있음
+      String todayTime = sdf2.format(todayYHD); //시간
+      System.out.println(todayTime);
+      
+      String baseDate = today;   //조회하고싶은 날짜
+//      String baseTime = todayTime;   //조회하고싶은 시간
+      String baseTime = todayTime;   //조회하고싶은 시간
         String dataType = "JSON";
 
         StringBuilder urlBuilder = new StringBuilder(apiURL);
@@ -153,7 +139,7 @@ public class WeatherTab extends Tab {
         conn.disconnect();
         String result = sb.toString();
 
-		// 테스트를 위해 출력
+      // 테스트를 위해 출력
         System.out.println(result);
         String url2 = urlBuilder.toString();
         DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
@@ -167,54 +153,57 @@ public class WeatherTab extends Tab {
         System.out.println("파싱할 리스트 수 : "+ nList.getLength());
         
         
-        for(int temp = 0; temp < nList.getLength(); temp++){		
-        	Node nNode = nList.item(temp);
-        	if(nNode.getNodeType() == Node.ELEMENT_NODE){
-        						
-        		Element eElement = (Element) nNode;
-        		System.out.println("######################");
-        		//System.out.println(eElement.getTextContent());
-//        		System.out.println("baseDate  : " + getTagValue("baseDate", eElement));
+        for(int temp = 0; temp < nList.getLength(); temp++){      
+           Node nNode = nList.item(temp);
+           if(nNode.getNodeType() == Node.ELEMENT_NODE){
+                          
+              Element eElement = (Element) nNode;
+              System.out.println("######################");
+              //System.out.println(eElement.getTextContent());
+//              System.out.println("baseDate  : " + getTagValue("baseDate", eElement));
 
-        		String baseDateXML = getTagValue("baseDate", eElement);
-        		String baseTimeXML = getTagValue("baseTime", eElement);
-        		String categoryXML = getTagValue("category", eElement);
-        		String nxXML = getTagValue("nx", eElement);
-        		String nyXML = getTagValue("ny", eElement);
-        		String obsrValueXML = getTagValue("obsrValue", eElement);     
-        		
-        		System.out.println("baseDate = " + baseDateXML);
-        		System.out.println("baseTime = " + baseTimeXML);
-        		System.out.println("category = " + categoryXML);
-        		System.out.println("nx = " + nxXML);
-        		System.out.println("ny = " + nyXML);
-        		System.out.println("obsrValue = " + obsrValueXML);
-        		
-//        		if(categoryXML.equals("PTY")) {
-//        			PTY = obsrValueXML;
-//        		}
-        		if(categoryXML.equals("PTY")) {
-        			PTY = obsrValueXML;
+              String baseDateXML = getTagValue("baseDate", eElement);
+              String baseTimeXML = getTagValue("baseTime", eElement);
+              String categoryXML = getTagValue("category", eElement);
+              String nxXML = getTagValue("nx", eElement);
+              String nyXML = getTagValue("ny", eElement);
+              String obsrValueXML = getTagValue("obsrValue", eElement);     
+              
+              System.out.println("baseDate = " + baseDateXML);
+              System.out.println("baseTime = " + baseTimeXML);
+              System.out.println("category = " + categoryXML);
+              System.out.println("nx = " + nxXML);
+              System.out.println("ny = " + nyXML);
+              System.out.println("obsrValue = " + obsrValueXML);
+              
+//              if(categoryXML.equals("PTY")) {
+//                 PTY = obsrValueXML;
+//              }
+             
+              if(categoryXML.equals("PTY")) {
+                 PTY = obsrValueXML;
                     if (PTY.equals("0")) weather = "맑음";
                     if (PTY.equals("1")) weather = "흐림";
                     if (PTY.equals("2")) weather = "비";
                     if (PTY.equals("3")) weather = "구름많음";
                     if (PTY.equals("4")) weather = "눈";
-        		}
-        		if(categoryXML.equals("T1H")) {
-        			obsrValue = obsrValueXML;
-        			System.out.println("기온 = " + obsrValue);
-        		}
-        	}
+              }
+             
+             //테스트용 weather = "비";
+              if(categoryXML.equals("T1H")) {
+                 obsrValue = obsrValueXML;
+                 System.out.println("기온 = " + obsrValue);
+              }
+           }
         }
-        	
+           
     }
     //EFFECTS: creates title at top of console
     private void placeTitle() {
         title = new JLabel();       
         setTitle("MENU");
         GridBagConstraints c = new GridBagConstraints();
-        c.weighty = 0.1;
+        c.weighty = 0.2;
         c.gridx = 0;
         c.gridy = 0;
         c.gridwidth = GridBagConstraints.REMAINDER;
@@ -367,50 +356,39 @@ public class WeatherTab extends Tab {
             /*
             0 : 없음
             1 : 비
-            2 : 비/눈
+            2 : 비/눈 
             3 : 눈/비
             4 : 눈
             */
             // 우리가 API 로 따온거는 그 날의 날씨만 볼 수 있으므로 분기가 한 가지로만 탈 수 있는거지
             // 
             switch (buttonPressed) {
-                case COFFEE:
-                	if(PTY.equals("0")) { // 날씨에 따른 메뉴를 보여주기 위한 테스트 위에 Line 32 참고 하면 됨 ( 현재는 수기로 바꿔줘야됨 )
-                		displayNewCategory(noRainCoffee);
-                	}else if(PTY.equals("1")) {
-                		displayNewCategory(rainCoffee);
-                	}else if(PTY.equals("2")) {
-                		displayNewCategory(rainCoffee);
-                	}else if(PTY.equals("3")) {
-                		displayNewCategory(rainCoffee);
-                	}else if(PTY.equals("4")) {
-                		displayNewCategory(snowCoffee);
-                	}
-                    break;
-                case TEA:
-                    displayNewCategory(tea);
-                    System.out.println(PTY);
-                    break;
-                case NONCAFFEINATED:
-                    displayNewCategory(noncaffeinated);
-                    break;
-                case BRUNCH:
-                    displayNewCategory(brunch);
-                    break;
-                case DESSERT:
-                    displayNewCategory(dessert);
+                case BEST:
+                   if(PTY.equals("0")) { // 날씨에 따른 메뉴를 보여주기 위한 테스트 위에 Line 32 참고 하면 됨 ( 현재는 수기로 바꿔줘야됨 )
+                      displayNewCategory(noRain);
+                   }else if(PTY.equals("1")) {
+                      displayNewCategory(rain);
+                   }else if(PTY.equals("2")) {
+                      displayNewCategory(snowNrain);
+                   }else if(PTY.equals("3")) {
+                      displayNewCategory(snowNrain);
+                   }else if(PTY.equals("4")) {
+                      displayNewCategory(snow);
+                   }
                     break;
                 case "weatherChange" :
-                	String change = JOptionPane.showInputDialog("변환 하실 날씨를 입력해주세요");
-                	if(change.equals("맑음")) {
-                	PTY = "0";	
-                	}else if(change.equals("비")) {
-                		PTY = "1";
-                	}else if(change.equals("눈")) {
-                		PTY = "4";
+                   String change = JOptionPane.showInputDialog("변환 하실 날씨를 입력해주세요");
+                   if(change.equals("맑음")) {
+                   PTY = "0";   
+                   }else if(change.equals("비")) {
+                      PTY = "1";
+                   }else if(change.equals("눈/비")) {
+                      PTY = "3";
+                   }else if(change.equals("눈")) {
+                      PTY = "4";
                         weather = "눈";
-                	}
-                	break;
+                   }
+                   break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + buttonPressed);
             }
