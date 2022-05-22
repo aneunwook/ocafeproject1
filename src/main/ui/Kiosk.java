@@ -33,17 +33,16 @@ public class Kiosk {
     private static final String BRUNCH_COMMAND = "brunch";
     private static final String DESSERT_COMMAND = "dessert";
 
-    private static final String[] coffee = {"Espresso", "Americano", "Macchiato", "Latte", "Iced Coffee", "Cold Brew"};
+    private static final String[] coffee = {"에스프레소", "아메리카노", "마끼아또", "라떼", "아이스 커피", "콜드브루"};
     private static final String[] tea = {
-            "Matcha Latte", "Hojicha Latte", "London Fog", "Chai Latte", "Sencha", "Black Tea"};
+            "말차 라떼", "호지차 라떼", "런던 포그", "차이 라떼", "센차", "홍차"};
     private static final String[] noncaffeinated = {
-            "Honey Ginger Tea", "Fruit Tea", "Kumquat Chrysanthemum", "Hibiscus Kombucha", "Mango Kale Smoothie"};
+            "생강 꿀 차", "과실 차", "금귤 국화 차", "히비스커스 차", "망고 케일 스무디"};
     private static final String[] brunch = {
-            "Thai Green Curry Seafood Linguine", "Eggs Benedict", "Omurice", "Butternut Squash Risotto",
-            "Japanese Curry Rice", "Dutch Cheese Sandwich", "Spring Salad", "Butter Croissant"};
+            "태국 야채 카레 해산물 링귀네", "에그 베네딕트", "오므라이스", "버터넛 스쿼시 리조또",
+            "일본 카레", "더치 치즈 샌드위치", "봄철 셀러드", "버터 크로아상"};
     private static final String[] dessert = {
-            "Kinako Mochi", "Raspberry Pistachio Cream Tart", "Banana Cream Pie", "Sweet Potato Crepe",
-            "Hojicha Parfait", "Chestnut Cake", "Tofu Ice Cream"};
+            "키나코 모찌", "라즈베리 피스타치오 크림 타르트", "바나나 크림 파이", "고구마 크레페"};
 
     private static final String REGULAR_SIZE_COMMAND = "r";
     private static final String LARGE_SIZE_COMMAND = "l";
@@ -413,20 +412,20 @@ public class Kiosk {
     private void parseInputItemDetails(String str) {
         if (str.length() > 0) {
             switch (str) {
-                case "Espresso":
-                case "Americano":
-                case "Macchiato":
-                case "Latte":
-                case "Iced Coffee":
-                case "Cold Brew":
+                case "에스프레소":
+                case "아메리카노":
+                case "마끼아또":
+                case "라떼":
+                case "아이스 커피":
+                case "콜드브루":
                     displayBeverageDetails(str, menuLoader.coffee);
                     break;
-                case "Matcha Latte":
-                case "Hojicha Latte":
-                case "London Fog":
-                case "Chai Latte":
-                case "Sencha":
-                case "Black Tea":
+                case "말차 라뗴":
+                case "호지차 라떼":
+                case "런던 포그":
+                case "차이 라떼":
+                case "센차":
+                case "홍차":
                     displayBeverageDetails(str, menuLoader.tea);
                     break;
                 default:
@@ -439,21 +438,21 @@ public class Kiosk {
     //EFFECTS: extension of parseInputItemDetails
     private void parseInputItemDetails2(String str) {
         switch (str) {
-            case "Honey Ginger Tea":
-            case "Fruit Tea":
-            case "Kumquat Chrysanthemum Tea":
-            case "Hibiscus Kombucha":
-            case "Mango Kale Smoothie":
+            case "생강 꿀 차":
+            case "과실 차":
+            case "금귤 국화 차":
+            case "히비스커스 차":
+            case "망고 케일 스무디":
                 displayBeverageDetails(str, menuLoader.nonCaffeinated);
                 break;
-            case "Thai Green Curry Seafood Linguine":
-            case "Eggs Benedict":
-            case "Omurice":
-            case "Butternut Squash Risotto":
-            case "Japanese Curry Rice":
-            case "Dutch Cheese Sandwich":
-            case "Spring Salad":
-            case "Butter Croissant":
+            case "태국 야채 카레 해산물 링귀네":
+            case "에그 베네딕트":
+            case "오므라이스":
+            case "버터넛 스쿼시 리조또":
+            case "일본 카레":
+            case "더치 치즈 샌드위치":
+            case "봄철 셀러드":
+            case "버터 크로아상":
                 displayDishDetails(str, menuLoader.brunch);
                 break;
             default:
@@ -465,10 +464,10 @@ public class Kiosk {
     //EFFECTS: extension of parseInputItemDetails
     private void parseInputItemDetails3(String str) {
         switch (str) {
-            case "Kinako Mochi":
-            case "Raspberry Pistachio Cream Tart":
-            case "Banana Cream Pie":
-            case "Sweet Potato Crepe":
+            case "키나코 모찌":
+            case "라즈베리 피스타치오 크림 타르트":
+            case "바나나 크림 파이":
+            case "고구마 크레페":
             case "Hojicha Parfait":
             case "Chestnut Cake":
             case "Tofu Ice Cream":

@@ -104,7 +104,7 @@ public class WeatherTab extends Tab {
       
       String baseDate = today;   //조회하고싶은 날짜
 //      String baseTime = todayTime;   //조회하고싶은 시간
-      String baseTime = todayTime;   //조회하고싶은 시간
+      String baseTime = "2200";   //조회하고싶은 시간
         String dataType = "JSON";
 
         StringBuilder urlBuilder = new StringBuilder(apiURL);

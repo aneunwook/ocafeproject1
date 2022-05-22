@@ -133,20 +133,20 @@ public class CategoryPane extends Tab {
             controller.playSound("./data/sounds/Morse.wav");
             String buttonPressed = e.getActionCommand();
             switch (buttonPressed) {
-                case "Espresso":
-                case "Americano":
-                case "Macchiato":
-                case "Latte":
-                case "Iced Coffee":
-                case "Cold Brew":
+                case "에스프레소":
+                case "아메리카노":
+                case "마끼아또":
+                case "라떼":
+                case "아이스 커피":
+                case "콜드브루":
                     displayBeverageDetailsWeather(buttonPressed, controller.getMenuLoader().getCoffee());
                     break;
-                case "Matcha Latte":
-                case "Hojicha Latte":
-                case "London Fog":
-                case "Chai Latte":
-                case "Sencha":
-                case "Black Tea":
+                case "말차 라떼":
+                case "호지차 라떼":
+                case "런던 포그":
+                case "차이 라뗴":
+                case "센차":
+                case "홍차":
                     displayBeverageDetailsWeather(buttonPressed, controller.getMenuLoader().getTea());
                     break;
                 default:
@@ -158,21 +158,21 @@ public class CategoryPane extends Tab {
                  //효과: 동작의 확장 수행
         private void parseInputItemDetails2(String str) {
             switch (str) {
-                case "Honey Ginger Tea":
-                case "Fruit Tea":
-                case "Kumquat Chrysanthemum Tea":
-                case "Hibiscus Kombucha":
-                case "Mango Kale Smoothie":
+                case "생강 꿀 차":
+                case "과실 차":
+                case "금귤 국화 차":
+                case "히비스커스 차":
+                case "망고 케일 스무디":
                     displayBeverageDetailsWeather(str, controller.getMenuLoader().getNonCaffeinated());
                     break;
-                case "Thai Green Curry Seafood Linguine":
-                case "Eggs Benedict":
-                case "Omurice":
-                case "Butternut Squash Risotto":
-                case "Japanese Curry Rice":
-                case "Dutch Cheese Sandwich":
-                case "Spring Salad":
-                case "Butter Croissant":
+                case "태국 야채 카레 해산물 링귀네":
+                case "에그 베네딕트":
+                case "오므라이스":
+                case "버터넛 스쿼시 리조또":
+                case "일본 카레":
+                case "더치 치즈 샌드위치":
+                case "봄철 셀러드":
+                case "버터 크로아상":
                 	displayDishDetailsWeather(str, controller.getMenuLoader().getBrunch());
                     break;
                 default:
@@ -184,10 +184,10 @@ public class CategoryPane extends Tab {
         		//효과: 동작의 확장 수행
         private void parseInputItemDetails3(String str) {
             switch (str) {
-                case "Kinako Mochi":
-                case "Raspberry Pistachio Cream Tart":
-                case "Banana Cream Pie":
-                case "Sweet Potato Crepe":
+                case "키나코 모찌":
+                case "라즈베리 피스타치오 크림 타르트":
+                case "바나나 크림 파이":
+                case "고구마 크레페":
                 case "Hojicha Parfait":
                 case "Chestnut Cake":
                 case "Tofu Ice Cream":
@@ -222,20 +222,20 @@ public class CategoryPane extends Tab {
             controller.playSound("./data/sounds/Morse.wav");
             String buttonPressed = e.getActionCommand();
             switch (buttonPressed) {
-                case "Espresso":
-                case "Americano":
-                case "Macchiato":
-                case "Latte":
-                case "Iced Coffee":
-                case "Cold Brew":
+                case "에스프레소":
+                case "아메리카노":
+                case "마끼아또":
+                case "라떼":
+                case "아이스 커피":
+                case "콜드브루":
                     displayBeverageDetails(buttonPressed, controller.getMenuLoader().getCoffee());
                     break;
-                case "Matcha Latte":
-                case "Hojicha Latte":
-                case "London Fog":
-                case "Chai Latte":
-                case "Sencha":
-                case "Black Tea":
+                case "말차 라떼":
+                case "호지차 라떼":
+                case "런던 포그":
+                case "차이 라뗴":
+                case "센차":
+                case "홍차":
                     displayBeverageDetails(buttonPressed, controller.getMenuLoader().getTea());
                     break;
                 default:
@@ -247,22 +247,22 @@ public class CategoryPane extends Tab {
                  //효과: 동작의 확장 수행
         private void parseInputItemDetails2(String str) {
             switch (str) {
-                case "Honey Ginger Tea":
-                case "Fruit Tea":
-                case "Kumquat Chrysanthemum Tea":
-                case "Hibiscus Kombucha":
-                case "Mango Kale Smoothie":
+                case "생강 꿀 차":
+                case "과실 차":
+                case "금귤 국화 차":
+                case "히비스커스 차":
+                case "망고 케일 스무디":
                     displayBeverageDetails(str, controller.getMenuLoader().getNonCaffeinated());
                     break;
-                case "Thai Green Curry Seafood Linguine":
-                case "Eggs Benedict":
-                case "Omurice":
-                case "Butternut Squash Risotto":
-                case "Japanese Curry Rice":
-                case "Dutch Cheese Sandwich":
-                case "Spring Salad":
-                case "Butter Croissant":
-                    displayDishDetails(str, controller.getMenuLoader().getBrunch());
+                case "태국 야채 카레 해산물 링귀네":
+                case "에그 베네딕트":
+                case "오므라이스":
+                case "버터넛 스쿼시 리조또":
+                case "일본 카레":
+                case "더치 치즈 샌드위치":
+                case "봄철 셀러드":
+                case "버터 크로아상":
+                	displayDishDetails(str, controller.getMenuLoader().getBrunch());
                     break;
                 default:
                     parseInputItemDetails3(str);
@@ -273,14 +273,14 @@ public class CategoryPane extends Tab {
         		//효과: 동작의 확장 수행
         private void parseInputItemDetails3(String str) {
             switch (str) {
-                case "Kinako Mochi":
-                case "Raspberry Pistachio Cream Tart":
-                case "Banana Cream Pie":
-                case "Sweet Potato Crepe":
+                case "키나코 모찌":
+                case "라즈베리 피스타치오 크림 타르트":
+                case "바나나 크림 파이":
+                case "고구마 크레페":
                 case "Hojicha Parfait":
                 case "Chestnut Cake":
                 case "Tofu Ice Cream":
-                    displayDishDetails(str, controller.getMenuLoader().getDessert());
+                	displayDishDetails(str, controller.getMenuLoader().getDessert());
                     break;
                 default:
                     System.out.println("Invalid selection, please try again.");
@@ -288,6 +288,4 @@ public class CategoryPane extends Tab {
             }
         }
     }
-
-
 }
