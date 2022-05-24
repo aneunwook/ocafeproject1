@@ -57,7 +57,7 @@ public class OCafe extends JFrame {
 
         loadTabs();
         JLabel labelOptions = new JLabel(WeatherTab.weather+","+ WeatherTab.obsrValue);
-        labelOptions.setBounds(1000, 10, 150, 30);
+        labelOptions.setBounds(1000, 10, 150, 29);
         add(labelOptions);
         add(tabbedPane);
 
