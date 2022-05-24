@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.util.Calendar;
 
 public class OCafe extends JFrame {
     public static final int HOME_TAB_INDEX = 0;
@@ -43,7 +44,7 @@ public class OCafe extends JFrame {
     private JTabbedPane tabbedPane;
 
     // creates new OCafe object
-    public OCafe() throws IOException, SAXException, ParserConfigurationException {
+    public OCafe() throws IOException, SAXException, ParserConfigurationException{
         super("OCafe");
         setSize(WIDTH, HEIGHT);
         setLocationRelativeTo(null);
@@ -56,14 +57,31 @@ public class OCafe extends JFrame {
         tabbedPane.setTabPlacement(JTabbedPane.TOP);
 
         loadTabs();
-        JLabel labelOptions = new JLabel(WeatherTab.weather+","+ WeatherTab.obsrValue);
-        labelOptions.setBounds(1000, 10, 150, 29);
+        
+        
+        JLabel labelOptions = new JLabel(WeatherTab.year + " " + WeatherTab.mon + " " + WeatherTab.day + " " + WeatherTab.weather);
+        labelOptions.setBounds(550, 10, 300, 30);
+        labelOptions.setFont(new Font("",Font.PLAIN,14));
         add(labelOptions);
         add(tabbedPane);
 
+        JLabel labelOptions2 = new JLabel("현재 기온 :   " + WeatherTab.nowTMPValue  + "   최저 기온 : " + WeatherTab.todayTMN + "   최고 기온 : " + WeatherTab.todayTMX);
+        labelOptions2.setBounds(1550, 10, 450, 30);
+        labelOptions2.setFont(new Font("",Font.PLAIN,14));
+        add(labelOptions2);
+        add(tabbedPane);
+
+        
+        //현재 시각 뜨는건데 스윙 특성상 동기화는 안됨
+        JLabel labelOptions3 = new JLabel(WeatherTab.now);
+        labelOptions3.setBounds(938, 10, 300, 30);
+        labelOptions3.setFont(new Font("",Font.PLAIN,17));
+        add(labelOptions3);
+        add(tabbedPane);
+        
         setVisible(true);
     }
-
+    
     //MODIFIES: this
     //EFFECTS: adds home tab, settings tab and report tab to this UI
     private void loadTabs() throws IOException, SAXException, ParserConfigurationException {
@@ -71,7 +89,6 @@ public class OCafe extends JFrame {
         Tab menuTab = new MenuTab(this);
         Tab orderTab = new OrderTab(this);
         Tab weatherTab = new WeatherTab(this);
-        Tab tempTab = new WeatherTab(this);
 
         loadTab(homeTab, HOME_TAB_INDEX, "HOME");
         loadTab(menuTab, MENU_TAB_INDEX, "MENU");
@@ -94,6 +111,7 @@ public class OCafe extends JFrame {
         tabbedPane.setComponentAt(tabIndex, getTab(tabIndex));
         tabbedPane.getComponentAt(tabIndex).revalidate();
     }
+    
 
     //MODIFIES: this
     //EFFECTS: creates an account associated with parameter name

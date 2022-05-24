@@ -171,7 +171,7 @@ public class CategoryPane extends Tab {
                 case "버터넛 스쿼시 리조또":
                 case "일본 카레":
                 case "더치 치즈 샌드위치":
-                case "봄철 셀러드":
+                case "봄철 샐러드":
                 case "버터 크로아상":
                 	displayDishDetailsWeather(str, controller.getMenuLoader().getBrunch());
                     break;
@@ -260,7 +260,7 @@ public class CategoryPane extends Tab {
                 case "버터넛 스쿼시 리조또":
                 case "일본 카레":
                 case "더치 치즈 샌드위치":
-                case "봄철 셀러드":
+                case "봄철 샐러드":
                 case "버터 크로아상":
                 	displayDishDetails(str, controller.getMenuLoader().getBrunch());
                     break;

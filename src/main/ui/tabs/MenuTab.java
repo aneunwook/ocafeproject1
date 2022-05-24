@@ -15,7 +15,7 @@ public class MenuTab extends Tab {
             "생강 꿀 차", "과실 차", "금귤 국화 차", "히비스커스 차", "망고 케일 스무디"};
     private static final String[] brunch = {
             "태국 야채 카레 해산물 링귀네", "에그 베네딕트", "오므라이스", "버터넛 스쿼시 리조또",
-            "일본 카레", "더치 치즈 샌드위치", "봄철 셀러드", "버터 크로아상"};
+            "일본 카레", "더치 치즈 샌드위치", "봄철 샐러드", "버터 크로아상"};
     private static final String[] dessert = {
             "키나코 모찌", "라즈베리 피스타치오 크림 타르트", "바나나 크림 파이", "고구마 크레페"};
     private static final String COFFEE = "Coffee";

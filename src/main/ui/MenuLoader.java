@@ -95,7 +95,7 @@ public class MenuLoader {
         brunch.add(jcr);
         Dish dcs = new Dish("더치 치즈 샌드위치", 10.95);
         brunch.add(dcs);
-        Dish ss = new Dish("봄철 셀러드", 10.95);
+        Dish ss = new Dish("봄철 샐러드", 10.95);
         ss.addSideToOptions(additionalOptions.get(7));
         ss.addSideToOptions(additionalOptions.get(8));
         ss.addSideToOptions(additionalOptions.get(9));
