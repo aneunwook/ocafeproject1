@@ -55,8 +55,10 @@ public class OCafe extends JFrame {
         tabbedPane = new JTabbedPane();
         tabbedPane.setTabPlacement(JTabbedPane.TOP);
 
-        loadTabs();     
-
+        loadTabs();
+        JLabel labelOptions = new JLabel(WeatherTab.weather+","+ WeatherTab.obsrValue);
+        labelOptions.setBounds(1000, 10, 150, 30);
+        add(labelOptions);
         add(tabbedPane);
 
         setVisible(true);
@@ -74,7 +76,7 @@ public class OCafe extends JFrame {
         loadTab(homeTab, HOME_TAB_INDEX, "HOME");
         loadTab(menuTab, MENU_TAB_INDEX, "MENU");
         loadTab(orderTab, ORDER_TAB_INDEX, "ORDER");
-        loadTab(weatherTab, WEATHER_TAB_INDEX,"Best  " + WeatherTab.weather + ", " + WeatherTab.obsrValue);
+        loadTab(weatherTab, WEATHER_TAB_INDEX, "Best");
 //      loadTab(tempTab, 4, WeatherTab.weather);
  //       loadTab(tempTab, 4, WeatherTab.weather + ", " + WeatherTab.obsrValue);
     }

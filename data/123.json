@@ -1,0 +1,59 @@
+{
+    "name": "123",
+    "history": [{
+        "date": {
+            "month": 4,
+            "hour": 23,
+            "year": 2022,
+            "day": 22,
+            "minute": 27
+        },
+        "total": 32.6,
+        "itemList": [
+            {
+                "size": -1,
+                "price": 7.3,
+                "name": "마끼아또",
+                "temperature": 0,
+                "type": "beverage"
+            },
+            {
+                "size": -1,
+                "price": 5.95,
+                "name": "말차 라떼",
+                "temperature": 0,
+                "type": "beverage"
+            },
+            {
+                "size": -1,
+                "price": 3.95,
+                "name": "센차",
+                "temperature": -1,
+                "type": "beverage"
+            },
+            {
+                "price": 11.95,
+                "name": "일본 카레",
+                "options": [
+                    {
+                        "price": 4,
+                        "name": "Fried Pork Cutlet"
+                    },
+                    {
+                        "price": 3,
+                        "name": "Assorted Tempura"
+                    }
+                ],
+                "type": "dish"
+            },
+            {
+                "size": -1,
+                "price": 3.45,
+                "name": "아메리카노",
+                "temperature": 0,
+                "type": "beverage"
+            }
+        ],
+        "id": 1
+    }]
+}

@@ -181,7 +181,7 @@ public class Kiosk {
     //EFFECTS: displays start page
     private void startPage() {
         System.out.println("\nselect from:");
-        System.out.println("\t'" + PLACE_ORDER_COMMAND + "' -> place order");
+        System.out.println("\t'" + PLACE_ORDER_COMMAND + "' -> place order ");
         System.out.println("\t'" + SIGN_IN_COMMAND + "' -> sign in");
         System.out.println("\t'" + CREATE_ACCOUNT_COMMAND + "' -> create account");
         System.out.println("\nenter '" + QUIT_COMMAND + "' to quit any time.");
