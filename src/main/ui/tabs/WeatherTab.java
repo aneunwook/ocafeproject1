@@ -30,10 +30,10 @@ public class WeatherTab extends Tab {
 	private static final String[] rain = { "고구마 크레페", "아메리카노", "일본 카레", "키나코 모찌", "홍차", "히비스커스 차" };
 	private static final String[] noRain = { "봄철 샐러드", "아메리카노", "마끼아또", "런던 포그" };
 	private static final String[] snowNrain = { "에스프레소", "아메리카노", "센차", "태국 야채 카레 해산물 링귀네" };
-	private static final String[] snow = { "아메리카노", "봄철 샐러드", "에스프레소" };
+	private static final String[] snow = { "아메리카노", "봄철 샐러드", "에스프레소" ,"버터넛 스쿼시 리조또"};
 
-	private static final String BEST = "Best";
-	private static final String[] categories = { BEST, "weatherChange" };
+	//private static final String BEST = "Best";
+	private static final String[] categories = { "weatherChange" };
 	public static String weather;
 
 	// 현재는 수기로 변경해줘야됨
@@ -53,6 +53,7 @@ public class WeatherTab extends Tab {
 	public static String year;
 	public static String mon;
 	public static String day;
+	public static String BestMenu;
 
 	private JPanel categorySelectorPane;
 	private JPanel categoryContainer;
@@ -74,8 +75,19 @@ public class WeatherTab extends Tab {
 		placeCategorySelectorPanel();
 		placeItemDetailsContainer();
 		placeCategoryContainer();
+		
 		// 빈 공간 날씨 관련 추가
-		// displayNewCategory(raincoffee);
+		if (PTY.equals("0")) { // 날씨에 따른 메뉴를 보여주기 위한 테스트 위에 Line 32 참고 하면 됨 ( 현재는 수기로 바꿔줘야됨 )
+			displayNewCategory(noRain);
+		} else if (PTY.equals("1")) {
+			displayNewCategory(rain);
+		} else if (PTY.equals("2")) {
+			displayNewCategory(snowNrain);
+		} else if (PTY.equals("3")) {
+			displayNewCategory(snowNrain);
+		} else if (PTY.equals("4")) {
+			displayNewCategory(snow);
+		}
 	}
 	// String authKey =
 	// "N6YNoQqTapDv9A%2BfGAzqVwzRkddWoYfJrSfx1eRoFLAIPZrBxcB%2FtfelMEPnRfGeuL9ev7sFvXLoWXcM8lm1yQ%3D%3D";
@@ -122,7 +134,7 @@ public class WeatherTab extends Tab {
 		String baseDate = today; // 조회하고싶은 날짜
 		// String baseTime = todayTime; //조회하고싶은 시간
 
-		String baseTime = "0200"; // 조회하고싶은 시간( 바꾸면 안됨 이 시간으로 해야 원하고자하는 데이터가 다 뜸)
+		String baseTime = "0200"; // 조회하고싶은 시간( 바꾸면 안됨 이 시간으로 해야 원하고자하는 데이터다 뜸)
 		// String dataType = "JSON";
 
 		StringBuilder urlBuilder = new StringBuilder(apiURL);
@@ -258,7 +270,7 @@ public class WeatherTab extends Tab {
 	// EFFECTS: creates title at top of console
 	private void placeTitle() {
 		title = new JLabel();
-		setTitle("MENU");
+		setTitle(BestMenu);
 		GridBagConstraints c = new GridBagConstraints();
 		c.weighty = 0.2;
 		c.gridx = 0;
@@ -310,9 +322,21 @@ public class WeatherTab extends Tab {
 	// EFFECTS: sets the title displayed at the top of MenuTab
 	// 메뉴 탭의 맨 위에 표시되는 제목을 설정합니다.
 
-	private void setTitle(String category) {
-		title.setText(category);
-		title.setFont(new Font("", Font.PLAIN, 16));
+	private void setTitle(String BestMenu) {
+		if (PTY.equals("0")) { // 날씨에 따른 메뉴를 보여주기 위한 테스트 위에 Line 32 참고 하면 됨 ( 현재는 수기로 바꿔줘야됨 )
+			BestMenu = "맑은 날 추천 메뉴";
+		} else if (PTY.equals("1")) {
+			BestMenu = "비 오는 날 추천 메뉴";
+		} else if (PTY.equals("2")) {
+			BestMenu = "비/눈 오는 날 추천 메뉴";
+		} else if (PTY.equals("3")) {
+			BestMenu = "눈/비 오는 날 추천 메뉴";
+		} else if (PTY.equals("4")) {
+			BestMenu = "눈 오는 날 추천 메뉴";
+		}
+		
+		title.setText(BestMenu);
+		title.setFont(new Font("", Font.PLAIN, 30));
 		title.revalidate();
 	}
 
@@ -410,42 +434,36 @@ public class WeatherTab extends Tab {
 
 	// action listener for buttons in category selector panel
 	// 범주 선택기 패널의 단추에 대한 작업 수신기
-
+	
 	private class CategorySelector implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String buttonPressed = e.getActionCommand();
-			/*
-			 * 0 : 없음 1 : 비 2 : 비/눈 3 : 눈/비 4 : 눈
-			 */
+			
+			 // 0 : 없음 1 : 비 2 : 비/눈 3 : 눈/비 4 : 눈
+			 
 			// 우리가 API 로 따온거는 그 날의 날씨만 볼 수 있으므로 분기가 한 가지로만 탈 수 있는거지
 			//
 			switch (buttonPressed) {
-			case BEST:
-				if (PTY.equals("0")) { // 날씨에 따른 메뉴를 보여주기 위한 테스트 위에 Line 32 참고 하면 됨 ( 현재는 수기로 바꿔줘야됨 )
-					displayNewCategory(noRain);
-				} else if (PTY.equals("1")) {
-					displayNewCategory(rain);
-				} else if (PTY.equals("2")) {
-					displayNewCategory(snowNrain);
-				} else if (PTY.equals("3")) {
-					displayNewCategory(snowNrain);
-				} else if (PTY.equals("4")) {
-					displayNewCategory(snow);
-				}
-				setTitle(buttonPressed);
-				break;
 			case "weatherChange":
 				String change = JOptionPane.showInputDialog("변환 하실 날씨를 입력해주세요");
 				if (change.equals("맑음")) {
 					PTY = "0";
+					displayNewCategory(noRain);
 				} else if (change.equals("비")) {
 					PTY = "1";
+					displayNewCategory(rain);
+				}else if (change.equals("비/눈")) {
+					PTY = "2";
+					displayNewCategory(snowNrain);
 				} else if (change.equals("눈/비")) {
 					PTY = "3";
+					displayNewCategory(snowNrain);
 				} else if (change.equals("눈")) {
 					PTY = "4";
+					displayNewCategory(snow);
 				}
+				setTitle(buttonPressed);
 				break;
 			default:
 				throw new IllegalStateException("Unexpected value: " + buttonPressed);
